@@ -53,6 +53,13 @@ function getRelativeTime(dateString: string): string {
 
 const filter = new Filter()
 
+filter.addWords(
+  'gago', 'tanga', 'ulol', 'putangina', 'pakshet', 'lintik', 'buwisit', 'leche', 'tarantado',
+  'bobo', 'loko', 'engaño', 'hayok', 'ibak', 'jerk', 'peste', 'yawa', 'siraulo', 'tanginamo',
+  'pakyu', 'tangina', 'unggoy', 'puto', 'bastos', 'ulol', 'siraulo', 'balimbing', 'anak ng puta',
+  'tarantado', 'putang ina', 'tang ina', 'gago ka', 'hayup', 'kalapating barado'
+)
+
 const ChatBox: React.FC = () => {
   const { user } = useAuth()
   const [messages, setMessages] = useState<Message[]>([])
