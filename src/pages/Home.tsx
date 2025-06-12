@@ -39,7 +39,7 @@ const Home: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.5 }}
-          className="flex flex-col sm:flex-row justify-center gap-4"
+          className="flex flex-col sm:flex-row justify-center"
         >
           <a 
             href="/contact" 
@@ -47,7 +47,7 @@ const Home: React.FC = () => {
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#383534,0_0px_0_0_#0f172a66]
     active:border-b-[1px]
     transition-all duration-150 [box-shadow:0_10px_0_0_#383534,0_15px_0_0_#0f172a66]
-    border-[1px] border-stone-600"
+    border-[1px] border-stone-600 mb-6"
           >
             <EnvelopeIcon className='w-5 h-5 mr-3'/>
             Contact Me
