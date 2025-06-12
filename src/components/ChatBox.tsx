@@ -16,6 +16,32 @@ interface Message {
   } | null
 }
 
+function getRelativeTime(dateString: string): string {
+  const now = new Date()
+  const then = new Date(dateString)
+  const diffInSeconds = Math.floor((now.getTime() - then.getTime()) / 1000)
+
+  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
+
+  const intervals: [number, Intl.RelativeTimeFormatUnit][] = [
+    [60, 'second'],
+    [60 * 60, 'minute'],
+    [60 * 60 * 24, 'hour'],
+    [60 * 60 * 24 * 7, 'day'],
+    [60 * 60 * 24 * 30, 'week'],
+    [60 * 60 * 24 * 365, 'month'],
+    [Infinity, 'year'],
+  ]
+
+  for (let [seconds, unit] of intervals) {
+    const delta = diffInSeconds / seconds
+    if (Math.abs(delta) < 1) continue
+    return rtf.format(Math.round(-delta), unit)
+  }
+
+  return 'just now'
+}
+
 const filter = new Filter()
 
 const ChatBox: React.FC = () => {
@@ -216,9 +242,12 @@ const ChatBox: React.FC = () => {
                 </span>
               </div>
               <p className="break-words">{message.content}</p>
-              <div className="text-xs opacity-80 mt-1">
-                {new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </div>
+              <time
+                title={new Date(message.created_at).toLocaleString()}
+                className="text-xs opacity-80 mt-1"
+              >
+                {getRelativeTime(message.created_at)}
+              </time>
             </div>
           </div>
         ))}
