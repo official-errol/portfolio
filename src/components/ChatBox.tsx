@@ -17,29 +17,36 @@ interface Message {
 }
 
 function getRelativeTime(dateString: string): string {
+function getRelativeTime(dateString: string): string {
   const now = new Date()
   const then = new Date(dateString)
   const diffInSeconds = Math.floor((now.getTime() - then.getTime()) / 1000)
 
+  // Edge case: show "just now" if message is under 5 seconds old
+  if (diffInSeconds < 5) return 'just now'
+
   const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
 
   const intervals: [number, Intl.RelativeTimeFormatUnit][] = [
-    [60, 'second'],
-    [60 * 60, 'minute'],
-    [60 * 60 * 24, 'hour'],
-    [60 * 60 * 24 * 7, 'day'],
-    [60 * 60 * 24 * 30, 'week'],
-    [60 * 60 * 24 * 365, 'month'],
-    [Infinity, 'year'],
+    [60, 'seconds'],
+    [60, 'minutes'],
+    [24, 'hours'],
+    [7, 'days'],
+    [4.34524, 'weeks'],
+    [12, 'months'],
+    [Infinity, 'years'],
   ]
 
-  for (let [seconds, unit] of intervals) {
-    const delta = diffInSeconds / seconds
-    if (Math.abs(delta) < 1) continue
-    return rtf.format(Math.round(-delta), unit)
+  let delta = diffInSeconds
+  for (let i = 0; i < intervals.length; i++) {
+    const [amount, unit] = intervals[i]
+    if (Math.abs(delta) < amount) {
+      return rtf.format(-Math.round(delta), unit)
+    }
+    delta /= amount
   }
 
-  return 'just now'
+  return 'some time ago'
 }
 
 const filter = new Filter()
