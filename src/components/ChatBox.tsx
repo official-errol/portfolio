@@ -17,36 +17,38 @@ interface Message {
 }
 
 function getRelativeTime(dateString: string): string {
-function getRelativeTime(dateString: string): string {
   const now = new Date()
   const then = new Date(dateString)
+
   const diffInSeconds = Math.floor((now.getTime() - then.getTime()) / 1000)
+  const diffInMinutes = Math.floor(diffInSeconds / 60)
+  const diffInHours = Math.floor(diffInMinutes / 60)
+  const diffInDays = Math.floor(diffInHours / 24)
 
-  // Edge case: show "just now" if message is under 5 seconds old
-  if (diffInSeconds < 5) return 'just now'
+  if (diffInSeconds < 60) return 'just now'
+  if (diffInMinutes < 60) return `${diffInMinutes} minute${diffInMinutes === 1 ? '' : 's'} ago`
+  if (diffInHours < 24) return `${diffInHours} hour${diffInHours === 1 ? '' : 's'} ago`
 
-  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
+  const yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1)
 
-  const intervals: [number, Intl.RelativeTimeFormatUnit][] = [
-    [60, 'seconds'],
-    [60, 'minutes'],
-    [24, 'hours'],
-    [7, 'days'],
-    [4.34524, 'weeks'],
-    [12, 'months'],
-    [Infinity, 'years'],
-  ]
+  const thenDate = then.toDateString()
+  const yesterdayDate = yesterday.toDateString()
 
-  let delta = diffInSeconds
-  for (let i = 0; i < intervals.length; i++) {
-    const [amount, unit] = intervals[i]
-    if (Math.abs(delta) < amount) {
-      return rtf.format(-Math.round(delta), unit)
-    }
-    delta /= amount
+  if (thenDate === yesterdayDate) return 'yesterday'
+
+  if (diffInDays < 7) return `${diffInDays} day${diffInDays === 1 ? '' : 's'} ago`
+  if (diffInDays < 30) {
+    const weeks = Math.floor(diffInDays / 7)
+    return `${weeks} week${weeks === 1 ? '' : 's'} ago`
+  }
+  if (diffInDays < 365) {
+    const months = Math.floor(diffInDays / 30)
+    return `${months} month${months === 1 ? '' : 's'} ago`
   }
 
-  return 'some time ago'
+  const years = Math.floor(diffInDays / 365)
+  return `${years} year${years === 1 ? '' : 's'} ago`
 }
 
 const filter = new Filter()
