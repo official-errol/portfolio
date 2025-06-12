@@ -16,6 +16,8 @@ interface Message {
   } | null
 }
 
+const ADMIN_USER_ID = '4f702a81-2788-4b32-bf0b-5a6a4233f5c4'
+
 function getRelativeTime(dateString: string): string {
   const now = new Date()
   const then = new Date(dateString)
@@ -170,7 +172,26 @@ const ChatBox: React.FC = () => {
     }
   }
 
+  const handleDeleteMessage = async (messageId: string) => {
+    try {
+      // Optimistically update UI
+      setMessages(prev => prev.filter(msg => msg.id !== messageId))
 
+      const { error } = await supabase
+        .from('messages')
+        .delete()
+        .eq('id', messageId)
+
+      if (error) {
+        setError('Failed to delete message')
+        // Refetch messages to revert UI if delete failed
+        fetchMessages()
+      }
+    } catch (err) {
+      setError('Failed to delete message')
+      fetchMessages()
+    }
+  }
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -253,9 +274,21 @@ const ChatBox: React.FC = () => {
                 ) : (
                   <div className="bg-gray-300 dark:bg-gray-600 w-6 h-6 rounded-full mr-2" />
                 )}
-                <span className="font-medium">
-                  {message.profile?.username}
+                <span className="font-medium flex items-center space-x-2">
+                  <span>{message.profile?.username}</span>
+                  {message.user_id === ADMIN_USER_ID && (
+                    <span className="bg-red-600 text-white text-xs px-1 rounded">Admin</span>
+                  )}
                 </span>
+                {user?.id === ADMIN_USER_ID && (
+                  <button
+                    onClick={() => handleDeleteMessage(message.id)}
+                    className="ml-2 text-red-500 hover:text-red-700 text-xs"
+                    aria-label="Delete message"
+                  >
+                    Delete
+                  </button>
+               )}
               </div>
               <p className="break-words">{message.content}</p>
               <time
