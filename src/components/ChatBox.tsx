@@ -401,7 +401,7 @@ const ChatBox: React.FC = () => {
     <div className="flex-1 relative overflow-y-auto p-4">
   {/* Pinned Messages (floats at top) */}
   {messages.some(m => m.is_pinned) && (
-    <div className="absolute top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
           <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 px-2">
             PINNED MESSAGES
           </div>
