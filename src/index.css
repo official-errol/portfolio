@@ -48,7 +48,9 @@ canvas {
  0%   {background-size: 100% 100%}
  100% {background-size: 100% 5%}
 }
-
+.text-tiny {
+  font-size: 10px;
+}
 .bg-main {
   background-color: #87E64B;
 }
