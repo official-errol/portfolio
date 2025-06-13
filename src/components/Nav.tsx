@@ -51,7 +51,7 @@ const Header: React.FC = () => {
         animate={controls}
         initial={{ y: 0 }}
         transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-        className="px-4 py-2 w-auto rounded-xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-500/20 shadow-sm"
+        className="px-4 py-2 w-auto rounded-xl bg-primary-light/70 dark:bg-primary-dark/70 backdrop-blur-md border border-secondary-light/30 dark:border-secondary-dark/30 shadow-sm"
       >
         <nav>
           <ul className="flex items-center space-x-4">
@@ -67,8 +67,8 @@ const Header: React.FC = () => {
                           whileTap={{ scale: 0.95 }}
                           className={`flex flex-col items-center px-3 py-1 rounded-lg transition-colors duration-300 ${
                             isActive
-                              ? 'text-main dark:text-main-light bg-main/10 dark:bg-main-light/10'
-                              : 'text-gray-600 dark:text-gray-300'
+                              ? 'text-main bg-main/10 dark:text-main dark:bg-main/10'
+                              : 'text-secondary-light dark:text-secondary-dark'
                           }`}
                         >
                           <Icon className="w-6 h-6 mb-0.5" />
