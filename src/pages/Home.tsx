@@ -39,7 +39,7 @@ const Home: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.5 }}
-          className="flex flex-col sm:flex-row justify-center space-x-0 space-y-4 sm:space-x-8 sm:space-y-0"
+          className="flex flex-col sm:flex-row justify-center space-x-0 space-y-8 sm:space-x-4 sm:space-y-0"
         >
           <a 
             href="/contact" 
