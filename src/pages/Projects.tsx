@@ -70,8 +70,8 @@ const Projects: React.FC = () => {
                 onClick={() => setFilter(category)}
                 className={`px-4 py-2 rounded-full capitalize ${
                   filter === category
-                    ? 'bg-main text-white'
-                    : 'text-gray-700 dark:text-gray-200 hover:bg-gray-200/30 dark:hover:bg-gray-600/30 rounded-full bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-500/20 shadow-sm'
+                    ? 'bg-main text-main-dark'
+                    : 'text-gray-700 dark:text-gray-200 hover:bg-gray-200/30 dark:hover:bg-gray-600/30 rounded-full bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-500/20'
                 }`}
               >
                 {category}
@@ -110,7 +110,7 @@ const Projects: React.FC = () => {
                 </div>
                 
                 <div className="flex justify-between items-center">
-                  <button className="text-main dark:text-main-light font-medium hover:underline">
+                  <button className="text-main-dark dark:text-main-light font-medium hover:underline">
                     View Details
                   </button>
                   <button className="text-gray-700 dark:text-gray-300 hover:text-main dark:hover:text-main-light">
