@@ -369,9 +369,9 @@ const ChatBox: React.FC = () => {
           disabled={!newMessage.trim()}
           className={`h-12 w-12 flex items-center justify-center text-white bg-main rounded-lg cursor-pointer select-none
             active:translate-y-1 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
-            active:border-b-[0px]
+            active:border-b-[1px]
             transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
-            border-b border-main ${
+            border-b border-[#2e7400] ${
               newMessage.trim() ? '' : 'cursor-not-allowed'
             }`}
           aria-label="Send message"
