@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { supabase } from '../services/supabaseClient'
 import { useAuth } from '../context/AuthContext'
-import { PaperAirplaneIcon, ThumbUpIcon, ThumbDownIcon } from '@heroicons/react/24/outline'
+import { PaperAirplaneIcon, HandThumbUpIcon, HandThumbDownIcon } from '@heroicons/react/24/outline'
 import LoadingSpinner from './LoadingSpinner'
 import { Filter } from 'bad-words'
+import { motion } from 'framer-motion'
 
 interface Message {
   id: string;
@@ -155,14 +156,16 @@ const ChatBox: React.FC = () => {
         const profileData = Array.isArray(msg.profiles) ? msg.profiles[0] : msg.profiles;
 
         return {
-        id: msg.id,
-        content: msg.content,
-        created_at: msg.created_at,
-        user_id: msg.user_id,
-        profile: profileData ? {
-            username: profileData.username,
-            avatar_url: profileData.avatar_url
-        } : null
+          id: msg.id,
+          content: msg.content,
+          created_at: msg.created_at,
+          user_id: msg.user_id,
+          profile: profileData ? {
+              username: profileData.username,
+              avatar_url: profileData.avatar_url
+          } : null,
+          likes_count: msg.likes_count || 0,
+          dislikes_count: msg.dislikes_count || 0
         }
 
       }) as unknown as Message[]
@@ -176,23 +179,23 @@ const ChatBox: React.FC = () => {
     }
   }
 
-  const handleVote = async (messageId: string, type: 'like' | 'dislike') => {
+  const handleVote = async (message: Message, type: 'like' | 'dislike') => {
     const column = type === 'like' ? 'likes_count' : 'dislikes_count';
+    const newCount = message[column] + 1;
+  
     setMessages(prev =>
       prev.map(m =>
-        m.id === messageId
-          ? { ...m, [column]: m[column] + 1 }
-          : m
+        m.id === message.id ? { ...m, [column]: newCount } : m
       )
     );
+  
     const { error } = await supabase
       .from('messages')
-      .update({ 
-        [column]: supabase.raw(`${column} + 1`)
-      })
-      .eq('id', messageId);
+      .update({ [column]: newCount })
+      .eq('id', message.id);
+  
     if (error) console.error('Voting failed', error);
-  };
+  }
 
   const handleDeleteMessage = async (messageId: string) => {
     try {
@@ -239,7 +242,9 @@ const ChatBox: React.FC = () => {
         profile: {
             username: user.user_metadata?.username || 'You', // Fallback
             avatar_url: user.user_metadata?.avatar_url || ''
-        }
+        },
+        likes_count: 0,
+        dislikes_count: 0
     }
     setMessages(prev => [...prev, tempMessage])
     setNewMessage('')
