@@ -284,7 +284,7 @@ const ChatBox: React.FC = () => {
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="w-4 h-4 text-blue-500"
+                        className="w-4 h-4 text-main"
                       >56
                         <path
                           fillRule="evenodd"
