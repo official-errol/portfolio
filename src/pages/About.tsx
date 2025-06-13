@@ -118,7 +118,7 @@ const About: React.FC = () => {
             {skills.map((category, index) => (
               <motion.div 
                 key={category.name}
-                className="p-6 rounded-xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-500/20 shadow-sm"
+                className="p-6 rounded-xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-500/20"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.8 + index * 0.2 }}
