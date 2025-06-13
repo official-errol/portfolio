@@ -124,14 +124,40 @@ const ChatBox: React.FC = () => {
               })
             }
           } else if (payload.eventType === 'UPDATE') {
-            setMessages(prev =>
-              prev.map(msg =>
-                msg.id === payload.new.id
-                  ? { ...msg, is_pinned: payload.new.is_pinned }
-                  : msg
-              )
-            )
-          } else if (payload.eventType === 'DELETE') {
+  const { data, error } = await supabase
+    .from('messages')
+    .select(`
+      id,
+      content,
+      created_at,
+      user_id,
+      is_pinned,
+      profiles(username, avatar_url)
+    `)
+    .eq('id', payload.new.id)
+    .single()
+
+  if (!error && data) {
+    const profileData = Array.isArray(data.profiles) ? data.profiles[0] : data.profiles
+
+    const updatedMsg: Message = {
+      id: data.id,
+      content: data.content,
+      created_at: data.created_at,
+      user_id: data.user_id,
+      profile: profileData ? {
+        username: profileData.username || 'Unknown',
+        avatar_url: profileData.avatar_url || ''
+      } : null,
+      is_pinned: data.is_pinned || false
+    }
+
+    setMessages(prev => {
+      const withoutOld = prev.filter(msg => msg.id !== updatedMsg.id)
+      return [...withoutOld, updatedMsg]
+    })
+  }
+} else if (payload.eventType === 'DELETE') {
             setMessages(prev => prev.filter(msg => msg.id !== payload.old.id))
           }
         }
