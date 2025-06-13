@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { supabase } from '../services/supabaseClient'
 import { useAuth } from '../context/AuthContext'
-import { PaperAirplaneIcon, MapPinIcon } from '@heroicons/react/24/outline'
+import { PaperAirplaneIcon } from '@heroicons/react/24/outline'
 import LoadingSpinner from './LoadingSpinner'
 import { Filter } from 'bad-words'
 import { motion } from 'framer-motion'
