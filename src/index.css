@@ -61,8 +61,14 @@ canvas {
 .text-primary-light {
   color: #191919;
 }
+.text-secondary-dark {
+  color: #383838;
+}
 .text-primary-dark {
   color: #FFFFFF;
+}
+.text-secondary-dark {
+  color: #CCCCCC;
 }
 .bg-primary-light {
   background-color: #FFFFFF;
