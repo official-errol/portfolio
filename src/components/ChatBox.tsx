@@ -385,7 +385,6 @@ const ChatBox: React.FC = () => {
       {/* Pinned Messages */}
       {messages.filter(m => m.is_pinned).length > 0 && (
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-yellow-500 mb-2">📌 Pinned</h3>
           <div className="space-y-4">
             {messages
               .filter(m => m.is_pinned)
