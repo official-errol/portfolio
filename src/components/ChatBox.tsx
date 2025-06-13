@@ -272,7 +272,7 @@ const ChatBox: React.FC = () => {
 
   const renderMessageBubble = (message: Message) => (
     <div
-      className={`w-full max-w-md px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200
+      className={`w-full max-w-md px-4 py-2 rounded-lg bg-gray-200 text-gray-800
         ${message.is_pinned ? 'border-l-4 border-main' : ''}`}
     >
       <div className="flex items-center justify-between mb-1">
@@ -284,7 +284,7 @@ const ChatBox: React.FC = () => {
               className="w-6 h-6 rounded-full"
             />
           ) : (
-            <div className="bg-gray-300 dark:bg-gray-600 w-6 h-6 rounded-full" />
+            <div className="bg-gray-300 w-6 h-6 rounded-full" />
           )}
           <span className="font-medium flex items-center gap-1">
             {message.profile?.username}
@@ -400,8 +400,8 @@ const ChatBox: React.FC = () => {
     <div className="flex flex-col h-full">
       {/* Pinned Messages Section (fixed below topbar) */}
       {messages.filter(m => m.is_pinned).length > 0 && (
-        <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
-          <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">
+        <div className="sticky top-0 z-10 bg-white px-4 py-2 border-b border-gray-200">
+          <div className="text-xs font-semibold text-gray-500 mb-2">
             PINNED MESSAGES
           </div>
           <div className="space-y-2">
@@ -440,16 +440,16 @@ const ChatBox: React.FC = () => {
       {/* Delete Confirm Modal */}
       {showConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">
               Confirm Deletion
             </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
+            <p className="text-sm text-gray-600 mb-6">
               Are you sure you want to delete this message? This action cannot be undone.
             </p>
             <div className="flex justify-end space-x-3">
               <button
-                className="px-4 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+                className="px-4 py-2 text-sm bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
                 onClick={() => {
                   setShowConfirmModal(false)
                   setMessageToDelete(null)
@@ -479,7 +479,7 @@ const ChatBox: React.FC = () => {
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Type your message..."
-          className="flex-1 p-4 mr-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-main dark:bg-gray-800 dark:text-white"
+          className="flex-1 p-4 mr-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-main"
           aria-label="Type your message"
         />
         <button
