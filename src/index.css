@@ -88,3 +88,6 @@ canvas {
 .border-main-dark {
   border-color: #2e7400;
 }
+.fill-main {
+  fill: #87E64B;
+}
