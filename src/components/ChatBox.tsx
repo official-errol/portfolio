@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { supabase } from '../services/supabaseClient'
 import { useAuth } from '../context/AuthContext'
 import { PaperAirplaneIcon, HandThumbUpIcon, HandThumbDownIcon } from '@heroicons/react/24/outline'
@@ -6,15 +6,17 @@ import LoadingSpinner from './LoadingSpinner'
 import { Filter } from 'bad-words'
 import { motion } from 'framer-motion'
 
+interface Profile {
+  username: string
+  avatar_url: string
+}
+
 interface Message {
   id: string
   content: string
   created_at: string
   user_id: string
-  profile: {
-    username: string
-    avatar_url: string
-  } | null
+  profile: Profile | null
   likes_count: number
   dislikes_count: number
 }
@@ -75,9 +77,13 @@ const ChatBox: React.FC = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [messageToDelete, setMessageToDelete] = useState<string | null>(null)
 
+  const scrollToBottom = useCallback(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [])
+
   useEffect(() => {
     fetchMessages()
-  
+
     const channel = supabase
       .channel('messages-channel')
       .on(
@@ -93,29 +99,29 @@ const ChatBox: React.FC = () => {
               user_id,
               likes_count,
               dislikes_count,
-              profiles:profile(username, avatar_url)
+              profiles(username, avatar_url)
             `)
             .eq('id', payload.new.id)
             .single()
-  
+
           if (!error && data) {
+            const profileData = Array.isArray(data.profiles) ? data.profiles[0] : data.profiles
+
             const newMsg: Message = {
               id: data.id,
               content: data.content,
               created_at: data.created_at,
               user_id: data.user_id,
-              profile: data.profiles
-                ? {
-                    username: data.profiles.username ?? 'Unknown',
-                    avatar_url: data.profiles.avatar_url ?? '',
-                  }
-                : null,
-              likes_count: data.likes_count ?? 0,
-              dislikes_count: data.dislikes_count ?? 0,
+              profile: profileData ? {
+                username: profileData.username || 'Unknown',
+                avatar_url: profileData.avatar_url || ''
+              } : null,
+              likes_count: data.likes_count || 0,
+              dislikes_count: data.dislikes_count || 0
             }
-  
-            setMessages((prev) => {
-              if (prev.some((msg) => msg.id === newMsg.id)) return prev
+
+            setMessages(prev => {
+              if (prev.some(msg => msg.id === newMsg.id)) return prev
               return [...prev, newMsg]
             })
           } else {
@@ -124,16 +130,20 @@ const ChatBox: React.FC = () => {
         }
       )
       .subscribe()
-  
+
     return () => {
       supabase.removeChannel(channel)
     }
   }, [])
 
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages, scrollToBottom])
+
   const fetchMessages = async () => {
     try {
       setLoading(true)
-  
+
       const { data, error } = await supabase
         .from('messages')
         .select(`
@@ -143,29 +153,29 @@ const ChatBox: React.FC = () => {
           user_id,
           likes_count,
           dislikes_count,
-          profiles:profile(username, avatar_url)
+          profiles(username, avatar_url)
         `)
         .order('created_at', { ascending: true })
-  
+
       if (error) throw error
-  
-      const transformedData = (data ?? []).map((msg) => {
+
+      const transformedData = (data ?? []).map(msg => {
+        const profileData = Array.isArray(msg.profiles) ? msg.profiles[0] : msg.profiles
+
         return {
           id: msg.id,
           content: msg.content,
           created_at: msg.created_at,
           user_id: msg.user_id,
-          profile: msg.profiles
-            ? {
-                username: msg.profiles.username,
-                avatar_url: msg.profiles.avatar_url,
-              }
-            : null,
+          profile: profileData ? {
+            username: profileData.username || 'Unknown',
+            avatar_url: profileData.avatar_url || ''
+          } : null,
           likes_count: msg.likes_count || 0,
-          dislikes_count: msg.dislikes_count || 0,
+          dislikes_count: msg.dislikes_count || 0
         }
       }) as Message[]
-  
+
       setMessages(transformedData)
     } catch (err) {
       setError('Failed to load messages')
@@ -197,7 +207,6 @@ const ChatBox: React.FC = () => {
 
   const handleDeleteMessage = async (messageId: string) => {
     try {
-      // Optimistically update UI
       setMessages(prev => prev.filter(msg => msg.id !== messageId))
 
       const { error } = await supabase
@@ -207,17 +216,12 @@ const ChatBox: React.FC = () => {
 
       if (error) {
         setError('Failed to delete message')
-        // Refetch messages to revert UI if delete failed
         fetchMessages()
       }
     } catch (err) {
       setError('Failed to delete message')
       fetchMessages()
     }
-  }
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -233,16 +237,16 @@ const ChatBox: React.FC = () => {
     const cleanMessage = filter.clean(newMessage)
 
     const tempMessage: Message = {
-        id: 'temp-' + Date.now(),
-        content: cleanMessage,
-        created_at: new Date().toISOString(),
-        user_id: user.id,
-        profile: {
-            username: user.user_metadata?.username || 'You', // Fallback
-            avatar_url: user.user_metadata?.avatar_url || ''
-        },
-        likes_count: 0,
-        dislikes_count: 0
+      id: 'temp-' + Date.now(),
+      content: cleanMessage,
+      created_at: new Date().toISOString(),
+      user_id: user.id,
+      profile: {
+        username: user.user_metadata?.username || 'You',
+        avatar_url: user.user_metadata?.avatar_url || ''
+      },
+      likes_count: 0,
+      dislikes_count: 0
     }
     setMessages(prev => [...prev, tempMessage])
     setNewMessage('')
@@ -286,8 +290,7 @@ const ChatBox: React.FC = () => {
             className={`flex ${message.user_id === user?.id ? 'justify-end' : 'justify-start'}`}
           >
             <div 
-              className="w-full max-w-md px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200
-              "
+              className="w-full max-w-md px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
             >
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
