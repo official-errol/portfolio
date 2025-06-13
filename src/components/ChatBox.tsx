@@ -7,16 +7,16 @@ import { Filter } from 'bad-words'
 import { motion } from 'framer-motion'
 
 interface Message {
-  id: string;
-  content: string;
-  created_at: string;
-  user_id: string;
+  id: string
+  content: string
+  created_at: string
+  user_id: string
   profile: {
     username: string
     avatar_url: string
-  } | null;
-  likes_count: number;
-  dislikes_count: number;
+  } | null
+  likes_count: number
+  dislikes_count: number
 }
 
 const ADMIN_USER_ID = '4f702a81-2788-4b32-bf0b-5a6a4233f5c4'
@@ -168,7 +168,7 @@ const ChatBox: React.FC = () => {
           dislikes_count: msg.dislikes_count || 0
         }
 
-      }) as unknown as Message[]
+      }) as Message[]
 
       setMessages(transformedData)
     } catch (err) {
@@ -180,21 +180,23 @@ const ChatBox: React.FC = () => {
   }
 
   const handleVote = async (message: Message, type: 'like' | 'dislike') => {
-    const column = type === 'like' ? 'likes_count' : 'dislikes_count';
-    const newCount = message[column] + 1;
+    const column = type === 'like' ? 'likes_count' : 'dislikes_count'
+    const newCount = message[column] + 1
   
     setMessages(prev =>
       prev.map(m =>
         m.id === message.id ? { ...m, [column]: newCount } : m
       )
-    );
+    )
   
     const { error } = await supabase
       .from('messages')
       .update({ [column]: newCount })
-      .eq('id', message.id);
+      .eq('id', message.id)
   
-    if (error) console.error('Voting failed', error);
+    if (error) {
+      console.error('Failed to update vote:', error)
+    }
   }
 
   const handleDeleteMessage = async (messageId: string) => {
@@ -359,7 +361,7 @@ const ChatBox: React.FC = () => {
                   onClick={() => handleVote(message.id, 'like')}
                   className="flex items-center text-green-600"
                 >
-                  <ThumbUpIcon className="w-5 h-5 mr-1" />
+                  <HandThumbUpIcon className="w-5 h-5 mr-1" />
                   <span>{message.likes_count}</span>
                 </motion.button>
                 <motion.button
@@ -367,7 +369,7 @@ const ChatBox: React.FC = () => {
                   onClick={() => handleVote(message.id, 'dislike')}
                   className="flex items-center text-red-600"
                 >
-                  <ThumbDownIcon className="w-5 h-5 mr-1" />
+                  <HandThumbDownIcon className="w-5 h-5 mr-1" />
                   <span>{message.dislikes_count}</span>
                 </motion.button>
               </div>
