@@ -48,3 +48,28 @@ canvas {
  0%   {background-size: 100% 100%}
  100% {background-size: 100% 5%}
 }
+
+.bg-main {
+  background-color: #87E64B;
+}
+.text-main {
+  color: #87E64B;
+}
+.text-primary-light {
+  color: #191919;
+}
+.text-primary-dark {
+  color: #FFFFFF;
+}
+.bg-primary-light {
+  background-color: #FFFFFF;
+}
+.bg-primary-dark {
+  background-color: #191919;
+}
+.bg-secondary-light {
+  background-color: #CCCCCC;
+}
+.bg-secondary-dark {
+  background-color: #383838;
+}
