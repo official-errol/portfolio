@@ -266,53 +266,55 @@ const ChatBox: React.FC = () => {
               className="w-full max-w-md px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200
               "
             >
-              <div className="flex items-center mb-1">
-                {message.profile?.avatar_url ? (
-                  <img 
-                    src={message.profile.avatar_url} 
-                    alt={message.profile.username} 
-                    className="w-6 h-6 rounded-full mr-2"
-                  />
-                ) : (
-                  <div className="bg-gray-300 dark:bg-gray-600 w-6 h-6 rounded-full mr-2" />
-                )}
-                <span className="font-medium flex items-center gap-1">
-                  <span className="flex items-center gap-1">
-                    {message.profile?.username}
-                    {message.user_id === ADMIN_USER_ID && (
-                      <svg
-                        fill="#000000"
-                        viewBox="0 0 24 24"
-                        id="verified"
-                        data-name="Flat Color"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-4 h-4 icon flat-color"
-                      >
-                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                        <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                          <path
-                            id="primary"
-                            d="M21.6,9.84A4.57,4.57,0,0,1,21.18,9,4,4,0,0,1,21,8.07a4.21,4.21,0,0,0-.64-2.16,4.25,4.25,0,0,0-1.87-1.28,4.77,4.77,0,0,1-.85-.43A5.11,5.11,0,0,1,17,3.54a4.2,4.2,0,0,0-1.8-1.4A4.22,4.22,0,0,0,13,2.21a4.24,4.24,0,0,1-1.94,0,4.22,4.22,0,0,0-2.24-.07A4.2,4.2,0,0,0,7,3.54a5.11,5.11,0,0,1-.66.66,4.77,4.77,0,0,1-.85.43A4.25,4.25,0,0,0,3.61,5.91,4.21,4.21,0,0,0,3,8.07,4,4,0,0,1,2.82,9a4.57,4.57,0,0,1-.42.82A4.3,4.3,0,0,0,1.63,12a4.3,4.3,0,0,0,.77,2.16,4,4,0,0,1,.42.82,4.11,4.11,0,0,1,.15.95,4.19,4.19,0,0,0,.64,2.16,4.25,4.25,0,0,0,1.87,1.28,4.77,4.77,0,0,1,.85.43,5.11,5.11,0,0,1,.66.66,4.12,4.12,0,0,0,1.8,1.4,3,3,0,0,0,.87.13A6.66,6.66,0,0,0,11,21.81a4,4,0,0,1,1.94,0,4.33,4.33,0,0,0,2.24.06,4.12,4.12,0,0,0,1.8-1.4,5.11,5.11,0,0,1,.66-.66,4.77,4.77,0,0,1,.85-.43,4.25,4.25,0,0,0,1.87-1.28A4.19,4.19,0,0,0,21,15.94a4.11,4.11,0,0,1,.15-.95,4.57,4.57,0,0,1,.42-.82A4.3,4.3,0,0,0,22.37,12,4.3,4.3,0,0,0,21.6,9.84Z"
-                            style={{ fill: "#87E64B" }}
-                          />
-                          <path
-                            id="secondary"
-                            d="M11,16a1,1,0,0,1-.71-.29l-3-3a1,1,0,1,1,1.42-1.42L11,13.59l4.29-4.3a1,1,0,0,1,1.42,1.42l-5,5A1,1,0,0,1,11,16Z"
-                            style={{ fill: "#2e7400" }}
-                          />
-                        </g>
-                      </svg>
-                    )}
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-2">
+                  {message.profile?.avatar_url ? (
+                    <img
+                      src={message.profile.avatar_url}
+                      alt={message.profile.username}
+                      className="w-6 h-6 rounded-full"
+                    />
+                  ) : (
+                    <div className="bg-gray-300 dark:bg-gray-600 w-6 h-6 rounded-full" />
+                  )}
+                  <span className="font-medium flex items-center gap-1">
+                    <span className="flex items-center gap-1">
+                      {message.profile?.username}
+                      {message.user_id === ADMIN_USER_ID && (
+                        <svg
+                          fill="#000000"
+                          viewBox="0 0 24 24"
+                          id="verified"
+                          data-name="Flat Color"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-4 h-4 icon flat-color"
+                        >
+                          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                          <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+                          <g id="SVGRepo_iconCarrier">
+                            <path
+                              id="primary"
+                              d="M21.6,9.84A4.57,4.57,0,0,1,21.18,9,4,4,0,0,1,21,8.07a4.21,4.21,0,0,0-.64-2.16,4.25,4.25,0,0,0-1.87-1.28,4.77,4.77,0,0,1-.85-.43A5.11,5.11,0,0,1,17,3.54a4.2,4.2,0,0,0-1.8-1.4A4.22,4.22,0,0,0,13,2.21a4.24,4.24,0,0,1-1.94,0,4.22,4.22,0,0,0-2.24-.07A4.2,4.2,0,0,0,7,3.54a5.11,5.11,0,0,1-.66.66,4.77,4.77,0,0,1-.85.43A4.25,4.25,0,0,0,3.61,5.91,4.21,4.21,0,0,0,3,8.07,4,4,0,0,1,2.82,9a4.57,4.57,0,0,1-.42.82A4.3,4.3,0,0,0,1.63,12a4.3,4.3,0,0,0,.77,2.16,4,4,0,0,1,.42.82,4.11,4.11,0,0,1,.15.95,4.19,4.19,0,0,0,.64,2.16,4.25,4.25,0,0,0,1.87,1.28,4.77,4.77,0,0,1,.85.43,5.11,5.11,0,0,1,.66.66,4.12,4.12,0,0,0,1.8,1.4,3,3,0,0,0,.87.13A6.66,6.66,0,0,0,11,21.81a4,4,0,0,1,1.94,0,4.33,4.33,0,0,0,2.24.06,4.12,4.12,0,0,0,1.8-1.4,5.11,5.11,0,0,1,.66-.66,4.77,4.77,0,0,1,.85-.43,4.25,4.25,0,0,0,1.87-1.28A4.19,4.19,0,0,0,21,15.94a4.11,4.11,0,0,1,.15-.95,4.57,4.57,0,0,1,.42-.82A4.3,4.3,0,0,0,22.37,12,4.3,4.3,0,0,0,21.6,9.84Z"
+                              style={{ fill: "#87E64B" }}
+                            />
+                            <path
+                              id="secondary"
+                              d="M11,16a1,1,0,0,1-.71-.29l-3-3a1,1,0,1,1,1.42-1.42L11,13.59l4.29-4.3a1,1,0,0,1,1.42,1.42l-5,5A1,1,0,0,1,11,16Z"
+                              style={{ fill: "#2e7400" }}
+                            />
+                          </g>
+                        </svg>
+                      )}
+                    </span>
                   </span>
-                </span>
+                </div>
                 {user?.id === ADMIN_USER_ID && (
                   <button
                     onClick={() => {
                       setShowConfirmModal(true)
                       setMessageToDelete(message.id)
                     }}
-                    className="ml-2 text-red-500 hover:text-red-700 text-xs justify-end"
+                    className="ml-2 text-red-500 hover:text-red-700 text-xs"
                     aria-label="Delete message"
                   >
                     Delete
