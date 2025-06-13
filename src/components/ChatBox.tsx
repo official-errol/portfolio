@@ -90,7 +90,9 @@ const ChatBox: React.FC = () => {
               id,
               content,
               created_at,
-              user_id,
+              user_id,,
+              likes_count,
+              dislikes_count,
               profiles(username, avatar_url)
             `)
             .eq('id', payload.new.id)
