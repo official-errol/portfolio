@@ -45,7 +45,7 @@ const Contact: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h2 className="text-2xl font-semibold mb-6 text-main dark:text-main-light">
+              <h2 className="text-2xl font-semibold mb-6 text-main-dark dark:text-main-light">
                 Contact Information
               </h2>
               
@@ -93,7 +93,7 @@ const Contact: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <h2 className="text-2xl font-semibold mb-6 text-main dark:text-main-light">
+              <h2 className="text-2xl font-semibold mb-6 text-main-dark dark:text-main-light">
                 Let's Connect
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-6">
