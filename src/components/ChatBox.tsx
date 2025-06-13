@@ -327,7 +327,7 @@ const ChatBox: React.FC = () => {
         )}
       </div>
   
-      <p className="break-words">{message.content}</p>
+      <p className="break-words text-tiny">{message.content}</p>
       <time
         title={new Date(message.created_at).toLocaleString()}
         className="text-xs opacity-80 mt-1"
