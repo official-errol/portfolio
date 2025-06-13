@@ -68,7 +68,7 @@ const Header: React.FC = () => {
                           className={`flex flex-col items-center px-3 py-1 rounded-lg transition-colors duration-300 ${
                             isActive
                               ? 'text-main-dark dark:text-main bg-main/10 dark:bg-main-light/10'
-                              : 'text-gray-600 dark:text-gray-300'
+                              : 'text-secondary-dark dark:text-secondary-light'
                           }`}
                         >
                           <Icon className="w-6 h-6 mb-0.5" />
