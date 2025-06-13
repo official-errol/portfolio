@@ -121,7 +121,7 @@ const Contact: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
           >
-            <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 rounded-xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-500/20 shadow-sm">
+            <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 rounded-xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-500/20">
               <div className="mb-4">
                 <label htmlFor="name" className="block text-gray-700 dark:text-gray-300 mb-2">
                   Name
