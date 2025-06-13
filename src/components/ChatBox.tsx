@@ -1,19 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { supabase } from '../services/supabaseClient'
 import { useAuth } from '../context/AuthContext'
-import { PaperAirplaneIcon } from '@heroicons/react/24/outline'
+import { PaperAirplaneIcon, ThumbUpIcon, ThumbDownIcon } from '@heroicons/react/24/outline'
 import LoadingSpinner from './LoadingSpinner'
 import { Filter } from 'bad-words'
 
 interface Message {
-  id: string
-  content: string
-  created_at: string
-  user_id: string
+  id: string;
+  content: string;
+  created_at: string;
+  user_id: string;
   profile: {
     username: string
     avatar_url: string
-  } | null
+  } | null;
+  likes_count: number;
+  dislikes_count: number;
 }
 
 const ADMIN_USER_ID = '4f702a81-2788-4b32-bf0b-5a6a4233f5c4'
@@ -174,6 +176,24 @@ const ChatBox: React.FC = () => {
     }
   }
 
+  const handleVote = async (messageId: string, type: 'like' | 'dislike') => {
+    const column = type === 'like' ? 'likes_count' : 'dislikes_count';
+    setMessages(prev =>
+      prev.map(m =>
+        m.id === messageId
+          ? { ...m, [column]: m[column] + 1 }
+          : m
+      )
+    );
+    const { error } = await supabase
+      .from('messages')
+      .update({ 
+        [column]: supabase.raw(`${column} + 1`)
+      })
+      .eq('id', messageId);
+    if (error) console.error('Voting failed', error);
+  };
+
   const handleDeleteMessage = async (messageId: string) => {
     try {
       // Optimistically update UI
@@ -328,6 +348,24 @@ const ChatBox: React.FC = () => {
               >
                 {getRelativeTime(message.created_at)}
               </time>
+              <div className="flex items-center space-x-4 mt-2">
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => handleVote(message.id, 'like')}
+                  className="flex items-center text-green-600"
+                >
+                  <ThumbUpIcon className="w-5 h-5 mr-1" />
+                  <span>{message.likes_count}</span>
+                </motion.button>
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => handleVote(message.id, 'dislike')}
+                  className="flex items-center text-red-600"
+                >
+                  <ThumbDownIcon className="w-5 h-5 mr-1" />
+                  <span>{message.dislikes_count}</span>
+                </motion.button>
+              </div>
             </div>
           </div>
         ))}
