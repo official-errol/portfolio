@@ -67,7 +67,7 @@ const Header: React.FC = () => {
                           whileTap={{ scale: 0.95 }}
                           className={`flex flex-col items-center px-3 py-1 rounded-lg transition-colors duration-300 ${
                             isActive
-                              ? 'text-main dark:text-main-light bg-main/10 dark:bg-main-light/10'
+                              ? 'text-main-dark dark:text-main bg-main/10 dark:bg-main-light/10'
                               : 'text-gray-600 dark:text-gray-300'
                           }`}
                         >
