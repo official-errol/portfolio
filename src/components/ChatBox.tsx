@@ -352,13 +352,6 @@ const ChatBox: React.FC = () => {
     </div>
   )
 
-  // Sort messages with pinned messages first
-  const sortedMessages = [...messages].sort((a, b) => {
-    if (a.is_pinned && !b.is_pinned) return -1
-    if (!a.is_pinned && b.is_pinned) return 1
-    return new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
-  })
-
   return (
   <div className="flex flex-col h-full">
     {/* Message List */}
