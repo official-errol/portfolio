@@ -282,7 +282,7 @@ const ChatBox: React.FC = () => {
                     {message.user_id === ADMIN_USER_ID && (
                       <svg
                         viewBox="0 0 24 24"
-                        fill="none"
+                        fill="text-main-dark"
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-4 h-4 text-main"
                       >56
@@ -367,11 +367,11 @@ const ChatBox: React.FC = () => {
         <button
           type="submit"
           disabled={!newMessage.trim()}
-          className={`h-12 w-12 flex items-center justify-center text-[#2e7400] bg-main rounded-lg cursor-pointer select-none
+          className={`h-12 w-12 flex items-center justify-center text-main-dark bg-main rounded-lg cursor-pointer select-none
             active:translate-y-1 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
             active:border-b-[1px]
             transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
-            border-b border-[#2e7400] ${
+            border-b border-main-dark ${
               newMessage.trim() ? '' : 'cursor-not-allowed'
             }`}
           aria-label="Send message"
