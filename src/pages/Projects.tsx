@@ -87,7 +87,7 @@ const Projects: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="rounded-xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-500/20 shadow-sm overflow-hidden"
+              className="rounded-xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-500/20 overflow-hidden"
             >
               <div className="h-48 bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
