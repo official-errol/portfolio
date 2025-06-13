@@ -20,7 +20,7 @@ const App: React.FC = () => {
     <Router>
       <ThemeProvider>
         <AuthProvider>
-          <div className="flex flex-col min-h-screen bg-primary-light dark:bg-primary-dark">
+          <div className="flex flex-col min-h-screen bg-primary-light">
             
             <main className="flex-grow">
               <React.Suspense fallback={<LoadingSpinner />}>
