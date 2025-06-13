@@ -124,13 +124,18 @@ const ChatBox: React.FC = () => {
               })
             }
           } else if (payload.eventType === 'UPDATE') {
-            setMessages(prev =>
-              prev.map(msg =>
+            setMessages(prev => {
+              const updated = prev.map(msg =>
                 msg.id === payload.new.id
                   ? { ...msg, is_pinned: payload.new.is_pinned }
                   : msg
               )
-            )
+              return [...updated].sort((a, b) => {
+                if (a.is_pinned && !b.is_pinned) return -1
+                if (!a.is_pinned && b.is_pinned) return 1
+                return new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+              })
+            })
           } else if (payload.eventType === 'DELETE') {
             setMessages(prev => prev.filter(msg => msg.id !== payload.old.id))
           }
