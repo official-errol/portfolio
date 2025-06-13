@@ -280,7 +280,6 @@ const ChatBox: React.FC = () => {
                   <span className="flex items-center gap-1">
                     {message.profile?.username}
                     {message.user_id === ADMIN_USER_ID && (
-                      
                       <svg
                         fill="#000000"
                         viewBox="0 0 24 24"
