@@ -4,8 +4,8 @@ import { CodeBracketIcon, PaintBrushIcon, DevicePhoneMobileIcon } from '@heroico
 
 const About: React.FC = () => {
   const skills = [
-    { name: 'Frontend', items: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js'] },
-    { name: 'Backend', items: ['Node.js', 'MySQL', 'Firebase', 'Supabase'] },
+    { name: 'Frontend', items: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js', 'Framer Motion'] },
+    { name: 'Backend', items: ['Node.js', 'MySQL', 'Firebase', 'Supabase', 'PHP', 'Laravel'] },
     { name: 'Tools', items: ['Git', 'Photoshop', 'Figma'] },
   ]
 
