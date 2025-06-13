@@ -55,6 +55,9 @@ canvas {
 .text-main {
   color: #87E64B;
 }
+.text-main-dark {
+  color: #2e7400;
+}
 .text-primary-light {
   color: #191919;
 }
@@ -72,4 +75,10 @@ canvas {
 }
 .bg-secondary-dark {
   background-color: #383838;
+}
+.border-main {
+  border-color: #87E64B;
+}
+.border-main-dark {
+  border-color: #2e7400;
 }
