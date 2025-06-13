@@ -20,7 +20,7 @@ const Chat: React.FC = () => {
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center h-screen text-center px-4">
-        <p className="mb-4 text-lg text-gray-700 dark:text-gray-200">
+        <p className="mb-4 text-lg text-gray-700">
           Please sign in to access the chat.
         </p>
         <button 
@@ -61,12 +61,12 @@ const Chat: React.FC = () => {
     <div className="container mx-auto px-4 py-4 max-w-4xl">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center mx-auto">
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Global Chat</h1>
+          <h1 className="text-3xl font-bold text-gray-800">Global Chat</h1>
         </div>
       </div>
       
-      <div className="rounded-xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-500/20 overflow-hidden">
-        <div className="p-4 pb-5 border-b border-gray-200 dark:border-gray-700">
+      <div className="rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20 overflow-hidden">
+        <div className="p-4 pb-5 border-b border-gray-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
                 {user.user_metadata.avatar_url ? (
@@ -76,7 +76,7 @@ const Chat: React.FC = () => {
                     className="w-10 h-10 rounded-full mr-3"
                 />
                 ) : (
-                <div className="bg-gray-300 dark:bg-gray-600 w-10 h-10 rounded-full mr-3" />
+                <div className="bg-gray-300 w-10 h-10 rounded-full mr-3" />
                 )}
                 <div>
                   <h2 className="font-semibold flex items-center gap-1">
