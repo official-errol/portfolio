@@ -5,8 +5,8 @@ import { CodeBracketIcon, PaintBrushIcon, DevicePhoneMobileIcon } from '@heroico
 const About: React.FC = () => {
   const skills = [
     { name: 'Frontend', items: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js'] },
-    { name: 'Backend', items: ['Node.js', 'Express', 'PostgreSQL', 'Supabase'] },
-    { name: 'Tools', items: ['Git', 'Docker', 'AWS', 'Figma'] },
+    { name: 'Backend', items: ['Node.js', 'MySQL', 'Firebase', 'Supabase'] },
+    { name: 'Tools', items: ['Git', 'Photoshop', 'Figma'] },
   ]
 
   return (
@@ -34,9 +34,7 @@ const About: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
             >
-              I've been passionate about technology since childhood, starting with basic HTML/CSS websites 
-              and evolving into full-stack development. With over 5 years of professional experience, 
-              I've worked with startups and established companies to create impactful digital products.
+              I've been passionate about technology since childhood, starting with basic HTML/CSS websites and gradually growing into full-stack development. Now, as a graduating BSCS student, I've built a strong foundation through academic projects, internships, and personal learning. I enjoy creating digital solutions that are both functional and user-friendly, blending technical skills with a focus on design and user experience.
             </motion.p>
             <motion.p 
               className="text-gray-600"
