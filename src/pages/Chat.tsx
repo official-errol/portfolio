@@ -1,4 +1,4 @@
-import React from 'react'
+5import React from 'react'
 import { useAuth } from '../context/AuthContext'
 import ChatBox from '../components/ChatBox'
 import LoadingSpinner from '../components/LoadingSpinner'
@@ -65,7 +65,7 @@ const Chat: React.FC = () => {
         </div>
       </div>
       
-      <div className="rounded-xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-500/20 shadow-sm overflow-hidden">
+      <div className="rounded-xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-500/20 overflow-hidden">
         <div className="p-4 pb-5 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
