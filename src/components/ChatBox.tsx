@@ -286,7 +286,7 @@ const ChatBox: React.FC = () => {
                         id="verified"
                         data-name="Flat Color"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="icon flat-color"
+                        className="w-4 h-4 icon flat-color"
                       >
                         <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                         <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
