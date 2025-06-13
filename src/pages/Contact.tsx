@@ -33,7 +33,7 @@ const Contact: React.FC = () => {
         transition={{ duration: 0.5 }}
         className="max-w-6xl mx-auto"
       >
-        <h1 className="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-800 dark:text-white">
+        <h1 className="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-800">
           Get In Touch
         </h1>
         
@@ -45,18 +45,18 @@ const Contact: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h2 className="text-2xl font-semibold mb-6 text-main-dark dark:text-main-light">
+              <h2 className="text-2xl font-semibold mb-6 text-main-dark">
                 Contact Information
               </h2>
               
               <div className="space-y-6">
                 <div className="flex items-start">
-                  <EnvelopeIcon className="w-6 h-6 mr-4 text-main dark:text-main-light mt-1" />
+                  <EnvelopeIcon className="w-6 h-6 mr-4 text-main mt-1" />
                   <div>
                     <h3 className="font-medium text-lg">Email</h3>
                     <a 
-                      href="mailto:contact@example.com" 
-                      className="text-gray-600 dark:text-gray-300 hover:text-main dark:hover:text-main-light"
+                      href="mailto:mr.errolsolomon@gmail.com" 
+                      className="text-gray-600 hover:text-main"
                     >
                       mr.errolsolomon@gmail.com
                     </a>
@@ -64,12 +64,12 @@ const Contact: React.FC = () => {
                 </div>
                 
                 <div className="flex items-start">
-                  <PhoneIcon className="w-6 h-6 mr-4 text-main dark:text-main-light mt-1" />
+                  <PhoneIcon className="w-6 h-6 mr-4 text-main mt-1" />
                   <div>
                     <h3 className="font-medium text-lg">Phone</h3>
                     <a 
                       href="tel:+1234567890" 
-                      className="text-gray-600 dark:text-gray-300 hover:text-main dark:hover:text-main-light"
+                      className="text-gray-600 hover:text-main"
                     >
                       +63 994-399-6202
                     </a>
@@ -77,10 +77,10 @@ const Contact: React.FC = () => {
                 </div>
                 
                 <div className="flex items-start">
-                  <MapPinIcon className="w-6 h-6 mr-4 text-main dark:text-main-light mt-1" />
+                  <MapPinIcon className="w-6 h-6 mr-4 text-main mt-1" />
                   <div>
                     <h3 className="font-medium text-lg">Location</h3>
-                    <p className="text-gray-600 dark:text-gray-300">
+                    <p className="text-gray-600">
                         Lipa City, Batangas 4217, Philippines
                     </p>
                   </div>
@@ -93,10 +93,10 @@ const Contact: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <h2 className="text-2xl font-semibold mb-6 text-main-dark dark:text-main-light">
+              <h2 className="text-2xl font-semibold mb-6 text-main-dark">
                 Let's Connect
               </h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
+              <p className="text-gray-600 mb-6">
                 Feel free to reach out if you want to collaborate with me, or simply have a chat.
               </p>
               <div className="flex space-x-4">
@@ -106,7 +106,7 @@ const Contact: React.FC = () => {
                     href={`https://${platform}.com`} 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center hover:bg-main hover:text-white dark:hover:bg-main-light transition-colors"
+                    className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center hover:bg-main hover:text-white transition-colors"
                     aria-label={platform}
                   >
                     <span className="font-semibold">{platform.charAt(0).toUpperCase()}</span>
@@ -121,16 +121,16 @@ const Contact: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
           >
-            <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 rounded-xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-500/20">
+            <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20">
               <div className="mb-4">
-                <label htmlFor="name" className="block text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="name" className="block text-gray-700 mb-2">
                   Name
                 </label>
                 <input
                   id="name"
                   type="text"
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-main dark:bg-gray-700 dark:text-white ${
-                    errors.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-main ${
+                    errors.name ? 'border-red-500' : 'border-gray-300'
                   }`}
                   {...register('name', { required: 'Name is required' })}
                   aria-invalid={errors.name ? "true" : "false"}
@@ -141,14 +141,14 @@ const Contact: React.FC = () => {
               </div>
               
               <div className="mb-4">
-                <label htmlFor="email" className="block text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="email" className="block text-gray-700 mb-2">
                   Email
                 </label>
                 <input
                   id="email"
                   type="email"
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-main dark:bg-gray-700 dark:text-white ${
-                    errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-main ${
+                    errors.email ? 'border-red-500' : 'border-gray-300'
                   }`}
                   {...register('email', { 
                     required: 'Email is required',
@@ -165,14 +165,14 @@ const Contact: React.FC = () => {
               </div>
               
               <div className="mb-4">
-                <label htmlFor="subject" className="block text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="subject" className="block text-gray-700 mb-2">
                   Subject
                 </label>
                 <input
                   id="subject"
                   type="text"
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-main dark:bg-gray-700 dark:text-white ${
-                    errors.subject ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-main ${
+                    errors.subject ? 'border-red-500' : 'border-gray-300'
                   }`}
                   {...register('subject', { required: 'Subject is required' })}
                   aria-invalid={errors.subject ? "true" : "false"}
@@ -189,8 +189,8 @@ const Contact: React.FC = () => {
                 <textarea
                   id="message"
                   rows={5}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-main dark:bg-gray-700 dark:text-white ${
-                    errors.message ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-main ${
+                    errors.message ? 'border-red-500' : 'border-gray-300'
                   }`}
                   {...register('message', { 
                     required: 'Message is required',
