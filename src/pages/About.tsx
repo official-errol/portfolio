@@ -21,7 +21,7 @@ const About: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
             <motion.h2 
-              className="text-2xl font-semibold mb-4 text-main dark:text-main-light"
+              className="text-2xl font-semibold mb-4 text-main-dark dark:text-main-light"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
@@ -51,7 +51,7 @@ const About: React.FC = () => {
           
           <div>
             <motion.h2 
-              className="text-2xl font-semibold mb-4 text-main dark:text-main-light"
+              className="text-2xl font-semibold mb-4 text-main-dark dark:text-main-light"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.8 }}
@@ -113,7 +113,7 @@ const About: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.6 }}
         >
-          <h2 className="text-2xl font-semibold mb-6 text-main dark:text-main-light">Skills & Technologies</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-main-dark dark:text-main-light">Skills & Technologies</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {skills.map((category, index) => (
               <motion.div 
