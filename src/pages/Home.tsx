@@ -12,12 +12,12 @@ const Home: React.FC = () => {
         transition={{ duration: 0.5 }}
         className="max-w-4xl mx-auto px-4"
       >
-        <h1 className="text-4xl md:text-6xl font-bold mb-6 text-primary-light dark:text-primary-dark">
-          Hi, I'm <span className="text-main-dark dark:text-main">{ownerName}</span>
+        <h1 className="text-4xl md:text-6xl font-bold mb-6 text-primary-light">
+          Hi, I'm <span className="text-main-dark">{ownerName}</span>
         </h1>
         
         <motion.h2 
-          className="text-2xl md:text-4xl font-semibold mb-8 text-secondary-light dark:text-secondary-dark"
+          className="text-2xl md:text-4xl font-semibold mb-8 text-secondary-light"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
@@ -26,7 +26,7 @@ const Home: React.FC = () => {
         </motion.h2>
         
         <motion.p 
-          className="text-lg md:text-xl mb-10 text-secondary-light dark:text-secondary-dark max-w-3xl"
+          className="text-lg md:text-xl mb-10 text-secondary-light max-w-3xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.5 }}
