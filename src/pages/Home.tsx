@@ -1,4 +1,4 @@
-import React from 'react'
+5import React from 'react'
 import { motion } from 'framer-motion'
 import { EnvelopeIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 
@@ -39,26 +39,27 @@ const Home: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.5 }}
-          className="flex flex-col sm:flex-row justify-center"
+          className="flex flex-col sm:flex-row justify-center space-x-0 space-y-4 sm:space-x-4 sm:space-y-0"
         >
           <a 
             href="/contact" 
             className="flex items-center px-6 py-3 text-white bg-stone-900 rounded-lg cursor-pointer select-none
-    active:translate-y-2  active:[box-shadow:0_0px_0_0_#383534,0_0px_0_0_#0f172a66]
-    active:border-b-[1px]
-    transition-all duration-150 [box-shadow:0_10px_0_0_#383534,0_15px_0_0_#0f172a66]
-    border-[1px] border-stone-600 mb-6"
+              active:translate-y-2 active:[box-shadow:0_0px_0_0_#383534,0_0px_0_0_#0f172a66]
+              active:border-b-[1px]
+              transition-all duration-150 [box-shadow:0_10px_0_0_#383534,0_15px_0_0_#0f172a66]
+              border-[1px] border-stone-600"
           >
             <EnvelopeIcon className='w-5 h-5 mr-3'/>
             Contact Me
           </a>
+        
           <a 
             href="/projects" 
             className="flex items-center px-6 py-3 text-gray-800 bg-white rounded-lg cursor-pointer select-none
-    active:translate-y-2  active:[box-shadow:0_0px_0_0_#d1d5db,0_0px_0_0_#d1d5db66]
-    active:border-b-[1px]
-    transition-all duration-150 [box-shadow:0_10px_0_0_#d1d5db,0_15px_0_0_#d1d5db66]
-    border-[1px] border-gray-200"
+              active:translate-y-2 active:[box-shadow:0_0px_0_0_#d1d5db,0_0px_0_0_#d1d5db66]
+              active:border-b-[1px]
+              transition-all duration-150 [box-shadow:0_10px_0_0_#d1d5db,0_15px_0_0_#d1d5db66]
+              border-[1px] border-gray-200"
           >
             <ArrowRightIcon className="w-5 h-5 mr-3" />
             View Projects
