@@ -310,11 +310,7 @@ const ChatBox: React.FC = () => {
               className="text-main-dark"
               aria-label={message.is_pinned ? 'Unpin message' : 'Pin message'}
             >
-              {message.is_pinned ? (
-                Pin
-              ) : (
-                Unpin
-              )}
+              {message.is_pinned ? 'Pin' : 'Unpin'}
             </motion.button>
             <motion.button
               whileTap={{ scale: 0.9 }}
