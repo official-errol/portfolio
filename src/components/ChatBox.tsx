@@ -109,7 +109,9 @@ const ChatBox: React.FC = () => {
                 profile: profileData ? {
                     username: profileData.username ?? 'Unknown',
                     avatar_url: profileData.avatar_url ?? ''
-                } : null
+                } : null,
+                likes_count: data.likes_count ?? 0,
+                dislikes_count: data.dislikes_count ?? 0
             }
 
 
@@ -145,7 +147,9 @@ const ChatBox: React.FC = () => {
           id,
           content,
           created_at,
-          user_id,
+          user_id,,
+          likes_count,
+          dislikes_count,
           profiles(username, avatar_url)
         `)
         .order('created_at', { ascending: true })
@@ -358,7 +362,7 @@ const ChatBox: React.FC = () => {
               <div className="flex items-center space-x-4 mt-2">
                 <motion.button
                   whileTap={{ scale: 0.9 }}
-                  onClick={() => handleVote(message.id, 'like')}
+                  onClick={() => handleVote(message, 'like')}
                   className="flex items-center text-green-600"
                 >
                   <HandThumbUpIcon className="w-5 h-5 mr-1" />
@@ -366,7 +370,7 @@ const ChatBox: React.FC = () => {
                 </motion.button>
                 <motion.button
                   whileTap={{ scale: 0.9 }}
-                  onClick={() => handleVote(message.id, 'dislike')}
+                  onClick={() => handleVote(message, 'dislike')}
                   className="flex items-center text-red-600"
                 >
                   <HandThumbDownIcon className="w-5 h-5 mr-1" />
