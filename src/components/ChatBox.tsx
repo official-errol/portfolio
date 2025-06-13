@@ -19,7 +19,7 @@ interface Message {
 const ADMIN_USER_ID = '4f702a81-2788-4b32-bf0b-5a6a4233f5c4'
 
 const [showConfirmModal, setShowConfirmModal] = useState(false)
-const [messageToDelete, setMessageToDelete] = useState<string | null>(null)4
+const [messageToDelete, setMessageToDelete] = useState<string | null>(null)
 
 function getRelativeTime(dateString: string): string {
   const now = new Date()
