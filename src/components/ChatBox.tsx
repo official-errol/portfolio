@@ -401,7 +401,7 @@ const ChatBox: React.FC = () => {
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
       {/* Pinned Messages Section */}
       {messages.filter(m => m.is_pinned).length > 0 && (
-        <div className="absolute top-0 left-0 w-full z-10 bg-white dark:bg-gray-900 mt-8 p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="absolute top-0 left-0 w-full z-10 bg-white dark:bg-gray-900 mt-16 p-4 border-b border-gray-200 dark:border-gray-700">
           <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 px-2">
             PINNED MESSAGES
           </div>
