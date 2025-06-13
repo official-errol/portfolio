@@ -312,7 +312,7 @@ const ChatBox: React.FC = () => {
                       setShowConfirmModal(true)
                       setMessageToDelete(message.id)
                     }}
-                    className="ml-2 text-red-500 hover:text-red-700 text-xs"
+                    className="ml-2 text-red-500 hover:text-red-700 text-xs justify-end"
                     aria-label="Delete message"
                   >
                     Delete
