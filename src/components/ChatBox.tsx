@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { supabase } from '../services/supabaseClient'
 import { useAuth } from '../context/AuthContext'
-import { PaperAirplaneIcon, HandThumbUpIcon, HandThumbDownIcon } from '@heroicons/react/24/outline'
+import { PaperAirplaneIcon, MapPinIcon } from '@heroicons/react/24/outline'
 import LoadingSpinner from './LoadingSpinner'
 import { Filter } from 'bad-words'
 import { motion } from 'framer-motion'
@@ -17,8 +17,7 @@ interface Message {
   created_at: string
   user_id: string
   profile: Profile | null
-  likes_count: number
-  dislikes_count: number
+  is_pinned: boolean
 }
 
 const ADMIN_USER_ID = '4f702a81-2788-4b32-bf0b-5a6a4233f5c4'
@@ -88,44 +87,52 @@ const ChatBox: React.FC = () => {
       .channel('messages-channel')
       .on(
         'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'messages' },
+        { event: '*', schema: 'public', table: 'messages' },
         async (payload) => {
-          const { data, error } = await supabase
-            .from('messages')
-            .select(`
-              id,
-              content,
-              created_at,
-              user_id,
-              likes_count,
-              dislikes_count,
-              profiles(username, avatar_url)
-            `)
-            .eq('id', payload.new.id)
-            .single()
+          if (payload.eventType === 'INSERT') {
+            const { data, error } = await supabase
+              .from('messages')
+              .select(`
+                id,
+                content,
+                created_at,
+                user_id,
+                is_pinned,
+                profiles(username, avatar_url)
+              `)
+              .eq('id', payload.new.id)
+              .single()
 
-          if (!error && data) {
-            const profileData = Array.isArray(data.profiles) ? data.profiles[0] : data.profiles
+            if (!error && data) {
+              const profileData = Array.isArray(data.profiles) ? data.profiles[0] : data.profiles
 
-            const newMsg: Message = {
-              id: data.id,
-              content: data.content,
-              created_at: data.created_at,
-              user_id: data.user_id,
-              profile: profileData ? {
-                username: profileData.username || 'Unknown',
-                avatar_url: profileData.avatar_url || ''
-              } : null,
-              likes_count: data.likes_count || 0,
-              dislikes_count: data.dislikes_count || 0
+              const newMsg: Message = {
+                id: data.id,
+                content: data.content,
+                created_at: data.created_at,
+                user_id: data.user_id,
+                profile: profileData ? {
+                  username: profileData.username || 'Unknown',
+                  avatar_url: profileData.avatar_url || ''
+                } : null,
+                is_pinned: data.is_pinned || false
+              }
+
+              setMessages(prev => {
+                if (prev.some(msg => msg.id === newMsg.id)) return prev
+                return [...prev, newMsg]
+              })
             }
-
-            setMessages(prev => {
-              if (prev.some(msg => msg.id === newMsg.id)) return prev
-              return [...prev, newMsg]
-            })
-          } else {
-            console.error('Failed to fetch new message:', error)
+          } else if (payload.eventType === 'UPDATE') {
+            setMessages(prev =>
+              prev.map(msg =>
+                msg.id === payload.new.id
+                  ? { ...msg, is_pinned: payload.new.is_pinned }
+                  : msg
+              )
+            )
+          } else if (payload.eventType === 'DELETE') {
+            setMessages(prev => prev.filter(msg => msg.id !== payload.old.id))
           }
         }
       )
@@ -151,8 +158,7 @@ const ChatBox: React.FC = () => {
           content,
           created_at,
           user_id,
-          likes_count,
-          dislikes_count,
+          is_pinned,
           profiles(username, avatar_url)
         `)
         .order('created_at', { ascending: true })
@@ -171,8 +177,7 @@ const ChatBox: React.FC = () => {
             username: profileData.username || 'Unknown',
             avatar_url: profileData.avatar_url || ''
           } : null,
-          likes_count: msg.likes_count || 0,
-          dislikes_count: msg.dislikes_count || 0
+          is_pinned: msg.is_pinned || false
         }
       }) as Message[]
 
@@ -185,23 +190,21 @@ const ChatBox: React.FC = () => {
     }
   }
 
-  const handleVote = async (message: Message, type: 'like' | 'dislike') => {
-    const column = type === 'like' ? 'likes_count' : 'dislikes_count'
-    const newCount = message[column] + 1
-  
-    setMessages(prev =>
-      prev.map(m =>
-        m.id === message.id ? { ...m, [column]: newCount } : m
-      )
-    )
-  
-    const { error } = await supabase
-      .from('messages')
-      .update({ [column]: newCount })
-      .eq('id', message.id)
-  
-    if (error) {
-      console.error('Failed to update vote:', error)
+  const handleTogglePin = async (messageId: string) => {
+    try {
+      const message = messages.find(m => m.id === messageId)
+      if (!message) return
+
+      const { error } = await supabase
+        .from('messages')
+        .update({ is_pinned: !message.is_pinned })
+        .eq('id', messageId)
+
+      if (error) throw error
+
+    } catch (err) {
+      setError('Failed to update pin status')
+      console.error(err)
     }
   }
 
@@ -245,8 +248,7 @@ const ChatBox: React.FC = () => {
         username: user.user_metadata?.username || 'You',
         avatar_url: user.user_metadata?.avatar_url || ''
       },
-      likes_count: 0,
-      dislikes_count: 0
+      is_pinned: false
     }
     setMessages(prev => [...prev, tempMessage])
     setNewMessage('')
@@ -281,16 +283,24 @@ const ChatBox: React.FC = () => {
     </div>
   )
 
+  // Sort messages with pinned messages first
+  const sortedMessages = [...messages].sort((a, b) => {
+    if (a.is_pinned && !b.is_pinned) return -1
+    if (!a.is_pinned && b.is_pinned) return 1
+    return new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+  })
+
   return (
     <div className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map(message => (
+        {sortedMessages.map(message => (
           <div 
             key={message.id} 
             className={`flex ${message.user_id === user?.id ? 'justify-end' : 'justify-start'}`}
           >
             <div 
-              className="w-full max-w-md px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+              className={`w-full max-w-md px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200
+                ${message.is_pinned ? 'border-l-4 border-yellow-500' : ''}`}
             >
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
@@ -304,48 +314,58 @@ const ChatBox: React.FC = () => {
                     <div className="bg-gray-300 dark:bg-gray-600 w-6 h-6 rounded-full" />
                   )}
                   <span className="font-medium flex items-center gap-1">
-                    <span className="flex items-center gap-1">
-                      {message.profile?.username}
-                      {message.user_id === ADMIN_USER_ID && (
-                        <svg
-                          fill="#000000"
-                          viewBox="0 0 24 24"
-                          id="verified"
-                          data-name="Flat Color"
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-4 h-4 icon flat-color"
-                        >
-                          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                          <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                          <g id="SVGRepo_iconCarrier">
-                            <path
-                              id="primary"
-                              d="M21.6,9.84A4.57,4.57,0,0,1,21.18,9,4,4,0,0,1,21,8.07a4.21,4.21,0,0,0-.64-2.16,4.25,4.25,0,0,0-1.87-1.28,4.77,4.77,0,0,1-.85-.43A5.11,5.11,0,0,1,17,3.54a4.2,4.2,0,0,0-1.8-1.4A4.22,4.22,0,0,0,13,2.21a4.24,4.24,0,0,1-1.94,0,4.22,4.22,0,0,0-2.24-.07A4.2,4.2,0,0,0,7,3.54a5.11,5.11,0,0,1-.66.66,4.77,4.77,0,0,1-.85.43A4.25,4.25,0,0,0,3.61,5.91,4.21,4.21,0,0,0,3,8.07,4,4,0,0,1,2.82,9a4.57,4.57,0,0,1-.42.82A4.3,4.3,0,0,0,1.63,12a4.3,4.3,0,0,0,.77,2.16,4,4,0,0,1,.42.82,4.11,4.11,0,0,1,.15.95,4.19,4.19,0,0,0,.64,2.16,4.25,4.25,0,0,0,1.87,1.28,4.77,4.77,0,0,1,.85.43,5.11,5.11,0,0,1,.66.66,4.12,4.12,0,0,0,1.8,1.4,3,3,0,0,0,.87.13A6.66,6.66,0,0,0,11,21.81a4,4,0,0,1,1.94,0,4.33,4.33,0,0,0,2.24.06,4.12,4.12,0,0,0,1.8-1.4,5.11,5.11,0,0,1,.66-.66,4.77,4.77,0,0,1,.85-.43,4.25,4.25,0,0,0,1.87-1.28A4.19,4.19,0,0,0,21,15.94a4.11,4.11,0,0,1,.15-.95,4.57,4.57,0,0,1,.42-.82A4.3,4.3,0,0,0,22.37,12,4.3,4.3,0,0,0,21.6,9.84Z"
-                              style={{ fill: "#87E64B" }}
-                            />
-                            <path
-                              id="secondary"
-                              d="M11,16a1,1,0,0,1-.71-.29l-3-3a1,1,0,1,1,1.42-1.42L11,13.59l4.29-4.3a1,1,0,0,1,1.42,1.42l-5,5A1,1,0,0,1,11,16Z"
-                              style={{ fill: "#2e7400" }}
-                            />
-                          </g>
-                        </svg>
-                      )}
-                    </span>
+                    {message.profile?.username}
+                    {message.user_id === ADMIN_USER_ID && (
+                      <svg
+                        fill="#000000"
+                        viewBox="0 0 24 24"
+                        id="verified"
+                        data-name="Flat Color"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-4 h-4 icon flat-color"
+                      >
+                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                        <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                          <path
+                            id="primary"
+                            d="M21.6,9.84A4.57,4.57,0,0,1,21.18,9,4,4,0,0,1,21,8.07a4.21,4.21,0,0,0-.64-2.16,4.25,4.25,0,0,0-1.87-1.28,4.77,4.77,0,0,1-.85-.43A5.11,5.11,0,0,1,17,3.54a4.2,4.2,0,0,0-1.8-1.4A4.22,4.22,0,0,0,13,2.21a4.24,4.24,0,0,1-1.94,0,4.22,4.22,0,0,0-2.24-.07A4.2,4.2,0,0,0,7,3.54a5.11,5.11,0,0,1-.66.66,4.77,4.77,0,0,1-.85.43A4.25,4.25,0,0,0,3.61,5.91,4.21,4.21,0,0,0,3,8.07,4,4,0,0,1,2.82,9a4.57,4.57,0,0,1-.42.82A4.3,4.3,0,0,0,1.63,12a4.3,4.3,0,0,0,.77,2.16,4,4,0,0,1,.42.82,4.11,4.11,0,0,1,.15.95,4.19,4.19,0,0,0,.64,2.16,4.25,4.25,0,0,0,1.87,1.28,4.77,4.77,0,0,1,.85.43,5.11,5.11,0,0,1,.66.66,4.12,4.12,0,0,0,1.8,1.4,3,3,0,0,0,.87.13A6.66,6.66,0,0,0,11,21.81a4,4,0,0,1,1.94,0,4.33,4.33,0,0,0,2.24.06,4.12,4.12,0,0,0,1.8-1.4,5.11,5.11,0,0,1,.66-.66,4.77,4.77,0,0,1,.85-.43,4.25,4.25,0,0,0,1.87-1.28A4.19,4.19,0,0,0,21,15.94a4.11,4.11,0,0,1,.15-.95,4.57,4.57,0,0,1,.42-.82A4.3,4.3,0,0,0,22.37,12,4.3,4.3,0,0,0,21.6,9.84Z"
+                            style={{ fill: "#87E64B" }}
+                          />
+                          <path
+                            id="secondary"
+                            d="M11,16a1,1,0,0,1-.71-.29l-3-3a1,1,0,1,1,1.42-1.42L11,13.59l4.29-4.3a1,1,0,0,1,1.42,1.42l-5,5A1,1,0,0,1,11,16Z"
+                            style={{ fill: "#2e7400" }}
+                          />
+                        </g>
+                      </svg>
+                    )}
                   </span>
                 </div>
-                {user?.id === ADMIN_USER_ID && (
-                  <button
-                    onClick={() => {
-                      setShowConfirmModal(true)
-                      setMessageToDelete(message.id)
-                    }}
-                    className="ml-2 text-red-500 hover:text-red-700 text-xs"
-                    aria-label="Delete message"
-                  >
-                    Delete
-                  </button>
-               )}
+                <div className="flex items-center gap-2">
+                  {user?.id === ADMIN_USER_ID && (
+                    <>
+                      <motion.button
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => handleTogglePin(message.id)}
+                        className="text-yellow-500 hover:text-yellow-600"
+                        aria-label={message.is_pinned ? 'Unpin message' : 'Pin message'}
+                      >
+                        <MapPinIcon className={`w-5 h-5 ${message.is_pinned ? 'fill-yellow-500' : ''}`} />
+                      </motion.button>
+                      <button
+                        onClick={() => {
+                          setShowConfirmModal(true)
+                          setMessageToDelete(message.id)
+                        }}
+                        className="ml-2 text-red-500 hover:text-red-700 text-xs"
+                        aria-label="Delete message"
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
               <p className="break-words">{message.content}</p>
               <time
@@ -353,25 +373,10 @@ const ChatBox: React.FC = () => {
                 className="text-xs opacity-80 mt-1"
               >
                 {getRelativeTime(message.created_at)}
+                {message.is_pinned && (
+                  <span className="ml-2 text-yellow-500">Pinned</span>
+                )}
               </time>
-              <div className="flex items-center space-x-4 mt-2">
-                <motion.button
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => handleVote(message, 'like')}
-                  className="flex items-center text-green-600"
-                >
-                  <HandThumbUpIcon className="w-5 h-5 mr-1" />
-                  <span>{message.likes_count}</span>
-                </motion.button>
-                <motion.button
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => handleVote(message, 'dislike')}
-                  className="flex items-center text-red-600"
-                >
-                  <HandThumbDownIcon className="w-5 h-5 mr-1" />
-                  <span>{message.dislikes_count}</span>
-                </motion.button>
-              </div>
             </div>
           </div>
         ))}
