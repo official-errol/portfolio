@@ -273,7 +273,7 @@ const ChatBox: React.FC = () => {
   const renderMessageBubble = (message: Message) => (
     <div
       className={`w-full max-w-md px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200
-        ${message.is_pinned ? 'border-l-4 border-yellow-500' : ''}`}
+        ${message.is_pinned ? 'border-l-4 border-main' : ''}`}
     >
       <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-2">
@@ -307,10 +307,10 @@ const ChatBox: React.FC = () => {
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={() => handleTogglePin(message.id)}
-              className="text-yellow-500 hover:text-yellow-600"
+              className="text-main"
               aria-label={message.is_pinned ? 'Unpin message' : 'Pin message'}
             >
-              <MapPinIcon className={`w-5 h-5 ${message.is_pinned ? 'fill-yellow-500' : ''}`} />
+              <MapPinIcon className={`w-5 h-5 ${message.is_pinned ? 'fill-main' : ''}`} />
             </motion.button>
             <button
               onClick={() => {
@@ -333,7 +333,7 @@ const ChatBox: React.FC = () => {
       >
         {getRelativeTime(message.created_at)}
         {message.is_pinned && (
-          <span className="ml-2 text-yellow-500">Pinned</span>
+          <span className="ml-2 text-main-dark">Pinned</span>
         )}
       </time>
     </div>
@@ -401,7 +401,7 @@ const ChatBox: React.FC = () => {
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
       {/* Pinned Messages Section */}
       {messages.filter(m => m.is_pinned).length > 0 && (
-        <div className="mb-6 sticky top-0 z-10 bg-white dark:bg-gray-900 pt-2 pb-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 pt-2 pb-4 border-b border-gray-200 dark:border-gray-700">
           <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 px-2">
             PINNED MESSAGES
           </div>
