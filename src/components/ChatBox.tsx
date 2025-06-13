@@ -396,16 +396,14 @@ const ChatBox: React.FC = () => {
   )
 
   return (
-  <div className="flex flex-col h-full">
-    {/* Message List */}
-    <div className="flex-1 relative overflow-y-auto p-4">
-  {/* Pinned Messages (floats at top) */}
-  {messages.some(m => m.is_pinned) && (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
-          <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 px-2">
+    <div className="flex flex-col h-full">
+      {/* Pinned Messages Section (fixed below topbar) */}
+      {messages.filter(m => m.is_pinned).length > 0 && (
+        <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+          <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">
             PINNED MESSAGES
           </div>
-          <div className="space-y-4">
+          <div className="space-y-2">
             {messages
               .filter(m => m.is_pinned)
               .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
@@ -420,9 +418,10 @@ const ChatBox: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* Regular Messages */}
-      <div className="space-y-4">
+  
+      {/* Message List */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {/* Regular Messages */}
         {messages
           .filter(m => !m.is_pinned)
           .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
@@ -436,70 +435,69 @@ const ChatBox: React.FC = () => {
           ))}
         <div ref={messagesEndRef} />
       </div>
-    </div>
-    {/* Delete Confirm Modal */}
-    {showConfirmModal && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-            Confirm Deletion
-          </h2>
-          <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
-            Are you sure you want to delete this message? This action cannot be undone.
-          </p>
-          <div className="flex justify-end space-x-3">
-            <button
-              className="px-4 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600"
-              onClick={() => {
-                setShowConfirmModal(false)
-                setMessageToDelete(null)
-              }}
-            >
-              Cancel
-            </button>
-            <button
-              className="px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700"
-              onClick={() => {
-                if (messageToDelete) handleDeleteMessage(messageToDelete)
-                setShowConfirmModal(false)
-                setMessageToDelete(null)
-              }}
-            >
-              Delete
-            </button>
+  
+      {/* Delete Confirm Modal */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+              Confirm Deletion
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
+              Are you sure you want to delete this message? This action cannot be undone.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                className="px-4 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+                onClick={() => {
+                  setShowConfirmModal(false)
+                  setMessageToDelete(null)
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700"
+                onClick={() => {
+                  if (messageToDelete) handleDeleteMessage(messageToDelete)
+                  setShowConfirmModal(false)
+                  setMessageToDelete(null)
+                }}
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    )}
-
-    {/* Input Form */}
-    <form onSubmit={handleSubmit} className="p-2 flex border-t border-gray-200 dark:border-gray-700">
-      <input
-        type="text"
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
-        placeholder="Type your message..."
-        className="flex-1 p-4 mr-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-main dark:bg-gray-800 dark:text-white"
-        aria-label="Type your message"
-      />
-      <button
-        type="submit"
-        disabled={!newMessage.trim()}
-        className={`h-12 w-12 flex items-center justify-center text-main-dark bg-main rounded-lg cursor-pointer select-none
-          active:translate-y-1 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
-          active:border-b-[1px]
-          transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
-          border-b border-main-dark ${
-            newMessage.trim() ? '' : 'cursor-not-allowed'
-          }`}
-        aria-label="Send message"
-      >
-        <PaperAirplaneIcon className="w-5 h-5" />
-      </button>
-    </form>
-  </div>
-)
-
+      )}
+  
+      {/* Input Form */}
+      <form onSubmit={handleSubmit} className="p-2 flex border-t border-gray-200 dark:border-gray-700">
+        <input
+          type="text"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          placeholder="Type your message..."
+          className="flex-1 p-4 mr-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-main dark:bg-gray-800 dark:text-white"
+          aria-label="Type your message"
+        />
+        <button
+          type="submit"
+          disabled={!newMessage.trim()}
+          className={`h-12 w-12 flex items-center justify-center text-main-dark bg-main rounded-lg cursor-pointer select-none
+            active:translate-y-1 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
+            active:border-b-[1px]
+            transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
+            border-b border-main-dark ${
+              newMessage.trim() ? '' : 'cursor-not-allowed'
+            }`}
+          aria-label="Send message"
+        >
+          <PaperAirplaneIcon className="w-5 h-5" />
+        </button>
+      </form>
+    </div>
+  )
 }
 
 export default ChatBox
