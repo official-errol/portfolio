@@ -77,7 +77,7 @@ const ChatBox: React.FC = () => {
 
   useEffect(() => {
     fetchMessages()
-
+  
     const channel = supabase
       .channel('messages-channel')
       .on(
@@ -90,35 +90,32 @@ const ChatBox: React.FC = () => {
               id,
               content,
               created_at,
-              user_id,,
+              user_id,
               likes_count,
               dislikes_count,
-              profiles(username, avatar_url)
+              profiles:profile(username, avatar_url)
             `)
             .eq('id', payload.new.id)
             .single()
-
+  
           if (!error && data) {
-            const profileData = (data.profiles && Array.isArray(data.profiles) && data.profiles.length > 0)
-              ? data.profiles[0]
-              : null;
-
             const newMsg: Message = {
-                id: data.id,
-                content: data.content,
-                created_at: data.created_at,
-                user_id: data.user_id,
-                profile: profileData ? {
-                    username: profileData.username ?? 'Unknown',
-                    avatar_url: profileData.avatar_url ?? ''
-                } : null,
-                likes_count: data.likes_count ?? 0,
-                dislikes_count: data.dislikes_count ?? 0
+              id: data.id,
+              content: data.content,
+              created_at: data.created_at,
+              user_id: data.user_id,
+              profile: data.profiles
+                ? {
+                    username: data.profiles.username ?? 'Unknown',
+                    avatar_url: data.profiles.avatar_url ?? '',
+                  }
+                : null,
+              likes_count: data.likes_count ?? 0,
+              dislikes_count: data.dislikes_count ?? 0,
             }
-
-
-            setMessages(prev => {
-              if (prev.some(msg => msg.id === newMsg.id)) return prev
+  
+            setMessages((prev) => {
+              if (prev.some((msg) => msg.id === newMsg.id)) return prev
               return [...prev, newMsg]
             })
           } else {
@@ -127,22 +124,16 @@ const ChatBox: React.FC = () => {
         }
       )
       .subscribe()
-
-
+  
     return () => {
-        supabase.removeChannel(channel)
+      supabase.removeChannel(channel)
     }
-    }, [])
-
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages])
+  }, [])
 
   const fetchMessages = async () => {
     try {
       setLoading(true)
-
+  
       const { data, error } = await supabase
         .from('messages')
         .select(`
@@ -152,30 +143,29 @@ const ChatBox: React.FC = () => {
           user_id,
           likes_count,
           dislikes_count,
-          profiles(username, avatar_url)
+          profiles:profile(username, avatar_url)
         `)
         .order('created_at', { ascending: true })
-
+  
       if (error) throw error
-
-      const transformedData = (data ?? []).map(msg => {
-        const profileData = Array.isArray(msg.profiles) ? msg.profiles[0] : msg.profiles;
-
+  
+      const transformedData = (data ?? []).map((msg) => {
         return {
           id: msg.id,
           content: msg.content,
           created_at: msg.created_at,
           user_id: msg.user_id,
-          profile: profileData ? {
-              username: profileData.username,
-              avatar_url: profileData.avatar_url
-          } : null,
+          profile: msg.profiles
+            ? {
+                username: msg.profiles.username,
+                avatar_url: msg.profiles.avatar_url,
+              }
+            : null,
           likes_count: msg.likes_count || 0,
-          dislikes_count: msg.dislikes_count || 0
+          dislikes_count: msg.dislikes_count || 0,
         }
-
       }) as Message[]
-
+  
       setMessages(transformedData)
     } catch (err) {
       setError('Failed to load messages')
