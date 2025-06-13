@@ -124,50 +124,50 @@ const ChatBox: React.FC = () => {
               })
             }
           } else if (payload.eventType === 'UPDATE') {
-  setMessages(prev => {
-    const updatedMessages = prev.map(msg => {
-      if (msg.id === payload.new.id) {
-        const profileData = Array.isArray(payload.new.profiles) 
-          ? payload.new.profiles[0] 
-          : payload.new.profiles;
-        
-        return {
-          ...msg,
-          content: payload.new.content,
-          is_pinned: payload.new.is_pinned || false,
-          profile: profileData ? {
-            username: profileData.username || 'Unknown',
-            avatar_url: profileData.avatar_url || ''
-          } : null
-        };
-      }
-      return msg;
-    });
-    
-    // Also check if we need to add the message (in case it's new)
-    if (!prev.some(msg => msg.id === payload.new.id)) {
-      const profileData = Array.isArray(payload.new.profiles) 
-        ? payload.new.profiles[0] 
-        : payload.new.profiles;
-      
-      const newMsg: Message = {
-        id: payload.new.id,
-        content: payload.new.content,
-        created_at: payload.new.created_at,
-        user_id: payload.new.user_id,
-        profile: profileData ? {
-          username: profileData.username || 'Unknown',
-          avatar_url: profileData.avatar_url || ''
-        } : null,
-        is_pinned: payload.new.is_pinned || false
-      };
-      
-      return [...prev, newMsg];
-    }
-    
-    return updatedMessages;
-  });
-} else if (payload.eventType === 'DELETE') {
+            setMessages(prev => {
+              const updatedMessages = prev.map(msg => {
+                if (msg.id === payload.new.id) {
+                  const profileData = Array.isArray(payload.new.profiles) 
+                    ? payload.new.profiles[0] 
+                    : payload.new.profiles;
+                  
+                  return {
+                    ...msg,
+                    content: payload.new.content,
+                    is_pinned: payload.new.is_pinned || false,
+                    profile: profileData ? {
+                      username: profileData.username || 'Unknown',
+                      avatar_url: profileData.avatar_url || ''
+                    } : null
+                  };
+                }
+                return msg;
+              });
+              
+              // Also check if we need to add the message (in case it's new)
+              if (!prev.some(msg => msg.id === payload.new.id)) {
+                const profileData = Array.isArray(payload.new.profiles) 
+                  ? payload.new.profiles[0] 
+                  : payload.new.profiles;
+                
+                const newMsg: Message = {
+                  id: payload.new.id,
+                  content: payload.new.content,
+                  created_at: payload.new.created_at,
+                  user_id: payload.new.user_id,
+                  profile: profileData ? {
+                    username: profileData.username || 'Unknown',
+                    avatar_url: profileData.avatar_url || ''
+                  } : null,
+                  is_pinned: payload.new.is_pinned || false
+                };
+                
+                return [...prev, newMsg];
+              }
+              
+              return updatedMessages;
+            });
+          } else if (payload.eventType === 'DELETE') {
             setMessages(prev => prev.filter(msg => msg.id !== payload.old.id))
           }
         }
@@ -401,7 +401,7 @@ const ChatBox: React.FC = () => {
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
       {/* Pinned Messages Section */}
       {messages.filter(m => m.is_pinned).length > 0 && (
-        <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 pt-2 pb-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="absolute top-0 left-0 w-full z-10 bg-white dark:bg-gray-900 pt-2 pb-4 border-b border-gray-200 dark:border-gray-700">
           <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 px-2">
             PINNED MESSAGES
           </div>
