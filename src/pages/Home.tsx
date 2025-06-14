@@ -36,7 +36,7 @@ const Home: React.FC = () => {
         </motion.h2>
 
         <motion.p 
-          className="text-lg md:text-xl mb-10 text-secondary-light max-w-3xl"
+          className="text-md md:text-lg mb-10 text-secondary-light max-w-3xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.5 }}
@@ -49,7 +49,7 @@ const Home: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.5 }}
-          className="flex flex-row justify-center space-x-4"
+          className="flex flex-row justify-center space-x-4 text-xs"
         >
           <a 
             href="/contact" 
@@ -60,7 +60,7 @@ const Home: React.FC = () => {
               border-b border-main-dark"
           >
             <EnvelopeIcon className='w-5 h-5 mr-3'/>
-            Contact Me
+            CONTACT ME
           </a>
 
           <a 
@@ -72,7 +72,7 @@ const Home: React.FC = () => {
               border-[1px] border-gray-200"
           >
             <ArrowRightIcon className="w-5 h-5 mr-3" />
-            View Projects
+            VIEW PROJECTS
           </a>
         </motion.div>
       </motion.div>
