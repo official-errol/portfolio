@@ -16,12 +16,13 @@ const About: React.FC = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {/* Row with About Me + My Journey and Image aligned beside */}
-        <div className="flex items-start justify-between gap-4 flex-wrap">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 flex-1">
-            <h1 className="text-3xl font-bold text-gray-800">About Me</h1>
+        {/* Header Block + Image Side-by-Side */}
+        <div className="flex flex-row items-start justify-between gap-6">
+          {/* Titles stacked vertically */}
+          <div className="flex flex-col flex-1">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">About Me</h1>
             <motion.h2
-              className="text-2xl font-semibold text-main-dark"
+              className="text-2xl font-semibold mb-4 text-main-dark"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
@@ -32,7 +33,7 @@ const About: React.FC = () => {
 
           {/* Image on the right of the two headings */}
           <motion.div
-            className="w-24 h-auto"
+            className="w-24 h-24 flex-shrink-0"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
@@ -45,7 +46,7 @@ const About: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Paragraph text below the headings + image */}
+        {/* Text below headings + image */}
         <div className="mt-6">
           <motion.p
             className="mb-4 text-gray-600"
