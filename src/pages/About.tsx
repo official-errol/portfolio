@@ -16,11 +16,10 @@ const About: React.FC = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* Left: About Me & My Journey Text */}
+        {/* Header + Image Row */}
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800">About Me</h1>
-
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">About Me</h1>
             <motion.h2 
               className="text-2xl font-semibold mb-4 text-main-dark"
               initial={{ opacity: 0, x: -20 }}
@@ -29,30 +28,11 @@ const About: React.FC = () => {
             >
               My Journey
             </motion.h2>
-
-            <motion.p 
-              className="mb-4 text-gray-600"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              I've been passionate about technology since childhood, starting with basic HTML/CSS websites and gradually growing into full-stack development. Now, as a graduating BSCS student, I've built a strong foundation through academic projects, internships, and personal learning. I enjoy creating digital solutions that are both functional and user-friendly, blending technical skills with a focus on design and user experience.
-            </motion.p>
-
-            <motion.p 
-              className="text-gray-600"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              My approach combines technical excellence with design thinking, ensuring that every solution 
-              not only works flawlessly but also delivers an exceptional user experience.
-            </motion.p>
           </div>
 
-          {/* Right: Image */}
+          {/* Image aligned beside titles only */}
           <motion.div 
-            className="w-full"
+            className="w-full md:w-1/3 md:ml-6 mb-6 md:mb-0"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
@@ -60,10 +40,30 @@ const About: React.FC = () => {
             <img 
               src="/static-website.svg" 
               alt="Static website illustration"
-              className="w-full h-auto max-w-sm md:max-w-full mx-auto object-contain"
+              className="h-28 w-auto object-contain mx-auto md:mx-0"
             />
           </motion.div>
         </div>
+
+        {/* Text below titles and image */}
+        <motion.p 
+          className="mb-4 text-gray-600"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          I've been passionate about technology since childhood, starting with basic HTML/CSS websites and gradually growing into full-stack development. Now, as a graduating BSCS student, I've built a strong foundation through academic projects, internships, and personal learning. I enjoy creating digital solutions that are both functional and user-friendly, blending technical skills with a focus on design and user experience.
+        </motion.p>
+
+        <motion.p 
+          className="text-gray-600"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
+          My approach combines technical excellence with design thinking, ensuring that every solution 
+          not only works flawlessly but also delivers an exceptional user experience.
+        </motion.p>
 
         {/* Philosophy Section */}
         <div className="mt-16">
