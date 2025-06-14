@@ -75,6 +75,7 @@ const ChatBox: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [messageToDelete, setMessageToDelete] = useState<string | null>(null)
+  const [showPinned, setShowPinned] = useState(true)
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -412,27 +413,38 @@ const ChatBox: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Pinned Messages Section (fixed below topbar) */}
+      {/* Pinned Messages Section */}
       {messages.filter(m => m.is_pinned).length > 0 && (
         <div className="sticky top-0 z-10 bg-white px-4 py-2 border-b border-gray-200">
-          <div className="text-xs font-semibold text-gray-500 mb-2">
-            PINNED MESSAGES
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-xs font-semibold text-gray-500">
+                PINNED MESSAGES
+              </div>
+              <button
+                onClick={() => setShowPinned(!showPinned)}
+                className="text-xs text-blue-500 hover:underline"
+              >
+                {showPinned ? 'Hide' : 'Show'}
+              </button>
+            </div>
+
+            {showPinned && (
+              <div className="space-y-2">
+                {messages
+                  .filter(m => m.is_pinned)
+                  .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+                  .map(message => (
+                    <div
+                      key={message.id}
+                      className={`flex ${message.user_id === user?.id ? 'justify-end' : 'justify-start'}`}
+                    >
+                      {renderMessageBubble(message)}
+                    </div>
+                  ))}
+              </div>
+            )}
           </div>
-          <div className="space-y-2">
-            {messages
-              .filter(m => m.is_pinned)
-              .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
-              .map(message => (
-                <div
-                  key={message.id}
-                  className={`flex ${message.user_id === user?.id ? 'justify-end' : 'justify-start'}`}
-                >
-                  {renderMessageBubble(message)}
-                </div>
-              ))}
-          </div>
-        </div>
-      )}
+       )}
   
       {/* Message List */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
