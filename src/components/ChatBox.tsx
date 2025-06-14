@@ -429,7 +429,7 @@ const ChatBox: React.FC = () => {
             </div>
 
             {showPinned && (
-              <div className="mt-2">
+              <div className="mt-2 hidden">
                 {messages
                   .filter(m => m.is_pinned)
                   .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
