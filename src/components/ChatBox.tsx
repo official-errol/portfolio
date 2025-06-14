@@ -424,12 +424,12 @@ const ChatBox: React.FC = () => {
                 onClick={() => setShowPinned(!showPinned)}
                 className="text-xs text-main-dark"
               >
-                {showPinned ? 'Hide' : 'Show'}
+                {showPinned ? 'HIDE' : 'SHOW'}
               </button>
             </div>
 
             {showPinned && (
-              <div className="space-y-2">
+              <div className="mt-2">
                 {messages
                   .filter(m => m.is_pinned)
                   .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
