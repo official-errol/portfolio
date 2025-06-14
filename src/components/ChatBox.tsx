@@ -422,6 +422,7 @@ const ChatBox: React.FC = () => {
               </div>
               <button
                 onClick={() => setShowPinned(!showPinned)}
+                className="text-xs text-main-dark"
               >
                 {showPinned ? 'Hide' : 'Show'}
               </button>
