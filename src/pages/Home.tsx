@@ -53,25 +53,25 @@ const Home: React.FC = () => {
         >
           <a 
             href="/contact" 
-            className="flex items-center px-6 py-3 text-main-dark bg-main rounded-lg cursor-pointer select-none
+            className="flex items-center px-5 py-3 text-main-dark bg-main rounded-lg cursor-pointer select-none
               active:translate-y-2 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
               active:border-b-[1px]
               transition-all duration-150 [box-shadow:0_10px_0_0_#6CC832,0_15px_0_0_#9cee69]
               border-b border-main-dark"
           >
-            <EnvelopeIcon className='w-5 h-5 mr-3'/>
+            <EnvelopeIcon className='w-4 h-4 mr-3'/>
             CONTACT ME
           </a>
 
           <a 
             href="/projects" 
-            className="flex items-center px-6 py-3 text-gray-800 bg-white rounded-lg cursor-pointer select-none
+            className="flex items-center px-5 py-3 text-gray-800 bg-white rounded-lg cursor-pointer select-none
               active:translate-y-2 active:[box-shadow:0_0px_0_0_#d1d5db,0_0px_0_0_#d1d5db66]
               active:border-b-[1px]
               transition-all duration-150 [box-shadow:0_10px_0_0_#d1d5db,0_15px_0_0_#d1d5db66]
               border-[1px] border-gray-200"
           >
-            <ArrowRightIcon className="w-5 h-5 mr-3" />
+            <ArrowRightIcon className="w-4 h-4 mr-2" />
             VIEW PROJECTS
           </a>
         </motion.div>
