@@ -57,7 +57,7 @@ const About: React.FC = () => {
               transition={{ delay: 0.4 }}
             >
               <img 
-                src="/static_website.svg" 
+                src="/static-website.svg" 
                 alt="Static website illustration"
                 className="w-full h-auto max-w-sm mx-auto"
              />
