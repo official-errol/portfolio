@@ -75,7 +75,7 @@ const ChatBox: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [messageToDelete, setMessageToDelete] = useState<string | null>(null)
-  const [showPinned, setShowPinned] = useState(true)
+  const [showPinned, setShowPinned] = useState(false)
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -429,7 +429,7 @@ const ChatBox: React.FC = () => {
             </div>
 
             {showPinned && (
-              <div className="mt-2 hidden">
+              <div className="mt-2">
                 {messages
                   .filter(m => m.is_pinned)
                   .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
