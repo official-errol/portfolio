@@ -20,7 +20,21 @@ const About: React.FC = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div className="flex flex-col md:flex-row items-center gap-6">
-          {/* Text Section */}
+            {/* Image Section - moved after text section */}
+            <motion.div 
+              className="md:w-1/3"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <img 
+                src="/static-website.svg" 
+                alt="Static website illustration"
+                className="w-full h-auto max-w-sm mx-auto"
+              />
+            </motion.div>
+
+            {/* Text Section - placed before image for right-side layout */}
             <div className="md:w-2/3">
               <motion.h2 
                 className="text-2xl font-semibold mb-4 text-main-dark"
@@ -48,20 +62,6 @@ const About: React.FC = () => {
                 not only works flawlessly but also delivers an exceptional user experience.
               </motion.p>
             </div>
-
-            {/* Image Section */}
-            <motion.div 
-              className="md:w-1/3"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <img 
-                src="/static-website.svg" 
-                alt="Static website illustration"
-                className="w-full h-auto max-w-sm mx-auto"
-             />
-           </motion.div>
           </div>
           
           <div>
