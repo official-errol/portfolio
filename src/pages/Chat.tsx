@@ -20,6 +20,7 @@ const Chat: React.FC = () => {
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center h-screen text-center px-4">
+        <h1 className="text-3xl font-bold text-gray-800">Global Chat</h1>
         <p className="mb-4 text-lg text-gray-700">
           Please sign in to access the chat.
         </p>
