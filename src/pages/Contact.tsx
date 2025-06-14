@@ -33,14 +33,14 @@ const Contact: React.FC = () => {
         transition={{ duration: 0.5 }}
         className="max-w-6xl mx-auto"
       >
-        <div className="flex flex-col items-center md:flex-row md:justify-center mb-12 space-y-4 md:space-y-0 md:space-x-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 text-center md:text-left">
+        <div className="flex flex-row items-center justify-between flex-wrap gap-4 mb-12">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
             Get In Touch
           </h1>
           <img 
             src="/get-in-touch.svg" 
             alt="Contact banner" 
-            className="w-40 md:w-60 lg:w-72 h-auto object-contain"
+            className="w-32 sm:w-40 md:w-60 lg:w-72 h-auto object-contain"
           />
         </div>
        
