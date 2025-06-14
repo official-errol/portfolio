@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { EnvelopeIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
+import profilePic from '../assets/meh.jpg'
 
 const Home: React.FC = () => {
   const ownerName = import.meta.env.VITE_PORTFOLIO_OWNER_NAME
@@ -10,8 +11,14 @@ const Home: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-4xl mx-auto px-4"
+        className="max-w-4xl mx-auto px-4 flex flex-col items-center"
       >
+        <img
+          src={profilePic}
+          alt="Profile"
+          className="w-32 h-32 rounded-full object-cover mb-6 shadow-md"
+        />
+
         <h1 className="text-4xl md:text-6xl font-bold mb-6 text-primary-light">
           Hi, I'm <span className="text-main-dark">{ownerName}</span>
         </h1>
