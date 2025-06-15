@@ -507,7 +507,7 @@ const ChatBox: React.FC = () => {
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Type your message..."
-          className="flex-1 p-4 mr-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-main"
+          className="flex-1 p-2 mr-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-main"
           aria-label="Type your message"
         />
         <button
