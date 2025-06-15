@@ -113,7 +113,7 @@ const Chat: React.FC = () => {
                         Joined: {new Date(user.created_at).toLocaleDateString()}
                       </div>
                     </div>
-                </div
+                </div>
             </div>
 
             <button
