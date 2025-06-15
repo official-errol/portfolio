@@ -116,7 +116,7 @@ const Chat: React.FC = () => {
 
             <button
               onClick={logout}
-              className="flex items-center gap-3 h-10 p-3 text-xs text-white bg-red-500 rounded-lg cursor-pointer select-none
+              className="flex items-center gap-2 h-10 p-2 text-tiny text-white bg-red-500 rounded-lg cursor-pointer select-none
                 active:translate-y-2 active:[box-shadow:0_0px_0_0_#e11d48,0_0px_0_0_#e11d4866]
                 active:border-b-[0px]
                 transition-all duration-150 [box-shadow:0_6px_0_0_#e11d48,0_10px_0_0_#e11d4866]
