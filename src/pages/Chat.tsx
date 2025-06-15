@@ -67,17 +67,17 @@ const Chat: React.FC = () => {
       </div>
       
       <div className="rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20 overflow-hidden">
-        <div className="border-b border-gray-200">
+        <div className="p-3 pb-5 border-b border-gray-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
                 {user.user_metadata.avatar_url ? (
                 <img 
                     src={user.user_metadata.avatar_url} 
                     alt={user.user_metadata.full_name} 
-                    className="w-12 h-12 rounded-full mr-3"
+                    className="w-10 h-10 rounded-full mr-3"
                 />
                 ) : (
-                <div className="bg-gray-300 w-12 h-12 rounded-full mr-3" />
+                <div className="bg-gray-300 w-10 h-10 rounded-full mr-3" />
                 )}
                 <div>
                   <h2 className="font-semibold flex items-center gap-1">
@@ -108,7 +108,7 @@ const Chat: React.FC = () => {
                       </svg>
                     )}
                   </h2>
-                  <div className="text-sm text-gray-500 mt-1">
+                  <div className="text-sm text-gray-500">
                     Joined: {new Date(user.created_at).toLocaleDateString()}
                   </div>
                 </div>
