@@ -69,7 +69,7 @@ const Chat: React.FC = () => {
       <div className="rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20 overflow-hidden">
         <div className="p-2 pb-4 border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
+            <div className="flex items-center justify-center">
                 {user.user_metadata.avatar_url ? (
                 <img 
                     src={user.user_metadata.avatar_url} 
