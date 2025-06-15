@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline'
 import LoadingSpinner from './LoadingSpinner'
 import { Filter } from 'bad-words'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface Profile {
   username: string
@@ -427,7 +427,8 @@ const ChatBox: React.FC = () => {
                 {showPinned ? 'HIDE' : 'SHOW'}
               </button>
             </div>
-
+          
+            <AnimatePresence initial={false}>
             {showPinned && (
               <div className="mt-2">
                 {messages
@@ -445,6 +446,7 @@ const ChatBox: React.FC = () => {
             )}
           </div>
        )}
+      </AnimatePresence>
   
       {/* Message List */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
