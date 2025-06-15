@@ -40,7 +40,7 @@ const Contact: React.FC = () => {
           <img 
             src="/get-in-touch.svg" 
             alt="Contact banner" 
-            className="w-32 sm:w-40 md:w-60 lg:w-72 h-auto object-contain"
+            className="w-32 sm:w-40 md:w-50 lg:w-60 h-auto object-contain"
           />
         </div>
        
