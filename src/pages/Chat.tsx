@@ -80,7 +80,7 @@ const Chat: React.FC = () => {
                 <div className="bg-gray-300 w-12 h-12 rounded-full mr-3" />
                 )}
                 <div>
-                  <h2 className="font-semibold flex items-center gap-1 space-y-2">
+                  <h2 className="font-semibold flex items-center gap-1">
                     {user.user_metadata.full_name}
                     {user?.id === ADMIN_USER_ID && (
                       <svg
@@ -108,7 +108,7 @@ const Chat: React.FC = () => {
                       </svg>
                     )}
                   </h2>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 mt-1">
                     Joined: {new Date(user.created_at).toLocaleDateString()}
                   </div>
                 </div>
