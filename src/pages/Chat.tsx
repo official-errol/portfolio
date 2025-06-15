@@ -74,13 +74,13 @@ const Chat: React.FC = () => {
                 <img 
                     src={user.user_metadata.avatar_url} 
                     alt={user.user_metadata.full_name} 
-                    className="w-10 h-10 rounded-full mr-3"
+                    className="w-12 h-12 rounded-full mr-3"
                 />
                 ) : (
-                <div className="bg-gray-300 w-10 h-10 rounded-full mr-3" />
+                <div className="bg-gray-300 w-12 h-12 rounded-full mr-3" />
                 )}
                 <div>
-                  <h2 className="font-semibold flex items-center gap-1">
+                  <h2 className="font-semibold flex items-center gap-1 space-y-2">
                     {user.user_metadata.full_name}
                     {user?.id === ADMIN_USER_ID && (
                       <svg
@@ -116,7 +116,7 @@ const Chat: React.FC = () => {
 
             <button
               onClick={logout}
-              className="flex items-center gap-3 h-8 p-3 text-xs text-white bg-red-500 rounded-lg cursor-pointer select-none
+              className="flex items-center gap-3 h-10 p-3 text-xs text-white bg-red-500 rounded-lg cursor-pointer select-none
                 active:translate-y-2 active:[box-shadow:0_0px_0_0_#e11d48,0_0px_0_0_#e11d4866]
                 active:border-b-[0px]
                 transition-all duration-150 [box-shadow:0_6px_0_0_#e11d48,0_10px_0_0_#e11d4866]
