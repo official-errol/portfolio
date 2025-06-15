@@ -1,5 +1,3 @@
-full code
-
 import React from 'react'
 import { useAuth } from '../context/AuthContext'
 import ChatBox from '../components/ChatBox'
