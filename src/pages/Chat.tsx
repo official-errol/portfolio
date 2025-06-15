@@ -67,7 +67,7 @@ const Chat: React.FC = () => {
       </div>
       
       <div className="rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20 overflow-hidden">
-        <div className="p-4 pb-5 border-b border-gray-200">
+        <div className="p-3 border-b border-gray-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
                 {user.user_metadata.avatar_url ? (
@@ -116,7 +116,7 @@ const Chat: React.FC = () => {
 
             <button
               onClick={logout}
-              className="flex items-center gap-3 h-10 px-4 py-2 text-sm text-white bg-red-500 rounded-lg cursor-pointer select-none
+              className="flex items-center gap-3 h-10 p-3 text-sm text-white bg-red-500 rounded-lg cursor-pointer select-none
                 active:translate-y-2 active:[box-shadow:0_0px_0_0_#e11d48,0_0px_0_0_#e11d4866]
                 active:border-b-[0px]
                 transition-all duration-150 [box-shadow:0_6px_0_0_#e11d48,0_10px_0_0_#e11d4866]
