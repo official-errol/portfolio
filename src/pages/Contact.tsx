@@ -109,7 +109,7 @@ const Contact: React.FC = () => {
               <div className="flex space-x-4">
                 <div className="flex space-x-4">
   <a
-    href="https://facebook.com"
+    href="https://facebook.com/official.errol"
     target="_blank"
     rel="noopener noreferrer"
     className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center hover:bg-main hover:text-white transition-colors"
@@ -120,7 +120,7 @@ const Contact: React.FC = () => {
     </svg>
   </a>
   <a
-    href="https://instagram.com"
+    href="https://instagram.com/official.errol"
     target="_blank"
     rel="noopener noreferrer"
     className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center hover:bg-main hover:text-white transition-colors"
@@ -131,7 +131,7 @@ const Contact: React.FC = () => {
     </svg>
   </a>
   <a
-    href="https://github.com"
+    href="https://github.com/official-errol"
     target="_blank"
     rel="noopener noreferrer"
     className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center hover:bg-main hover:text-white transition-colors"
