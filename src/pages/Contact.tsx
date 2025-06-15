@@ -216,17 +216,17 @@ const Contact: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full mb-4 px-6 py-3 text-white bg-stone-900 rounded-lg cursor-pointer select-none
+                className={`w-full mb-4 px-5 py-3 text-white text-xs bg-stone-900 rounded-lg cursor-pointer select-none
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#383534,0_0px_0_0_#0f172a66]
     active:border-b-[1px]
-    transition-all duration-150 [box-shadow:0_10px_0_0_#383534,0_15px_0_0_#0f172a66]
+    transition-all duration-150 [box-shadow:0_6px_0_0_#383534,0_10px_0_0_#0f172a66]
     border-[1px] border-stone-600 ${
                   isSubmitting
                     ? 'cursor-not-allowed'
                     : ''
                 }`}
               >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
+                {isSubmitting ? 'SENDING ...' : 'SEND MESSAGE'}
               </button>
             </form>
           </motion.div>
