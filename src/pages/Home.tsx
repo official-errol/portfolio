@@ -22,12 +22,12 @@ const Home: React.FC = () => {
           />
         </div>
 
-        <h1 className="text-4xl md:text-6xl font-bold mb-6 text-primary-light">
+        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light">
           Hi, I'm <span className="text-main-dark">{ownerName}</span>
         </h1>
 
         <motion.h2 
-          className="text-2xl md:text-4xl font-semibold mb-8 text-secondary-light"
+          className="text-2xl md:text-3xl font-semibold mb-8 text-secondary-light"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
