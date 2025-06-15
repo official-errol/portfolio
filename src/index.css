@@ -19,8 +19,6 @@ canvas {
 }
 
 .loader {
-/* HTML: <div class="loader"></div> */
-.loader {
   width: 50px;
   padding: 8px;
   aspect-ratio: 1;
