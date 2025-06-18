@@ -95,8 +95,7 @@ const Services: React.FC = () => {
             <DevicePhoneMobileIcon className="w-6 h-6 text-primary-light" />
             <h2 className="text-2xl font-semibold text-primary-light">Social Media Design</h2>
           </div>
-          <p className="italic text-sm text-gray-600 mb-4">@charlesandrei.designs</p>
-
+          
           <div className="grid md:grid-cols-2 gap-6">
             {[
               ['Single Post (FB/IG)', 'P200 – P300'],
