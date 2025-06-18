@@ -93,8 +93,11 @@ const Home: React.FC = () => {
     </p>
     <a 
       href="/services" 
-      className="inline-flex items-center px-6 py-3 bg-main text-white font-medium rounded-lg transition duration-200
-        hover:bg-main-dark focus:outline-none focus:ring-2 focus:ring-main focus:ring-offset-2"
+      className="flex items-center px-5 py-3 text-main-dark bg-main rounded-lg cursor-pointer select-none
+              active:translate-y-2 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
+              active:border-b-[1px]
+              transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
+              border-b border-main-dark"
     >
       <ArrowRightIcon className="w-5 h-5 mr-2" />
       View All Services
