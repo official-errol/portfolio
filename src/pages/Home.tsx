@@ -60,7 +60,7 @@ const Home: React.FC = () => {
               border-b border-main-dark"
           >
             <EnvelopeIcon className='w-4 h-4 mr-3'/>
-            CONTACT ME
+            HIRE ME
           </a>
 
           <a 
