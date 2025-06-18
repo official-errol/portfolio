@@ -9,6 +9,7 @@ import About from './pages/About'
 import Projects from './pages/Projects'
 import Contact from './pages/Contact'
 import Chat from './pages/Chat'
+import Services from './pages/Services'
 import LoadingSpinner from './components/LoadingSpinner'
 
 const App: React.FC = () => {
@@ -30,6 +31,7 @@ const App: React.FC = () => {
                   <Route path="/projects" element={<Projects />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/chat" element={<Chat />} />
+                  <Route path="/services" element={<Services />} />
                   <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
               </React.Suspense>
