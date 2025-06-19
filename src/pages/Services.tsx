@@ -1,109 +1,150 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import {
-  PaintBrushIcon,
-  DocumentTextIcon,
-  SparklesIcon,
-  DevicePhoneMobileIcon
-} from '@heroicons/react/24/outline'
-
-const services = [
-  {
-    title: 'Logo & Branding',
-    icon: <PaintBrushIcon className="w-6 h-6 text-main" />,
-    description:
-      'Create standout logos and full brand systems that represent your identity.',
-    packages: [
-      ['Basic', 'Logo Only', 'P500 – P1,000'],
-      ['Standard', 'Logo + Brand Guide', 'P1,500 – P2,000'],
-      ['Premium', 'Full Branding Suite', 'P2,500 – P3,000']
-    ]
-  },
-  {
-    title: 'Printables',
-    icon: <DocumentTextIcon className="w-6 h-6 text-main" />,
-    description:
-      'Professional designs for print like flyers, banners, invitations, and more.',
-    packages: [
-      ['Flyer (1–2 pages)', '', 'P300 – P500'],
-      ['Banner / Poster', '', 'P400 – P700'],
-      ['Business Card', '', 'P300 – P500']
-    ]
-  },
-  {
-    title: 'Digital Art & Editing',
-    icon: <SparklesIcon className="w-6 h-6 text-main" />,
-    description:
-      'Photo manipulation, product label designs, and creative digital art.',
-    packages: [
-      ['Menu Design', '', 'P800 – P1,000'],
-      ['Photo Editing', '', 'P150 – P300'],
-      ['Photomanipulation', '', 'P400 – P700']
-    ]
-  },
-  {
-    title: 'Social Media Design',
-    icon: <DevicePhoneMobileIcon className="w-6 h-6 text-main" />,
-    description:
-      'Scroll-stopping posts and layouts that grow your brand online.',
-    packages: [
-      ['Single Post (FB/IG)', '', 'P200 – P300'],
-      ['10-30 Posts', '', 'P1,000 – P4,000'],
-      ['Reels / TikTok Layouts', '', 'P500 – P800']
-    ]
-  }
-]
+import { PaintBrushIcon, DocumentIcon, CpuChipIcon, DevicePhoneMobileIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 
 const Services: React.FC = () => {
+  const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
+    print: false,
+    digital: false,
+    social: false,
+  })
+
+  const toggle = (section: string) =>
+    setOpenSections(prev => ({ ...prev, [section]: !prev[section] }))
+
   return (
     <motion.div
-      className="min-h-screen bg-white px-4 py-16 text-gray-800"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
+      className="min-h-screen bg-white px-4 py-10 text-gray-800"
     >
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-12 text-main-dark">
-          What I Can Do for You
-        </h1>
+      <div className="max-w-5xl mx-auto">
+        <h1 className="text-4xl font-bold mb-10 text-center text-main-dark">My Services</h1>
 
-        <div className="grid gap-10 md:grid-cols-2">
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ y: -4 }}
-              className="border border-gray-300 rounded-xl p-6 shadow-sm bg-white transition"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                {service.icon}
-                <h2 className="text-xl font-semibold text-main-dark">
-                  {service.title}
-                </h2>
-              </div>
-              <p className="text-sm text-gray-600 mb-4">{service.description}</p>
-              <div className="space-y-2 text-sm">
-                {service.packages.map(([name, desc, price]) => (
-                  <div
-                    key={name}
-                    className="flex justify-between items-center border-b border-gray-500/20 py-2"
-                  >
-                    <div>
-                      <span className="font-medium text-gray-800">{name}</span>
-                      {desc && (
-                        <p className="text-xs text-gray-500">{desc}</p>
-                      )}
-                    </div>
-                    <span className="text-main font-semibold">{price}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {/* Logo & Brand - Horizontal Scroll */}
+        <section className="mb-12">
+          <div className="flex items-center gap-3 mb-4">
+            <PaintBrushIcon className="w-6 h-6 text-primary-light" />
+            <h2 className="text-2xl font-semibold text-primary-light">Logo & Brand Visual Identity</h2>
+          </div>
 
-        <div className="text-center mt-16 text-sm text-gray-500">
-          🚧 More services like website development, UI/UX design, and automation tools coming soon!
-        </div>
+          <div className="flex space-x-4 overflow-x-auto pb-2 text-md">
+            {[
+              { title: 'Basic', desc: 'Logo Design Only', price: 'P500 – P1,000' },
+              { title: 'Standard', desc: 'Logo + Brand Guide', price: 'P1,500 – P2,000' },
+              { title: 'Premium', desc: 'Full Branding, Stationery, Poster', price: 'P2,500 – P3,000' }
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="min-w-[200px] flex-shrink-0 border border-gray-500 rounded-lg p-4"
+              >
+                <h3 className="font-bold mb-1">{item.title}</h3>
+                <p>{item.desc}</p>
+                <p className="font-semibold text-main-dark mt-2">{item.price}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Collapsible Printables */}
+        <section className="mb-6">
+          <button
+            onClick={() => toggle('print')}
+            className="w-full flex items-center justify-between mb-2"
+          >
+            <div className="flex items-center gap-2">
+              <DocumentIcon className="w-5 h-5 text-primary-light" />
+              <h2 className="text-xl font-semibold text-primary-light">Printables</h2>
+            </div>
+            {openSections.print ? <ChevronUpIcon className="w-4 h-4" /> : <ChevronDownIcon className="w-4 h-4" />}
+          </button>
+
+          {openSections.print && (
+            <div className="grid md:grid-cols-2 gap-6 text-tiny">
+              {[
+                ['Flyer (1–2 pages)', 'P300 – P500'],
+                ['Poster / Banner', 'P400 – P700'],
+                ['Business Card', 'P300 – P500'],
+                ['Invitation / Letterhead', 'P400 – P600'],
+                ['Certificate / Folder', 'P400 – P600']
+              ].map(([item, price]) => (
+                <div key={item} className="flex justify-between border-b py-2 border-gray-500">
+                  <span>{item}</span>
+                  <span className="font-semibold text-main-dark">{price}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Collapsible Digital Art */}
+        <section className="mb-6">
+          <button
+            onClick={() => toggle('digital')}
+            className="w-full flex items-center justify-between mb-2"
+          >
+            <div className="flex items-center gap-2">
+              <CpuChipIcon className="w-5 h-5 text-primary-light" />
+              <h2 className="text-xl font-semibold text-primary-light">Digital Artwork & Editing</h2>
+            </div>
+            {openSections.digital ? <ChevronUpIcon className="w-4 h-4" /> : <ChevronDownIcon className="w-4 h-4" />}
+          </button>
+
+          {openSections.digital && (
+            <div className="grid md:grid-cols-2 gap-6 text-tiny">
+              {[
+                ['Menu Design', 'P800 – P1,000'],
+                ['Photo Editing', 'P150 – P300'],
+                ['Product Label', 'P500 – P800'],
+                ['Photomanipulation', 'P400 – P700'],
+                ['Event Poster', 'P700 – P1,000']
+              ].map(([item, price]) => (
+                <div key={item} className="flex justify-between border-b py-2 border-gray-500">
+                  <span>{item}</span>
+                  <span className="font-semibold text-main-dark">{price}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Collapsible Social Media */}
+        <section className="mb-6">
+          <button
+            onClick={() => toggle('social')}
+            className="w-full flex items-center justify-between mb-2"
+          >
+            <div className="flex items-center gap-2">
+              <DevicePhoneMobileIcon className="w-5 h-5 text-primary-light" />
+              <h2 className="text-xl font-semibold text-primary-light">Social Media Design</h2>
+            </div>
+            {openSections.social ? <ChevronUpIcon className="w-4 h-4" /> : <ChevronDownIcon className="w-4 h-4" />}
+          </button>
+
+          {openSections.social && (
+            <div className="grid md:grid-cols-2 gap-6 text-tiny">
+              {[
+                ['Single Post (FB/IG)', 'P200 – P300'],
+                ['10 Posts', 'P1,000 – P1,500'],
+                ['20 Posts', 'P2,000 – P2,500'],
+                ['30 Posts', 'P3,000 – P4,000'],
+                ['Reels / TikTok Layout', 'P500 – P800'],
+                ['Cover Banner', 'P400 – P600']
+              ].map(([item, price]) => (
+                <div key={item} className="flex justify-between border-b py-2 border-gray-500">
+                  <span>{item}</span>
+                  <span className="font-semibold text-main-dark">{price}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Coming Soon */}
+        <section className="mt-10 text-center text-sm text-gray-500">
+          <p>🚧 More services like web development, UI/UX, and video editing coming soon!</p>
+        </section>
       </div>
     </motion.div>
   )
