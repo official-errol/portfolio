@@ -1,52 +1,38 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
 import {
   PaintBrushIcon,
   DocumentIcon,
   CpuChipIcon,
-  DevicePhoneMobileIcon,
-  ChevronDownIcon,
-  ChevronUpIcon
+  DevicePhoneMobileIcon
 } from '@heroicons/react/24/outline'
 
-const SectionWrapper: React.FC<{
+const Section: React.FC<{
   icon: React.ReactNode
   title: string
-  children: React.ReactNode
-  open: boolean
-  toggle: () => void
-}> = ({ icon, title, children, open, toggle }) => (
-  <section className="mb-8 bg-main/10 rounded-lg border border-gray-500">
-    <button
-      onClick={toggle}
-      className="w-full flex items-center justify-between px-4 py-3 cursor-pointer"
-    >
-      <div className="flex items-center gap-2">
-        {icon}
-        <h2 className="text-xl font-semibold text-main-dark">{title}</h2>
-      </div>
-      {open ? (
-        <ChevronUpIcon className="w-4 h-4 text-main-dark" />
-      ) : (
-        <ChevronDownIcon className="w-4 h-4 text-main-dark" />
-      )}
-    </button>
+  items: [string, string][]
+}> = ({ icon, title, items }) => (
+  <section className="mb-12">
+    <div className="flex items-center gap-3 mb-4">
+      {icon}
+      <h2 className="text-xl font-semibold text-main-dark">{title}</h2>
+    </div>
 
-    {open && <div className="px-6 pb-6">{children}</div>}
+    <div className="grid md:grid-cols-2 gap-4 text-sm">
+      {items.map(([label, price]) => (
+        <div
+          key={label}
+          className="flex justify-between border-b py-2 border-gray-500/20"
+        >
+          <span>{label}</span>
+          <span className="font-semibold text-main-dark">{price}</span>
+        </div>
+      ))}
+    </div>
   </section>
 )
 
 const Services: React.FC = () => {
-  const [open, setOpen] = useState({
-    brand: true,
-    print: false,
-    digital: false,
-    social: false
-  })
-
-  const toggle = (key: keyof typeof open) =>
-    setOpen(prev => ({ ...prev, [key]: !prev[key] }))
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -59,10 +45,10 @@ const Services: React.FC = () => {
           My Services
         </h1>
 
-        {/* Logo & Brand (Scrollable Cards) */}
-        <section className="mb-8 bg-main/10 border border-gray-500 rounded-lg px-4 py-6">
+        {/* Logo & Brand Visual Identity */}
+        <section className="mb-12">
           <div className="flex items-center gap-3 mb-4">
-            <PaintBrushIcon className="w-6 h-6 text-main" />
+            <PaintBrushIcon className="w-5 h-5 text-main" />
             <h2 className="text-xl font-semibold text-main-dark">
               Logo & Brand Visual Identity
             </h2>
@@ -76,7 +62,7 @@ const Services: React.FC = () => {
             ].map((item) => (
               <div
                 key={item.title}
-                className="min-w-[200px] flex-shrink-0 border border-gray-500 rounded-lg p-4 bg-white"
+                className="min-w-[200px] flex-shrink-0 border border-gray-500/20 rounded-lg p-4 bg-white"
               >
                 <h3 className="font-bold text-main-dark mb-1">{item.title}</h3>
                 <p className="text-tiny text-gray-600">{item.desc}</p>
@@ -87,79 +73,49 @@ const Services: React.FC = () => {
         </section>
 
         {/* Printables */}
-        <SectionWrapper
+        <Section
           title="Printables"
-          open={open.print}
-          toggle={() => toggle('print')}
           icon={<DocumentIcon className="w-5 h-5 text-main" />}
-        >
-          <div className="grid md:grid-cols-2 gap-4 text-sm">
-            {[
-              ['Flyer (1–2 pages)', 'P300 – P500'],
-              ['Poster / Banner', 'P400 – P700'],
-              ['Business Card', 'P300 – P500'],
-              ['Invitation / Letterhead', 'P400 – P600'],
-              ['Certificate / Folder', 'P400 – P600']
-            ].map(([item, price]) => (
-              <div key={item} className="flex justify-between border-b py-2 border-gray-500">
-                <span>{item}</span>
-                <span className="font-semibold text-main-dark">{price}</span>
-              </div>
-            ))}
-          </div>
-        </SectionWrapper>
+          items={[
+            ['Flyer (1–2 pages)', 'P300 – P500'],
+            ['Poster / Banner', 'P400 – P700'],
+            ['Business Card', 'P300 – P500'],
+            ['Invitation / Letterhead', 'P400 – P600'],
+            ['Certificate / Folder', 'P400 – P600']
+          ]}
+        />
 
-        {/* Digital */}
-        <SectionWrapper
+        {/* Digital Artwork & Editing */}
+        <Section
           title="Digital Artwork & Editing"
-          open={open.digital}
-          toggle={() => toggle('digital')}
           icon={<CpuChipIcon className="w-5 h-5 text-main" />}
-        >
-          <div className="grid md:grid-cols-2 gap-4 text-sm">
-            {[
-              ['Menu Design', 'P800 – P1,000'],
-              ['Photo Editing', 'P150 – P300'],
-              ['Product Label', 'P500 – P800'],
-              ['Photomanipulation', 'P400 – P700'],
-              ['Event Poster', 'P700 – P1,000']
-            ].map(([item, price]) => (
-              <div key={item} className="flex justify-between border-b py-2 border-gray-500">
-                <span>{item}</span>
-                <span className="font-semibold text-main-dark">{price}</span>
-              </div>
-            ))}
-          </div>
-        </SectionWrapper>
+          items={[
+            ['Menu Design', 'P800 – P1,000'],
+            ['Photo Editing', 'P150 – P300'],
+            ['Product Label', 'P500 – P800'],
+            ['Photomanipulation', 'P400 – P700'],
+            ['Event Poster', 'P700 – P1,000']
+          ]}
+        />
 
-        {/* Social Media */}
-        <SectionWrapper
+        {/* Social Media Design */}
+        <Section
           title="Social Media Design"
-          open={open.social}
-          toggle={() => toggle('social')}
           icon={<DevicePhoneMobileIcon className="w-5 h-5 text-main" />}
-        >
-          <div className="grid md:grid-cols-2 gap-4 text-sm">
-            {[
-              ['Single Post (FB/IG)', 'P200 – P300'],
-              ['10 Posts', 'P1,000 – P1,500'],
-              ['20 Posts', 'P2,000 – P2,500'],
-              ['30 Posts', 'P3,000 – P4,000'],
-              ['Reels / TikTok Layout', 'P500 – P800'],
-              ['Cover Banner', 'P400 – P600']
-            ].map(([item, price]) => (
-              <div key={item} className="flex justify-between border-b py-2 border-gray-500">
-                <span>{item}</span>
-                <span className="font-semibold text-main-dark">{price}</span>
-              </div>
-            ))}
-          </div>
-        </SectionWrapper>
+          items={[
+            ['Single Post (FB/IG)', 'P200 – P300'],
+            ['10 Posts', 'P1,000 – P1,500'],
+            ['20 Posts', 'P2,000 – P2,500'],
+            ['30 Posts', 'P3,000 – P4,000'],
+            ['Reels / TikTok Layout', 'P500 – P800'],
+            ['Cover Banner', 'P400 – P600']
+          ]}
+        />
 
-        {/* Placeholder for More Services */}
-        <section className="mt-10 text-center text-sm text-gray-500">
-          <p>🚧 More services like Web Development, UI/UX Design, and Video Editing coming soon!</p>
-        </section>
+        {/* Future Services */}
+        <div className="text-center mt-10 text-sm text-gray-500">
+          🚧 More services like web development, UI/UX design, and video editing coming soon!
+        </div>
       </div>
     </motion.div>
   )
