@@ -6,8 +6,12 @@ interface Post { id: string; title: string; content: string; created_at: string 
 
 const Blog: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([])
+
   useEffect(() => {
-    supabase.from('posts').select('id, title, created_at').order('created_at', { ascending: false })
+    supabase
+      .from('posts')
+      .select('id, title, content, created_at')
+      .order('created_at', { ascending: false })
       .then(res => setPosts(res.data || []))
   }, [])
 
