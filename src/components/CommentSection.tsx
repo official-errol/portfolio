@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../services/supabaseClient'
 
-interface Comment { id: string; user_name: string; content: string; created_at: string }
+interface Comment { id: string; user_name: string; user_avatar: string; content: string; created_at: string }
 
 export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
   const [comments, setComments] = useState<Comment[]>([])
