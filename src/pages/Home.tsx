@@ -75,14 +75,13 @@ const Home: React.FC = () => {
             VIEW PROJECTS
           </a>
         </motion.div>
-      </motion.div>
-      {/* Services Section */}
+        {/* Services Section */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="w-full bg-gray-50 py-12 px-4 mt-20 mb-20"
+        className="w-full bg-gray-50 py-12 px-4 mt-20"
       >
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-main-dark mb-4">
@@ -103,6 +102,7 @@ const Home: React.FC = () => {
             MY SERVICES
           </a>
         </div>
+      </motion.div>
       </motion.div>
     </div>
   )
