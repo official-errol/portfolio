@@ -11,6 +11,8 @@ import Projects from './pages/Projects'
 import Contact from './pages/Contact'
 import Chat from './pages/Chat'
 import Services from './pages/Services'
+import Blog from './pages/Blog'
+import BlogPost from './pages/BlogPost'
 import LoadingSpinner from './components/LoadingSpinner'
 import Nav from './components/Nav'
 
@@ -49,6 +51,8 @@ const App: React.FC = () => {
                       <Route path="/contact" element={<Contact />} />
                       <Route path="/chat" element={<Chat />} />
                       <Route path="/services" element={<Services />} />
+                      <Route path="/blog" element={<Blog />} />
+                      <Route path="/blog/:id" element={<BlogPost />} />
                       <Route path="*" element={<Navigate to="/" />} />
                     </>
                   )}
