@@ -74,8 +74,9 @@ const Home: React.FC = () => {
             <ArrowRightIcon className="w-4 h-4 mr-2" />
             VIEW PROJECTS
           </a>
-        </motion.div>
-        {/* Services Section */}
+        </motion.div
+      </motion.div>>
+      {/* Services Section */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -102,7 +103,6 @@ const Home: React.FC = () => {
             MY SERVICES
           </a>
         </div>
-      </motion.div>
       </motion.div>
     </div>
   )
