@@ -77,33 +77,33 @@ const Home: React.FC = () => {
         </motion.div>
       </motion.div>
       {/* Services Section */}
-<motion.div
-  initial={{ opacity: 0, y: 30 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6 }}
-  viewport={{ once: true }}
-  className="w-full bg-gray-50 py-12 px-4 mt-20"
->
-  <div className="max-w-4xl mx-auto text-center">
-    <h2 className="text-3xl font-bold text-main-dark mb-4">
-      Need Graphic Design Services?
-    </h2>
-    <p className="text-gray-600 mb-6">
-      From logo creation to full branding packages and social media designs, I offer high-quality, customizable solutions at flexible pricing.
-    </p>
-    <a 
-      href="/services" 
-      className="inline-flex items-center px-5 py-3 text-xs text-main-dark bg-main rounded-lg cursor-pointer select-none
-              active:translate-y-2 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
-              active:border-b-[1px]
-              transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
-              border-b border-main-dark"
-    >
-      <ArrowRightIcon className="w-5 h-5 mr-2" />
-      MY SERVICES
-    </a>
-  </div>
-</motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="w-full bg-gray-50 py-12 px-4 mt-20 mb-20"
+      >
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-main-dark mb-4">
+            Need Graphic Design Services?
+          </h2>
+          <p className="text-gray-600 mb-6">
+            From logo creation to full branding packages and social media designs, I offer high-quality, customizable solutions at flexible pricing.
+          </p>
+          <a 
+            href="/services" 
+            className="inline-flex items-center px-5 py-3 text-xs text-main-dark bg-main rounded-lg cursor-pointer select-none
+                    active:translate-y-2 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
+                    active:border-b-[1px]
+                    transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
+                    border-b border-main-dark"
+          >
+            <ArrowRightIcon className="w-5 h-5 mr-2" />
+            MY SERVICES
+          </a>
+        </div>
+      </motion.div>
     </div>
   )
 }
