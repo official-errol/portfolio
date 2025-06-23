@@ -74,7 +74,7 @@ const Home: React.FC = () => {
             <ArrowRightIcon className="w-4 h-4 mr-2" />
             VIEW PROJECTS
           </a>
-        </motion.div
+        </motion.div>
       </motion.div>
       {/* Services Section */}
       <motion.div
