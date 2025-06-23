@@ -75,7 +75,7 @@ const Home: React.FC = () => {
             VIEW PROJECTS
           </a>
         </motion.div
-      </motion.div>>
+      </motion.div>
       {/* Services Section */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
