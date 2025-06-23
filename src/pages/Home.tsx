@@ -2,6 +2,16 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { EnvelopeIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 import profilePic from '../assets/meh.jpg'
+import { Link } from 'react-router-dom'
+import { supabase } from '../services/supabaseClient'
+import { useEffect, useState } from 'react'
+
+interface Post {
+  id: string
+  title: string
+  content: string
+  created_at: string
+}
 
 const Home: React.FC = () => {
   const ownerName = import.meta.env.VITE_PORTFOLIO_OWNER_NAME
@@ -76,6 +86,7 @@ const Home: React.FC = () => {
           </a>
         </motion.div>
       </motion.div>
+      
       {/* Services Section */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -104,6 +115,70 @@ const Home: React.FC = () => {
           </a>
         </div>
       </motion.div>
+
+      {/* Latest Blog Posts Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="w-full bg-white py-12 px-4"
+      >
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-main-dark mb-6">
+            Latest Blog Posts
+          </h2>
+      
+          <LatestBlogPreview />
+          
+          <div className="mt-6">
+            <a
+              href="/blog"
+              className="inline-flex items-center px-5 py-3 text-xs text-gray-800 bg-gray-100 rounded-lg
+                cursor-pointer select-none border border-gray-300
+                hover:bg-gray-200 transition"
+            >
+              <ArrowRightIcon className="w-5 h-5 mr-2" />
+              VIEW ALL BLOGS
+            </a>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  )
+}
+
+const LatestBlogPreview: React.FC = () => {
+  const [posts, setPosts] = useState<Post[]>([])
+
+  useEffect(() => {
+    supabase
+      .from('posts')
+      .select('id, title, content, created_at')
+      .order('created_at', { ascending: false })
+      .limit(3)
+      .then(res => setPosts(res.data || []))
+  }, [])
+
+  return (
+    <div className="grid gap-6 md:grid-cols-3 mt-6 text-left">
+      {posts.map(post => (
+        <Link
+          to={`/blog/${post.id}`}
+          key={post.id}
+          className="border border-gray-200 rounded-lg p-4 hover:shadow transition"
+        >
+          <h3 className="text-lg font-semibold text-main-dark mb-2">
+            {post.title}
+          </h3>
+          <p className="text-sm text-gray-600 line-clamp-3 mb-2">
+            {post.content?.slice(0, 100)}...
+          </p>
+          <p className="text-xs text-gray-400">
+            {new Date(post.created_at).toLocaleDateString()}
+          </p>
+        </Link>
+      ))}
     </div>
   )
 }
