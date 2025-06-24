@@ -81,26 +81,35 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ editingPostId, onPostSelect, on
   }
 
   const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
+  const file = e.target.files?.[0]
+  if (!file) return
 
-    const ext = file.name.split('.').pop()
-    const filePath = `${Date.now()}.${ext}`
+  const ext = file.name.split('.').pop()!
+  const filePath = `media/${Date.now()}.${ext}`
 
-    const { error } = await supabase.storage.from('media').upload(filePath, file)
+  const { data: uploadData, error: upErr } = await supabase
+    .storage
+    .from('media')
+    .upload(filePath, file)
 
-    if (error) {
-      alert('Upload failed')
-      return
-    }
-
-    const { data: publicData } = supabase.storage.from('media').getPublicUrl(filePath)
-    const url = publicData?.publicUrl
-    setMediaUrl(url)
-
-    if (file.type.startsWith('image')) setMediaType('image')
-    else if (file.type.startsWith('video')) setMediaType('video')
+  if (upErr) {
+    console.error('Upload error', upErr)
+    return alert('Upload failed: ' + upErr.message)
   }
+
+  const { data: publicData, error: urlErr } = supabase
+    .storage
+    .from('media')
+    .getPublicUrl(uploadData.path)
+
+  if (urlErr || !publicData) {
+    console.error('URL error', urlErr)
+    return alert('Error getting public URL')
+  }
+
+  setMediaUrl(publicData.publicUrl)
+  setMediaType(file.type.startsWith('image/') ? 'image' : 'video')
+}
 
   const handleMediaUrl = (url: string) => {
     setMediaUrl(url)
