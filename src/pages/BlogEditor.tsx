@@ -80,22 +80,33 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ editingPostId, onPostSelect, on
     setMediaType('')
   }
 
-  const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+ const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
   const file = e.target.files?.[0]
   if (!file) return
 
-  const ext = file.name.split('.').pop()!
-  const filePath = `media/${Date.now()}.${ext}`
+  const ext = file.name.split('.').pop()
+  const filePath = `${Date.now()}.${ext}`
 
-  const { data: uploadData, error: upErr } = await supabase
+  const { error: uploadError } = await supabase
     .storage
     .from('media')
     .upload(filePath, file)
 
-  if (upErr) {
-    console.error('Upload error', upErr)
-    return alert('Upload failed: ' + upErr.message)
+  if (uploadError) {
+    console.error('Upload error', uploadError)
+    alert('Upload failed: ' + uploadError.message)
+    return
   }
+
+  const { publicUrl } = supabase
+    .storage
+    .from('media')
+    .getPublicUrl(filePath).data
+
+  setMediaUrl(publicUrl)
+  if (file.type.startsWith('image')) setMediaType('image')
+  else if (file.type.startsWith('video')) setMediaType('video')
+}
 
   const { data: publicData, error: urlErr } = supabase
     .storage
