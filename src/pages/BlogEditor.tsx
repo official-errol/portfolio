@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import Link from '@tiptap/extension-link'
-import Image from '@tiptap/extension-image'
-import Youtube from '@tiptap/extension-youtube'
 import Placeholder from '@tiptap/extension-placeholder'
 import TextAlign from '@tiptap/extension-text-align'
 import Underline from '@tiptap/extension-underline'
-import BulletList from '@tiptap/extension-bullet-list'
-import OrderedList from '@tiptap/extension-ordered-list'
-import ListItem from '@tiptap/extension-list-item'
+import Link from '@tiptap/extension-link'
+import Image from '@tiptap/extension-image'
+import Youtube from '@tiptap/extension-youtube'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
 
@@ -23,7 +20,7 @@ import {
   Bars3BottomLeftIcon,
   Bars3BottomRightIcon,
   Bars3Icon,
-  Bars4Icon,
+  Bars4Icon, // for ordered list alternative
 } from '@heroicons/react/24/outline'
 
 interface Post {
@@ -72,18 +69,18 @@ const BlogEditor: React.FC = () => {
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        bulletList: { keepMarks: true },
+        orderedList: { keepMarks: true },
+      }),
       Placeholder.configure({
         placeholder: 'Start writing your blog...',
       }),
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
+      Underline,
       Link,
       Image,
       Youtube,
-      TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      Underline,
-      BulletList,
-      OrderedList,
-      ListItem,
     ],
     content: '',
   })
@@ -157,6 +154,7 @@ const BlogEditor: React.FC = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-100 text-gray-800">
+      {/* Sidebar */}
       <aside className="w-[280px] flex-shrink-0 bg-white border-r border-gray-200 p-4 overflow-y-auto">
         <h2 className="text-lg font-bold mb-4">Your Posts</h2>
         <ul className="space-y-2">
@@ -175,12 +173,14 @@ const BlogEditor: React.FC = () => {
         </ul>
       </aside>
 
+      {/* Editor */}
       <main className="flex-grow p-8 overflow-y-auto">
         <h1 className="text-3xl font-bold mb-4 text-main-dark">
           {editingPost ? 'Edit Blog Post' : 'Create Blog Post'}
         </h1>
 
         <div className="space-y-4">
+          {/* Inputs */}
           <input
             type="text"
             placeholder="Title"
@@ -234,20 +234,19 @@ const BlogEditor: React.FC = () => {
             )}
           </div>
 
-          {/* Editor */}
-          <div className="bg-white border border-gray-300 rounded min-h-[400px]">
+          {/* Content Editor */}
+          <div className="bg-white border border-main rounded overflow-hidden">
             {editor ? (
               <EditorContent
                 editor={editor}
-                className="p-4 min-h-[400px] outline-none border border-main rounded"
-                style={{ height: '400px' }}
+                className="p-4 min-h-[400px] h-[400px] outline-none focus:ring-2 focus:ring-main text-gray-800"
               />
             ) : (
               <p className="p-4 text-gray-500">Loading editor...</p>
             )}
           </div>
 
-          {/* Buttons */}
+          {/* Action Buttons */}
           <div className="flex gap-4">
             <button
               onClick={savePost}
