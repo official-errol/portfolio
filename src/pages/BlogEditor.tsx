@@ -1,4 +1,3 @@
-// BlogEditor.tsx
 import React, { useState, useEffect } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -26,6 +25,7 @@ import {
   Bars3Icon,
   Bars4Icon,
   ArrowLeftIcon,
+  DocumentPlusIcon // ADDED THIS IMPORT
 } from '@heroicons/react/24/outline'
 
 interface Post {
