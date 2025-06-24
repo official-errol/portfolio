@@ -98,17 +98,17 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ editingPostId, onPostSelect, on
     }
   
     // Get the public URL
-    const { data: publicData, error: publicUrlError } = supabase
+    const { publicUrl } = supabase
       .storage
       .from('media')
-      .getPublicUrl(uploadData.path)
-  
-    if (publicUrlError || !publicData?.publicUrl) {
+      .getPublicUrl(uploadData.path).data
+    
+    if (!publicUrl) {
       alert('Failed to get public URL')
       return
     }
-  
-    setMediaUrl(publicData.publicUrl)
+    
+    setMediaUrl(publicUrl)
   
     if (file.type.startsWith('image')) setMediaType('image')
     else if (file.type.startsWith('video')) setMediaType('video')
