@@ -97,19 +97,23 @@ const BlogPost: React.FC = () => {
       <aside className="md:w-1/3 mt-8 md:mt-0 border-l border-gray-200 pl-6 space-y-6">
         <div>
           <h3 className="text-lg font-bold text-main-dark mb-4">Related Posts</h3>
-          <ul className="space-y-3">
-            {relatedPosts.map(rp => (
-              <li key={rp.id}>
-                <a
-                  href={`/blog/${rp.slug}`}
-                  className="block text-sm font-medium text-main hover:underline"
-                >
-                  {rp.title}
-                </a>
-                <p className="text-xs text-gray-500">{new Date(rp.created_at).toLocaleDateString()}</p>
-              </li>
-            ))}
-          </ul>
+          {relatedPosts.length === 0 ? (
+            <p className="text-sm text-gray-500">No related posts found.</p>
+          ) : (
+            <ul className="space-y-3">
+              {relatedPosts.map(rp => (
+                <li key={rp.id}>
+                  <a
+                    href={`/blog/${rp.slug}`}
+                    className="block text-sm font-medium text-main hover:underline"
+                  >
+                    {rp.title}
+                  </a>
+                  <p className="text-xs text-gray-500">{new Date(rp.created_at).toLocaleDateString()}</p>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* Google Ad */}
