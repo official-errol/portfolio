@@ -1,8 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import BlogEditor from './BlogEditor'
+
+// Heroicons
+import {
+  PencilSquareIcon,
+  FolderIcon,
+  ArrowRightOnRectangleIcon,
+} from '@heroicons/react/24/outline'
 
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate()
+  const [activeSection, setActiveSection] = useState<'blog' | 'other'>('blog')
 
   useEffect(() => {
     if (localStorage.getItem('isAdminAuthenticated') !== 'true') {
@@ -10,26 +19,59 @@ const AdminDashboard: React.FC = () => {
     }
   }, [])
 
+  const handleLogout = () => {
+    localStorage.removeItem('isAdminAuthenticated')
+    navigate('/')
+  }
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-primary-light p-4">
-      <h1 className="text-4xl font-bold text-main-dark mb-6">Admin Dashboard</h1>
-      <div className="space-y-4 w-full max-w-sm">
+    <div className="min-h-screen flex bg-gray-100">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white shadow-lg p-6 flex flex-col justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-main-dark mb-6">Admin Panel</h2>
+          <nav className="space-y-3">
+            <button
+              onClick={() => setActiveSection('blog')}
+              className={`flex items-center gap-3 w-full px-4 py-2 rounded-lg hover:bg-main-light transition ${
+                activeSection === 'blog' ? 'bg-main text-white' : 'text-main-dark'
+              }`}
+            >
+              <PencilSquareIcon className="h-5 w-5" />
+              Blog Editor
+            </button>
+
+            <button
+              onClick={() => setActiveSection('other')}
+              className={`flex items-center gap-3 w-full px-4 py-2 rounded-lg hover:bg-main-light transition ${
+                activeSection === 'other' ? 'bg-main text-white' : 'text-main-dark'
+              }`}
+            >
+              <FolderIcon className="h-5 w-5" />
+              Other Section
+            </button>
+          </nav>
+        </div>
+
         <button
-          onClick={() => navigate('/editor')}
-          className="w-full py-3 bg-main text-white rounded hover:bg-main-dark"
+          onClick={handleLogout}
+          className="flex items-center gap-3 mt-10 w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
         >
-          ✍️ Create / Edit Blog
+          <ArrowRightOnRectangleIcon className="h-5 w-5" />
+          Logout
         </button>
-        <button
-          onClick={() => {
-            localStorage.removeItem('isAdminAuthenticated')
-            navigate('/')
-          }}
-          className="w-full py-3 bg-red-500 text-white rounded hover:bg-red-600"
-        >
-          🔒 Logout
-        </button>
-      </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-grow p-6 overflow-y-auto">
+        {activeSection === 'blog' && <BlogEditor />}
+        {activeSection === 'other' && (
+          <div className="text-gray-700">
+            <h2 className="text-2xl font-semibold mb-4">Other Section</h2>
+            <p>More admin tools coming soon...</p>
+          </div>
+        )}
+      </main>
     </div>
   )
 }
