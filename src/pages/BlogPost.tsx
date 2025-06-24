@@ -4,6 +4,7 @@ import { supabase } from '../services/supabaseClient'
 import { LikeButton } from '../components/LikeButton'
 import { CommentSection } from '../components/CommentSection'
 import { SocialShare } from '../components/SocialShare'
+import { LoadingSpinner } from '../components/LoadingSpinner'
 
 interface Post { id: string; title: string; content: string; author: string; category: string; tags: string[]; created_at: string }
 
@@ -21,7 +22,7 @@ const BlogPost: React.FC = () => {
   }, [slug])
 
 
-  if (!post) return <div className="p-10">Loading...</div>
+  if (!post) return <div className="flex items-center justify-center h-screen w-full"> <LoadingSpinner /> </div>
 
   return (
     <div className="max-w-3xl mx-auto p-10 bg-white">
