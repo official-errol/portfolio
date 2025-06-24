@@ -46,15 +46,15 @@ const AdminDashboard: React.FC = () => {
                 setEditingPost(null)
               }}
               className={`flex items-center gap-3 w-full px-4 py-2 ${
-                activeSection === 'blog' ? 'text-main-dark bg-main rounded-lg cursor-pointer select-none
+                activeSection === 'blog' ? "text-main-dark bg-main rounded-lg cursor-pointer select-none
               active:translate-y-2 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
               active:border-b-[1px]
               transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
-              border-b border-main-dark' : 'text-gray-800 bg-white rounded-lg cursor-pointer select-none
+              border-b border-main-dark" : "text-gray-800 bg-white rounded-lg cursor-pointer select-none
               active:translate-y-2 active:[box-shadow:0_0px_0_0_#d1d5db,0_0px_0_0_#d1d5db66]
               active:border-b-[1px]
               transition-all duration-150 [box-shadow:0_6px_0_0_#d1d5db,0_10px_0_0_#d1d5db66]
-              border-[1px] border-gray-200'
+              border-[1px] border-gray-200"
               }`}
             >
               <PencilSquareIcon className="h-5 w-5" />
