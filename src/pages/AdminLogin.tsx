@@ -26,14 +26,14 @@ const AdminLogin: React.FC = () => {
           <input
             type="text"
             placeholder="Username"
-            className="w-full mb-3 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-main-dark"
+            className="w-full mb-3 p-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-main-dark"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
-            className="w-full mb-3 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-main-dark"
+            className="w-full mb-3 p-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-main-dark"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
