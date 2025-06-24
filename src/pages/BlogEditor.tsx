@@ -81,6 +81,9 @@ const BlogEditor: React.FC = () => {
       Link,
       Image,
       Youtube,
+      BulletList,
+      OrderedList,
+      ListItem,
     ],
     content: '',
   })
@@ -235,11 +238,12 @@ const BlogEditor: React.FC = () => {
           </div>
 
           {/* Content Editor */}
-          <div className="bg-white border border-main rounded overflow-hidden">
+          <div className="bg-white border border-main rounded overflow-hidden min-h-[400px]">
             {editor ? (
               <EditorContent
                 editor={editor}
-                className="p-4 min-h-[400px] h-[400px] outline-none focus:ring-2 focus:ring-main text-gray-800"
+                className="p-4 w-full min-h-[400px] h-auto outline-none focus:ring-2 focus:ring-main text-gray-800"
+                style={{ minHeight: '400px' }}
               />
             ) : (
               <p className="p-4 text-gray-500">Loading editor...</p>
