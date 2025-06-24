@@ -27,7 +27,7 @@ const AdminDashboard: React.FC = () => {
   return (
     <div className="min-h-screen flex bg-gray-100">
       {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-lg p-6 flex flex-col justify-between">
+      <aside className="w-64 h-screen bg-white shadow-lg p-6 flex flex-col justify-between">
         <div>
           <h2 className="text-2xl font-bold text-main-dark mb-6">Admin Panel</h2>
           <nav className="space-y-3">
@@ -63,7 +63,7 @@ const AdminDashboard: React.FC = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-grow p-6 overflow-y-auto">
+      <main className="flex-grow h-screen p-6 overflow-y-auto">
         {activeSection === 'blog' && <BlogEditor />}
         {activeSection === 'other' && (
           <div className="text-gray-700">
