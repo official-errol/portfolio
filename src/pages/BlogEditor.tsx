@@ -186,35 +186,37 @@ const BlogEditor: React.FC = () => {
         </h1>
 
         <div className="space-y-4">
-          {/* Inputs */}
-          <input
-            type="text"
-            placeholder="Title"
-            className="w-full p-2 border border-gray-300 rounded"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Author"
-            className="w-full p-2 border border-gray-300 rounded"
-            value={author}
-            onChange={e => setAuthor(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Category"
-            className="w-full p-2 border border-gray-300 rounded"
-            value={category}
-            onChange={e => setCategory(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Tags (comma-separated)"
-            className="w-full p-2 border border-gray-300 rounded"
-            value={tags}
-            onChange={e => setTags(e.target.value)}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Inputs */}
+            <input
+              type="text"
+              placeholder="Title"
+              className="w-full p-2 border border-gray-300 rounded"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Author"
+              className="w-full p-2 border border-gray-300 rounded"
+              value={author}
+              onChange={e => setAuthor(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Category"
+              className="w-full p-2 border border-gray-300 rounded"
+              value={category}
+              onChange={e => setCategory(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Tags (comma-separated)"
+              className="w-full p-2 border border-gray-300 rounded"
+              value={tags}
+              onChange={e => setTags(e.target.value)}
+            />
+          </div>
 
           {/* Toolbar */}
           <div className="flex flex-wrap gap-2 bg-white p-3 border border-gray-200 rounded">
