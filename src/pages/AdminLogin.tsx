@@ -39,7 +39,11 @@ const AdminLogin: React.FC = () => {
           />
           <button
             type="submit"
-            className="w-full bg-main text-white py-2 rounded hover:bg-main-dark"
+            className="w-full text-main-dark bg-main rounded-lg cursor-pointer select-none
+              active:translate-y-2 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
+              active:border-b-[1px]
+              transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
+              border-b border-main-dark"
           >
             Login
           </button>
