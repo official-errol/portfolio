@@ -1,4 +1,3 @@
-// AdminDashboard.tsx
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BlogEditor from './BlogEditor'
@@ -36,8 +35,8 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-100">
-      {/* Sidebar - Fixed width */}
-      <aside className="w-64 h-screen sticky top-0 bg-white border-r border-gray-200 p-6 flex flex-col justify-between">
+      {/* Sidebar - Fixed width with flex-shrink-0 */}
+      <aside className="w-64 flex-shrink-0 h-screen sticky top-0 bg-white border-r border-gray-200 p-6 flex flex-col justify-between">
         <div>
           <h2 className="text-2xl font-bold text-main-dark mb-6">Admin Panel</h2>
           <nav className="space-y-3">
@@ -79,8 +78,8 @@ const AdminDashboard: React.FC = () => {
         </button>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-grow overflow-y-auto bg-white min-w-0">
+      {/* Main Content - Added flex-grow and min-w-0 */}
+      <main className="flex-grow min-w-0 overflow-y-auto bg-white">
         {activeSection === 'blog' && (
           <BlogEditor 
             editingPostId={editingPost} 
