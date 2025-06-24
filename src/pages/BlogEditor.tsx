@@ -1,3 +1,4 @@
+// BlogEditor.tsx
 import React, { useState, useEffect } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -23,7 +24,8 @@ import {
   Bars3BottomLeftIcon,
   Bars3BottomRightIcon,
   Bars3Icon,
-  Bars4Icon, // for ordered list alternative
+  Bars4Icon,
+  ArrowLeftIcon,
 } from '@heroicons/react/24/outline'
 
 interface Post {
@@ -37,10 +39,19 @@ interface Post {
   created_at: string
 }
 
-const BlogEditor: React.FC = () => {
+interface BlogEditorProps {
+  editingPostId: string | null;
+  onPostSelect: (postId: string) => void;
+  onClearEditing: () => void;
+}
+
+const BlogEditor: React.FC<BlogEditorProps> = ({ 
+  editingPostId, 
+  onPostSelect,
+  onClearEditing 
+}) => {
   const navigate = useNavigate()
   const [posts, setPosts] = useState<Post[]>([])
-  const [editingPost, setEditingPost] = useState<Post | null>(null)
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [category, setCategory] = useState('')
@@ -54,6 +65,17 @@ const BlogEditor: React.FC = () => {
       fetchPosts()
     }
   }, [])
+
+  useEffect(() => {
+    if (editingPostId && editingPostId !== 'new') {
+      const post = posts.find(p => p.id === editingPostId)
+      if (post) {
+        loadPostForEditing(post)
+      }
+    } else if (editingPostId === 'new') {
+      clearForm()
+    }
+  }, [editingPostId, posts])
 
   const fetchPosts = async () => {
     const { data } = await supabase
@@ -104,7 +126,6 @@ const BlogEditor: React.FC = () => {
   )
 
   const loadPostForEditing = (post: Post) => {
-    setEditingPost(post)
     setTitle(post.title)
     setAuthor(post.author)
     setCategory(post.category)
@@ -119,7 +140,7 @@ const BlogEditor: React.FC = () => {
     const tagArr = tags.split(',').map(t => t.trim()).filter(Boolean)
     const slug = slugify(title)
 
-    if (editingPost) {
+    if (editingPostId && editingPostId !== 'new') {
       await supabase
         .from('posts')
         .update({
@@ -130,7 +151,7 @@ const BlogEditor: React.FC = () => {
           tags: tagArr,
           author,
         })
-        .eq('id', editingPost.id)
+        .eq('id', editingPostId)
     } else {
       await supabase.from('posts').insert([
         {
@@ -147,6 +168,7 @@ const BlogEditor: React.FC = () => {
     setSaving(false)
     clearForm()
     fetchPosts()
+    onClearEditing()
   }
 
   const clearForm = () => {
@@ -155,124 +177,155 @@ const BlogEditor: React.FC = () => {
     setCategory('')
     setTags('')
     editor?.commands.clearContent()
-    setEditingPost(null)
   }
 
   return (
-    <div className="flex flex-grow bg-gray-100 text-gray-800 h-full">
-      {/* Sidebar */}
-      <aside className="w-[280px] flex-shrink-0 bg-white border-r border-gray-200 p-4 overflow-y-auto">
-        <h2 className="text-lg font-bold mb-4">Your Posts</h2>
-        <ul className="space-y-2">
-          {posts.map(post => (
-            <li
-              key={post.id}
-              onClick={() => loadPostForEditing(post)}
-              className="cursor-pointer px-3 py-2 rounded hover:bg-gray-100 border border-gray-200"
-            >
-              <p className="font-medium">{post.title}</p>
-              <p className="text-xs text-gray-500">
-                {new Date(post.created_at).toLocaleDateString()}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </aside>
+    <div className="flex flex-col bg-gray-100 text-gray-800 h-full">
+      {editingPostId ? (
+        // Editor View
+        <div className="flex-grow overflow-y-auto bg-white p-8 max-w-6xl mx-auto w-full">
+          <button
+            onClick={onClearEditing}
+            className="flex items-center gap-2 mb-6 text-main hover:text-main-dark"
+          >
+            <ArrowLeftIcon className="h-4 w-4" />
+            Back to posts
+          </button>
+          
+          <h1 className="text-3xl font-bold mb-4 text-main-dark">
+            {editingPostId === 'new' ? 'Create Blog Post' : 'Edit Blog Post'}
+          </h1>
 
-      {/* Editor */}
-      <main className="flex-grow overflow-y-auto bg-white p-8 max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold mb-4 text-main-dark">
-          {editingPost ? 'Edit Blog Post' : 'Create Blog Post'}
-        </h1>
-
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Inputs */}
-            <input
-              type="text"
-              placeholder="Title"
-              className="w-full p-2 border border-gray-300 rounded"
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Author"
-              className="w-full p-2 border border-gray-300 rounded"
-              value={author}
-              onChange={e => setAuthor(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Category"
-              className="w-full p-2 border border-gray-300 rounded"
-              value={category}
-              onChange={e => setCategory(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Tags (comma-separated)"
-              className="w-full p-2 border border-gray-300 rounded"
-              value={tags}
-              onChange={e => setTags(e.target.value)}
-            />
-          </div>
-
-          {/* Toolbar */}
-          <div className="flex flex-wrap gap-2 bg-white p-3 border border-gray-200 rounded">
-            {editor && (
-              <>
-                {toolbarButton(<BoldIcon className="h-5 w-5" />, () => editor.chain().focus().toggleBold().run(), editor.isActive('bold'))}
-                {toolbarButton(<ItalicIcon className="h-5 w-5" />, () => editor.chain().focus().toggleItalic().run(), editor.isActive('italic'))}
-                {toolbarButton(<UnderlineIcon className="h-5 w-5" />, () => editor.chain().focus().toggleUnderline().run(), editor.isActive('underline'))}
-                {toolbarButton(<ListBulletIcon className="h-5 w-5" />, () => editor.chain().focus().toggleBulletList().run(), editor.isActive('bulletList'))}
-                {toolbarButton(<Bars4Icon className="h-5 w-5" />, () => editor.chain().focus().toggleOrderedList().run(), editor.isActive('orderedList'))}
-                {toolbarButton(<Bars3BottomLeftIcon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('left').run(), editor.isActive({ textAlign: 'left' }))}
-                {toolbarButton(<Bars3Icon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('center').run(), editor.isActive({ textAlign: 'center' }))}
-                {toolbarButton(<Bars3BottomRightIcon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('right').run(), editor.isActive({ textAlign: 'right' }))}
-                {toolbarButton(<ArrowTopRightOnSquareIcon className="h-5 w-5" />, () => {
-                  const url = prompt('Enter URL')
-                  if (url) editor.chain().focus().setLink({ href: url }).run()
-                }, editor.isActive('link'))}
-                {toolbarButton(<PhotoIcon className="h-5 w-5" />, () => {
-                  const url = prompt('Enter image URL')
-                  if (url) editor.chain().focus().setImage({ src: url }).run()
-                }, false)}
-              </>
-            )}
-          </div>
-
-          {/* Content Editor */}
-          <div className="bg-white border border-gray-200 rounded overflow-hidden min-h-[400px]">
-            {editor ? (
-              <EditorContent
-                editor={editor}
-                className="p-4 w-full min-h-[400px] h-auto outline-none focus:ring-2 focus:ring-main text-gray-800"
-                style={{ minHeight: '400px' }}
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                placeholder="Title"
+                className="w-full p-2 border border-gray-300 rounded"
+                value={title}
+                onChange={e => setTitle(e.target.value)}
               />
-            ) : (
-              <p className="p-4 text-gray-500">Loading editor...</p>
-            )}
-          </div>
+              <input
+                type="text"
+                placeholder="Author"
+                className="w-full p-2 border border-gray-300 rounded"
+                value={author}
+                onChange={e => setAuthor(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Category"
+                className="w-full p-2 border border-gray-300 rounded"
+                value={category}
+                onChange={e => setCategory(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Tags (comma-separated)"
+                className="w-full p-2 border border-gray-300 rounded"
+                value={tags}
+                onChange={e => setTags(e.target.value)}
+              />
+            </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-4">
-            <button
-              onClick={savePost}
-              disabled={saving}
-              className="px-6 py-2 bg-main text-white rounded hover:bg-main-dark"
-            >
-              {saving ? 'Saving...' : editingPost ? 'Update Post' : 'Save Post'}
-            </button>
-            <button
-              onClick={clearForm}
-              className="px-6 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-            >
-              Clear
-            </button>
+            {/* Toolbar */}
+            <div className="flex flex-wrap gap-2 bg-white p-3 border border-gray-200 rounded">
+              {editor && (
+                <>
+                  {toolbarButton(<BoldIcon className="h-5 w-5" />, () => editor.chain().focus().toggleBold().run(), editor.isActive('bold'))}
+                  {toolbarButton(<ItalicIcon className="h-5 w-5" />, () => editor.chain().focus().toggleItalic().run(), editor.isActive('italic'))}
+                  {toolbarButton(<UnderlineIcon className="h-5 w-5" />, () => editor.chain().focus().toggleUnderline().run(), editor.isActive('underline'))}
+                  {toolbarButton(<ListBulletIcon className="h-5 w-5" />, () => editor.chain().focus().toggleBulletList().run(), editor.isActive('bulletList'))}
+                  {toolbarButton(<Bars4Icon className="h-5 w-5" />, () => editor.chain().focus().toggleOrderedList().run(), editor.isActive('orderedList'))}
+                  {toolbarButton(<Bars3BottomLeftIcon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('left').run(), editor.isActive({ textAlign: 'left' }))}
+                  {toolbarButton(<Bars3Icon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('center').run(), editor.isActive({ textAlign: 'center' }))}
+                  {toolbarButton(<Bars3BottomRightIcon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('right').run(), editor.isActive({ textAlign: 'right' }))}
+                  {toolbarButton(<ArrowTopRightOnSquareIcon className="h-5 w-5" />, () => {
+                    const url = prompt('Enter URL')
+                    if (url) editor.chain().focus().setLink({ href: url }).run()
+                  }, editor.isActive('link'))}
+                  {toolbarButton(<PhotoIcon className="h-5 w-5" />, () => {
+                    const url = prompt('Enter image URL')
+                    if (url) editor.chain().focus().setImage({ src: url }).run()
+                  }, false)}
+                </>
+              )}
+            </div>
+
+            {/* Content Editor */}
+            <div className="bg-white border border-gray-200 rounded overflow-hidden min-h-[400px]">
+              {editor ? (
+                <EditorContent
+                  editor={editor}
+                  className="p-4 w-full min-h-[400px] h-auto outline-none focus:ring-2 focus:ring-main text-gray-800"
+                  style={{ minHeight: '400px' }}
+                />
+              ) : (
+                <p className="p-4 text-gray-500">Loading editor...</p>
+              )}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-4">
+              <button
+                onClick={savePost}
+                disabled={saving}
+                className="px-6 py-2 bg-main text-white rounded hover:bg-main-dark"
+              >
+                {saving ? 'Saving...' : editingPostId === 'new' ? 'Save Post' : 'Update Post'}
+              </button>
+              <button
+                onClick={clearForm}
+                className="px-6 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+              >
+                Clear
+              </button>
+            </div>
           </div>
         </div>
-      </main>
+      ) : (
+        // Post List View
+        <div className="flex-grow overflow-y-auto bg-white p-8">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-3xl font-bold text-main-dark">Blog Posts</h1>
+            <button
+              onClick={() => onPostSelect('new')}
+              className="px-4 py-2 bg-main text-white rounded hover:bg-main-dark flex items-center gap-2"
+            >
+              <DocumentPlusIcon className="h-5 w-5" />
+              New Post
+            </button>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {posts.map(post => (
+              <div
+                key={post.id}
+                onClick={() => onPostSelect(post.id)}
+                className="cursor-pointer p-4 rounded-lg border border-gray-200 hover:border-main transition-colors"
+              >
+                <p className="font-medium text-lg">{post.title}</p>
+                <div className="flex justify-between mt-2 text-sm">
+                  <span className="text-gray-600">{post.category}</span>
+                  <span className="text-gray-500">
+                    {new Date(post.created_at).toLocaleDateString()}
+                  </span>
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {post.tags.map(tag => (
+                    <span 
+                      key={tag} 
+                      className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
