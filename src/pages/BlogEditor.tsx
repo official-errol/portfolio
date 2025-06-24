@@ -7,9 +7,6 @@ import Underline from '@tiptap/extension-underline'
 import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
 import Youtube from '@tiptap/extension-youtube'
-import OrderedList from '@tiptap/extension-ordered-list'
-import BulletList from '@tiptap/extension-bullet-list'
-import ListItem from '@tiptap/extension-list-item'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
 
@@ -106,9 +103,6 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
       Link,
       Image,
       Youtube,
-      BulletList,
-      OrderedList,
-      ListItem,
     ],
     content: '',
   })
@@ -257,7 +251,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
               {editor ? (
                 <EditorContent
                   editor={editor}
-                  className="p-4 w-full min-h-[400px] h-auto outline-none focus:ring-2 focus:ring-main text-gray-800"
+                  className="p-4 w-full min-h-[400px] h-auto outline-none focus:outline-none focus:ring-0 text-gray-800"
                   style={{ minHeight: '400px' }}
                 />
               ) : (
