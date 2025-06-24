@@ -1,9 +1,9 @@
 // src/pages/BlogEditor.tsx
-import React, { useEffect, useRef, useState, ChangeEvent } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import type { ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
 import { PostgrestError } from '@supabase/supabase-js'
-import { PlusIcon } from '@heroicons/react/24/outline'
 
 interface Post {
   id: string
