@@ -59,16 +59,6 @@ const AdminDashboard: React.FC = () => {
               Blog Editor
             </button>
 
-            {activeSection === 'blog' && (
-              <button
-                onClick={handleNewPost}
-                className="flex items-center gap-3 w-full px-4 py-2 rounded-lg hover:bg-main-light transition text-main-dark"
-              >
-                <DocumentPlusIcon className="h-5 w-5" />
-                New Post
-              </button>
-            )}
-
             <button
               onClick={() => setActiveSection('other')}
               className={`flex items-center gap-3 w-full px-4 py-2 rounded-lg hover:bg-main-light transition ${
