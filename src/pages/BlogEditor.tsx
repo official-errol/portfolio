@@ -1,180 +1,220 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '../services/supabaseClient';
+import React, { useState, useEffect, ChangeEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { supabase } from '../services/supabaseClient'
+import { ArrowLeftIcon, PlusIcon } from '@heroicons/react/24/outline'
 
 interface Post {
-  id: string;
-  title: string;
-  slug: string;
-  content: string;
-  author: string;
-  category: string;
-  tags: string[];
-  media_url?: string;
-  media_type?: 'image' | 'video' | 'youtube';
-  created_at: string;
+  id: string
+  title: string
+  slug: string
+  content: string
+  author: string
+  category: string
+  tags: string[]
+  media_url?: string
+  media_type?: 'image' | 'youtube' | 'video'
+  created_at: string
 }
 
-const BlogEditor: React.FC = () => {
-  const navigate = useNavigate();
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [category, setCategory] = useState('');
-  const [tags, setTags] = useState('');
-  const [content, setContent] = useState('');
-  const [mediaUrl, setMediaUrl] = useState('');
-  const [mediaType, setMediaType] = useState<'image' | 'video' | 'youtube' | ''>('');
-  const [saving, setSaving] = useState(false);
+interface BlogEditorProps {
+  editingPostId: string | null
+  onPostSelect: (postId: string) => void
+  onClearEditing: () => void
+}
+
+const BlogEditor: React.FC<BlogEditorProps> = ({ editingPostId, onPostSelect, onClearEditing }) => {
+  const navigate = useNavigate()
+  const [posts, setPosts] = useState<Post[]>([])
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [category, setCategory] = useState('')
+  const [tags, setTags] = useState('')
+  const [content, setContent] = useState('')
+  const [mediaUrl, setMediaUrl] = useState('')
+  const [mediaType, setMediaType] = useState<'image' | 'youtube' | 'video' | ''>('')
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     if (localStorage.getItem('isAdminAuthenticated') !== 'true') {
-      navigate('/');
+      navigate('/')
+    } else {
+      fetchPosts()
     }
-  }, []);
+  }, [])
+
+  useEffect(() => {
+    if (editingPostId && editingPostId !== 'new') {
+      const post = posts.find(p => p.id === editingPostId)
+      if (post) loadPost(post)
+    } else if (editingPostId === 'new') {
+      clearForm()
+    }
+  }, [editingPostId, posts])
+
+  const fetchPosts = async () => {
+    const { data } = await supabase.from('posts').select('*').order('created_at', { ascending: false })
+    if (data) setPosts(data)
+  }
 
   const slugify = (text: string) =>
-    text.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    text.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 
-  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files?.[0];
+  const loadPost = (post: Post) => {
+    setTitle(post.title)
+    setAuthor(post.author)
+    setCategory(post.category)
+    setTags(post.tags.join(', '))
+    setContent(post.content)
+    setMediaUrl(post.media_url || '')
+    setMediaType(post.media_type || '')
+  }
 
-    if (file) {
-      const ext = file.name.split('.').pop()?.toLowerCase();
-      const fileType = file.type.startsWith('video') ? 'video' : 'image';
+  const clearForm = () => {
+    setTitle('')
+    setAuthor('')
+    setCategory('')
+    setTags('')
+    setContent('')
+    setMediaUrl('')
+    setMediaType('')
+  }
 
-      const { data, error } = await supabase.storage
-        .from('media') // Ensure bucket named 'media' exists
-        .upload(`posts/${Date.now()}-${file.name}`, file);
+  const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
 
-      if (!error && data) {
-        const { publicUrl } = supabase.storage.from('media').getPublicUrl(data.path);
-        setMediaUrl(publicUrl);
-        setMediaType(fileType);
-      }
+    const ext = file.name.split('.').pop()
+    const filePath = `${Date.now()}.${ext}`
+
+    const { data, error } = await supabase.storage.from('media').upload(filePath, file)
+
+    if (error) {
+      alert('Upload failed')
+      return
     }
-  };
 
-  const handleYouTube = () => {
-    const url = prompt('Paste YouTube video link:');
-    if (url && url.includes('youtube.com')) {
-      setMediaUrl(url);
-      setMediaType('youtube');
+    const { data: publicData } = supabase.storage.from('media').getPublicUrl(filePath)
+    const url = publicData?.publicUrl
+    setMediaUrl(url)
+
+    if (file.type.startsWith('image')) setMediaType('image')
+    else if (file.type.startsWith('video')) setMediaType('video')
+  }
+
+  const handleMediaUrl = (url: string) => {
+    setMediaUrl(url)
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      setMediaType('youtube')
     }
-  };
+  }
 
   const savePost = async () => {
-    setSaving(true);
-    const tagArray = tags.split(',').map(tag => tag.trim()).filter(Boolean);
-    const slug = slugify(title);
+    setSaving(true)
+    const slug = slugify(title)
+    const tagArr = tags.split(',').map(t => t.trim()).filter(Boolean)
 
-    const { error } = await supabase.from('posts').insert([
-      {
-        title,
-        slug,
-        content,
-        author,
-        category,
-        tags: tagArray,
-        media_url: mediaUrl,
-        media_type: mediaType,
-      },
-    ]);
-
-    setSaving(false);
-    if (!error) {
-      alert('Post saved!');
-      setTitle('');
-      setAuthor('');
-      setCategory('');
-      setTags('');
-      setContent('');
-      setMediaUrl('');
-      setMediaType('');
-    } else {
-      alert('Error saving post.');
+    const newPost = {
+      title,
+      slug,
+      content,
+      author,
+      category,
+      tags: tagArr,
+      media_url: mediaUrl,
+      media_type: mediaType,
     }
-  };
+
+    if (editingPostId && editingPostId !== 'new') {
+      await supabase.from('posts').update(newPost).eq('id', editingPostId)
+    } else {
+      await supabase.from('posts').insert([newPost])
+    }
+
+    setSaving(false)
+    clearForm()
+    fetchPosts()
+    onClearEditing()
+  }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-main-dark">Create Blog Post</h1>
+    <div className="flex flex-col bg-gray-100 text-gray-800 h-full">
+      {editingPostId ? (
+        <div className="flex-grow overflow-y-auto bg-white p-8 w-full">
+          <button onClick={onClearEditing} className="flex items-center gap-2 mb-6 text-main hover:text-main-dark">
+            <ArrowLeftIcon className="h-4 w-4" />
+            Back to posts
+          </button>
 
-      <input
-        className="w-full p-2 mb-3 border border-gray-300 rounded"
-        placeholder="Title"
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-      />
-      <input
-        className="w-full p-2 mb-3 border border-gray-300 rounded"
-        placeholder="Author"
-        value={author}
-        onChange={e => setAuthor(e.target.value)}
-      />
-      <input
-        className="w-full p-2 mb-3 border border-gray-300 rounded"
-        placeholder="Category"
-        value={category}
-        onChange={e => setCategory(e.target.value)}
-      />
-      <input
-        className="w-full p-2 mb-3 border border-gray-300 rounded"
-        placeholder="Tags (comma-separated)"
-        value={tags}
-        onChange={e => setTags(e.target.value)}
-      />
+          <h1 className="text-3xl font-bold mb-4 text-main-dark">{editingPostId === 'new' ? 'Create Post' : 'Edit Post'}</h1>
 
-      <textarea
-        className="w-full p-3 mb-3 border border-gray-300 rounded min-h-[200px]"
-        placeholder="Write your blog post here..."
-        value={content}
-        onChange={e => setContent(e.target.value)}
-      />
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input type="text" placeholder="Title" className="w-full p-2 border border-gray-300 rounded" value={title} onChange={e => setTitle(e.target.value)} />
+              <input type="text" placeholder="Author" className="w-full p-2 border border-gray-300 rounded" value={author} onChange={e => setAuthor(e.target.value)} />
+              <input type="text" placeholder="Category" className="w-full p-2 border border-gray-300 rounded" value={category} onChange={e => setCategory(e.target.value)} />
+              <input type="text" placeholder="Tags (comma-separated)" className="w-full p-2 border border-gray-300 rounded" value={tags} onChange={e => setTags(e.target.value)} />
+            </div>
 
-      <div
-        onDrop={handleDrop}
-        onDragOver={e => e.preventDefault()}
-        className="border border-dashed border-gray-400 p-6 mb-4 rounded text-center text-gray-500 cursor-pointer"
-      >
-        Drag and drop image or video here
-      </div>
+            <textarea placeholder="Write your blog here..." className="w-full p-4 border border-gray-300 rounded min-h-[200px]" value={content} onChange={e => setContent(e.target.value)} />
 
-      <button
-        onClick={handleYouTube}
-        className="mb-4 px-4 py-2 bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200"
-      >
-        Add YouTube Video
-      </button>
+            {/* Media Upload & Preview */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">Upload Image/Video</label>
+              <input type="file" accept="image/*,video/*" onChange={handleFileUpload} />
 
-      {mediaUrl && (
-        <div className="mb-4">
-          {mediaType === 'image' && <img src={mediaUrl} alt="Uploaded" className="max-h-64" />}
-          {mediaType === 'video' && (
-            <video controls className="max-h-64">
-              <source src={mediaUrl} />
-            </video>
-          )}
-          {mediaType === 'youtube' && (
-            <iframe
-              className="w-full h-64"
-              src={`https://www.youtube.com/embed/${new URL(mediaUrl).searchParams.get('v')}`}
-              title="YouTube video"
-              allowFullScreen
-            />
-          )}
+              <label className="block text-sm font-medium text-gray-700">or Paste YouTube Link</label>
+              <input type="text" placeholder="https://youtube.com/..." className="w-full p-2 border border-gray-300 rounded" value={mediaUrl} onChange={e => handleMediaUrl(e.target.value)} />
+
+              {mediaType === 'image' && mediaUrl && <img src={mediaUrl} alt="Uploaded" className="w-full max-w-md rounded border" />}
+              {mediaType === 'video' && mediaUrl && <video src={mediaUrl} controls className="w-full max-w-md rounded border" />}
+              {mediaType === 'youtube' && mediaUrl && (
+                <iframe
+                  className="w-full max-w-md h-64 border rounded"
+                  src={`https://www.youtube.com/embed/${mediaUrl.split('v=')[1]}`}
+                  title="YouTube video"
+                  allowFullScreen
+                />
+              )}
+            </div>
+
+            <div className="flex gap-4">
+              <button onClick={savePost} disabled={saving} className="px-6 py-2 bg-main text-white rounded hover:bg-main-dark">
+                {saving ? 'Saving...' : editingPostId === 'new' ? 'Save Post' : 'Update Post'}
+              </button>
+              <button onClick={clearForm} className="px-6 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                Clear
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex-grow overflow-y-auto bg-white p-8">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-3xl font-bold text-main-dark">Blog Posts</h1>
+            <button onClick={() => onPostSelect('new')} className="px-4 py-2 bg-main text-white rounded hover:bg-main-dark flex items-center gap-2">
+              <PlusIcon className="h-5 w-5" />
+              New Post
+            </button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {posts.map(post => (
+              <div key={post.id} onClick={() => onPostSelect(post.id)} className="cursor-pointer p-4 rounded-lg border border-gray-200 hover:border-main transition-colors">
+                <p className="font-medium text-lg">{post.title}</p>
+                <div className="text-sm text-gray-500">{new Date(post.created_at).toLocaleDateString()}</div>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {post.tags.map(tag => (
+                    <span key={tag} className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
-
-      <button
-        onClick={savePost}
-        disabled={saving}
-        className="px-6 py-2 bg-main text-white rounded hover:bg-main-dark"
-      >
-        {saving ? 'Saving...' : 'Save Post'}
-      </button>
     </div>
-  );
-};
+  )
+}
 
-export default BlogEditor;
+export default BlogEditor
