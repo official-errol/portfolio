@@ -18,7 +18,6 @@ import {
   ItalicIcon,
   UnderlineIcon,
   ListBulletIcon,
-  ListOrderedIcon,
   PhotoIcon,
   ArrowTopRightOnSquareIcon,
   Bars3BottomLeftIcon,
@@ -219,7 +218,7 @@ const BlogEditor: React.FC = () => {
                 {toolbarButton(<UnderlineIcon className="h-5 w-5" />, () => editor.chain().focus().toggleUnderline().run(), editor.isActive('underline'))}
                 {toolbarButton(<ListBulletIcon className="h-5 w-5" />, () => editor.chain().focus().toggleBulletList().run(), editor.isActive('bulletList'))}
                 {toolbarButton(<ListOrderedIcon className="h-5 w-5" />, () => editor.chain().focus().toggleOrderedList().run(), editor.isActive('orderedList'))}
-                {toolbarButton(<Bars3LeftIcon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('left').run(), editor.isActive({ textAlign: 'left' }))}
+                {toolbarButton(<Bars3BottomLeftIcon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('left').run(), editor.isActive({ textAlign: 'left' }))}
                 {toolbarButton(<Bars3Icon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('center').run(), editor.isActive({ textAlign: 'center' }))}
                 {toolbarButton(<Bars3BottomRightIcon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('right').run(), editor.isActive({ textAlign: 'right' }))}
                 {toolbarButton(<ArrowTopRightOnSquareIcon className="h-5 w-5" />, () => {
