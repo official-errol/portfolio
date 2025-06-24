@@ -13,6 +13,7 @@ const BlogEditor: React.FC = () => {
   const [tags, setTags] = useState('')
   const [saving, setSaving] = useState(false)
   const navigate = useNavigate()
+  const [author, setAuthor] = useState('')
 
   useEffect(() => {
     if (localStorage.getItem('isAdminAuthenticated') !== 'true') {
@@ -46,7 +47,7 @@ const BlogEditor: React.FC = () => {
         content: editor.getHTML(),
         category,
         tags: tagArr,
-        author: 'Admin',
+        author,
       },
     ])
 
@@ -70,6 +71,13 @@ const BlogEditor: React.FC = () => {
       />
       <input
         type="text"
+        placeholder="Author"
+        className="w-full mb-3 p-2 border border-gray-300 rounded"
+        value={author}
+        onChange={(e) => setAuthor(e.target.value)}
+      />
+      <input
+        type="text"
         placeholder="Category"
         className="w-full mb-3 p-2 border border-gray-300 rounded"
         value={category}
@@ -83,8 +91,12 @@ const BlogEditor: React.FC = () => {
         onChange={(e) => setTags(e.target.value)}
       />
 
-      <div className="border border-gray-300 rounded p-2 mb-4 min-h-[200px]">
-        <EditorContent editor={editor} />
+      <div className="border border-gray-300 rounded p-3 mb-4 min-h-[300px] bg-white">
+        {editor ? (
+          <EditorContent editor={editor} className="prose max-w-none" />
+        ) : (
+          <p>Loading editor...</p>
+        )}
       </div>
 
       <button
