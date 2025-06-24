@@ -1,3 +1,4 @@
+// AdminDashboard.tsx
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BlogEditor from './BlogEditor'
@@ -7,11 +8,13 @@ import {
   PencilSquareIcon,
   FolderIcon,
   ArrowRightOnRectangleIcon,
+  DocumentPlusIcon,
 } from '@heroicons/react/24/outline'
 
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate()
   const [activeSection, setActiveSection] = useState<'blog' | 'other'>('blog')
+  const [editingPost, setEditingPost] = useState<string | null>(null)
 
   useEffect(() => {
     if (localStorage.getItem('isAdminAuthenticated') !== 'true') {
@@ -24,15 +27,30 @@ const AdminDashboard: React.FC = () => {
     navigate('/')
   }
 
+  const handlePostSelect = (postId: string) => {
+    setEditingPost(postId)
+  }
+
+  const handleNewPost = () => {
+    setEditingPost('new')
+  }
+
+  const handleClearEditing = () => {
+    setEditingPost(null)
+  }
+
   return (
     <div className="min-h-screen flex bg-gray-100">
-      {/* Sidebar */}
+      {/* Sidebar - Fixed width */}
       <aside className="w-64 h-screen sticky top-0 bg-white border-r border-gray-200 p-6 flex flex-col justify-between">
         <div>
           <h2 className="text-2xl font-bold text-main-dark mb-6">Admin Panel</h2>
           <nav className="space-y-3">
             <button
-              onClick={() => setActiveSection('blog')}
+              onClick={() => {
+                setActiveSection('blog')
+                setEditingPost(null)
+              }}
               className={`flex items-center gap-3 w-full px-4 py-2 rounded-lg hover:bg-main-light transition ${
                 activeSection === 'blog' ? 'bg-main text-white' : 'text-main-dark'
               }`}
@@ -40,6 +58,16 @@ const AdminDashboard: React.FC = () => {
               <PencilSquareIcon className="h-5 w-5" />
               Blog Editor
             </button>
+
+            {activeSection === 'blog' && (
+              <button
+                onClick={handleNewPost}
+                className="flex items-center gap-3 w-full px-4 py-2 rounded-lg hover:bg-main-light transition text-main-dark"
+              >
+                <DocumentPlusIcon className="h-5 w-5" />
+                New Post
+              </button>
+            )}
 
             <button
               onClick={() => setActiveSection('other')}
@@ -55,7 +83,7 @@ const AdminDashboard: React.FC = () => {
 
         <button
           onClick={handleLogout}
-              className="flex items-center gap-2 w-full py-2 px-3 text-sm text-white bg-red-500 rounded-lg cursor-pointer select-none
+          className="flex items-center gap-2 w-full py-2 px-3 text-sm text-white bg-red-500 rounded-lg cursor-pointer select-none
                 active:translate-y-2 active:[box-shadow:0_0px_0_0_#e11d48,0_0px_0_0_#e11d4866]
                 active:border-b-[0px]
                 transition-all duration-150 [box-shadow:0_6px_0_0_#e11d48,0_10px_0_0_#e11d4866]
@@ -67,10 +95,16 @@ const AdminDashboard: React.FC = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-grow overflow-y-auto bg-white h-screen min-w-0">
-        {activeSection === 'blog' && <BlogEditor />}
+      <main className="flex-grow overflow-y-auto bg-white min-w-0">
+        {activeSection === 'blog' && (
+          <BlogEditor 
+            editingPostId={editingPost} 
+            onPostSelect={handlePostSelect}
+            onClearEditing={handleClearEditing}
+          />
+        )}
         {activeSection === 'other' && (
-          <div className="text-gray-700">
+          <div className="text-gray-700 p-8">
             <h2 className="text-2xl font-semibold mb-4">Other Section</h2>
             <p>More admin tools coming soon...</p>
           </div>
