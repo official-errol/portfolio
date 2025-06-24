@@ -133,7 +133,7 @@ const BlogEditor: React.FC = () => {
   return (
     <div className="min-h-screen flex bg-gray-100 text-gray-800">
       {/* Sidebar */}
-      <aside className="w-1/4 bg-white border-r border-gray-200 p-4 overflow-y-auto">
+      <aside className="w-[280px] flex-shrink-0 bg-white border-r border-gray-200 p-4">
         <h2 className="text-lg font-bold mb-4">Your Posts</h2>
         <ul className="space-y-2">
           {posts.map(post => (
@@ -150,7 +150,7 @@ const BlogEditor: React.FC = () => {
       </aside>
 
       {/* Editor Form */}
-      <main className="w-3/4 p-8">
+      <main className="flex-grow p-8 overflow-y-auto">
         <h1 className="text-3xl font-bold mb-6 text-main-dark">
           {editingPost ? 'Edit Blog Post' : 'Create Blog Post'}
         </h1>
