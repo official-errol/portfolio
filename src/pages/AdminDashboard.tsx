@@ -45,7 +45,7 @@ const AdminDashboard: React.FC = () => {
                 setActiveSection('blog')
                 setEditingPost(null)
               }}
-              className={`flex items-center gap-3 w-full px-4 py-2 rounded-lg ${
+              className={`flex items-center gap-3 w-full px-4 py-2 rounded-lg border ${
                 activeSection === 'blog' ? 'border-main-dark text-main-dark bg-white'
                 : 'border-gray-200 text-gray-600 bg-white'
               }`}
