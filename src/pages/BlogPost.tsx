@@ -8,7 +8,6 @@ import { SocialShare } from '../components/SocialShare'
 interface Post { id: string; title: string; content: string; author: string; category: string; tags: string[]; created_at: string }
 
 const BlogPost: React.FC = () => {
-  const { id } = useParams<{ id: string }>()
   const [post, setPost] = useState<Post | null>(null)
   const { slug } = useParams()
 
