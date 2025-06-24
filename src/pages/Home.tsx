@@ -171,9 +171,12 @@ const LatestBlogPreview: React.FC = () => {
           <h3 className="text-lg font-semibold text-main-dark mb-2">
             {post.title}
           </h3>
-          <p className="text-sm text-gray-600 line-clamp-3 mb-2">
-            {post.content?.slice(0, 100)}...
-          </p>
+          <div
+            className="text-sm text-gray-600 line-clamp-3 mb-2"
+            dangerouslySetInnerHTML={{
+              __html: post.content?.slice(0, 100) + '...',
+            }}
+          />
           <p className="text-xs text-gray-400">
             {new Date(post.created_at).toLocaleDateString()}
           </p>
