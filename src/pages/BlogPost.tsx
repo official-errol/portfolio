@@ -10,11 +10,17 @@ interface Post { id: string; title: string; content: string; author: string; cat
 const BlogPost: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const [post, setPost] = useState<Post | null>(null)
+  const { slug } = useParams()
 
   useEffect(() => {
-    supabase.from('posts').select('*').eq('id', id).single()
-      .then(res => setPost(res.data))
-  }, [id])
+    supabase
+      .from('posts')
+      .select('*')
+      .eq('slug', slug)
+      .single()
+      .then((res) => setPost(res.data || null))
+  }, [slug])
+
 
   if (!post) return <div className="p-10">Loading...</div>
 
