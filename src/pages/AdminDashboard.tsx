@@ -27,7 +27,7 @@ const AdminDashboard: React.FC = () => {
   return (
     <div className="min-h-screen flex bg-gray-100">
       {/* Sidebar */}
-      <aside className="w-64 h-screen bg-white border border-r-gray-200 p-6 flex flex-col justify-between">
+      <aside className="w-64 h-screen bg-white border-r-gray-200 p-6 flex flex-col justify-between">
         <div>
           <h2 className="text-2xl font-bold text-main-dark mb-6">Admin Panel</h2>
           <nav className="space-y-3">
