@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /dashboard
+Disallow: /editor
+Allow: /
+
+Sitemap: https://errolsolomon.me/sitemap.xml
