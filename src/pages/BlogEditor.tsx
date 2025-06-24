@@ -88,10 +88,12 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ editingPostId, onPostSelect, on
     const filePath = `${Date.now()}.${ext}`
   
     // Upload the file to the "media" bucket
-    const { error: uploadError } = await supabase.storage.from('media').upload(filePath, file)
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('media')
+      .upload(filePath, file)
   
-    if (uploadError) {
-      alert('Upload failed: ' + uploadError.message)
+    if (uploadError || !uploadData?.path) {
+      alert('Upload failed: ' + uploadError?.message)
       return
     }
   
@@ -99,43 +101,18 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ editingPostId, onPostSelect, on
     const { data: publicData, error: publicUrlError } = supabase
       .storage
       .from('media')
-      .getPublicUrl(filePath)
+      .getPublicUrl(uploadData.path)
   
     if (publicUrlError || !publicData?.publicUrl) {
       alert('Failed to get public URL')
       return
     }
   
-    const url = publicData.publicUrl
-    setMediaUrl(url)
+    setMediaUrl(publicData.publicUrl)
   
     if (file.type.startsWith('image')) setMediaType('image')
     else if (file.type.startsWith('video')) setMediaType('video')
   }
-
-  const { publicUrl } = supabase
-    .storage
-    .from('media')
-    .getPublicUrl(filePath).data
-
-  setMediaUrl(publicUrl)
-  if (file.type.startsWith('image')) setMediaType('image')
-  else if (file.type.startsWith('video')) setMediaType('video')
-}
-
-  const { data: publicData, error: urlErr } = supabase
-    .storage
-    .from('media')
-    .getPublicUrl(uploadData.path)
-
-  if (urlErr || !publicData) {
-    console.error('URL error', urlErr)
-    return alert('Error getting public URL')
-  }
-
-  setMediaUrl(publicData.publicUrl)
-  setMediaType(file.type.startsWith('image/') ? 'image' : 'video')
-}
 
   const handleMediaUrl = (url: string) => {
     setMediaUrl(url)
