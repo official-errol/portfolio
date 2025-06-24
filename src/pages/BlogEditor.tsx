@@ -25,7 +25,7 @@ import {
   Bars3Icon,
   Bars4Icon,
   ArrowLeftIcon,
-  DocumentPlusIcon // ADDED THIS IMPORT
+  PlusIcon
 } from '@heroicons/react/24/outline'
 
 interface Post {
@@ -182,8 +182,8 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   return (
     <div className="flex flex-col bg-gray-100 text-gray-800 h-full">
       {editingPostId ? (
-        // Editor View
-        <div className="flex-grow overflow-y-auto bg-white p-8 max-w-6xl mx-auto w-full">
+        // Editor View - Removed max-width constraints
+        <div className="flex-grow overflow-y-auto bg-white p-8 w-full">
           <button
             onClick={onClearEditing}
             className="flex items-center gap-2 mb-6 text-main hover:text-main-dark"
@@ -284,7 +284,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
           </div>
         </div>
       ) : (
-        // Post List View
+        // Post List View - Added padding and removed max-width constraints
         <div className="flex-grow overflow-y-auto bg-white p-8">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold text-main-dark">Blog Posts</h1>
@@ -292,7 +292,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
               onClick={() => onPostSelect('new')}
               className="px-4 py-2 bg-main text-white rounded hover:bg-main-dark flex items-center gap-2"
             >
-              <DocumentPlusIcon className="h-5 w-5" />
+              <PlusIcon className="h-5 w-5" />
               New Post
             </button>
           </div>
