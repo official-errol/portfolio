@@ -9,11 +9,18 @@ import LoadingSpinner from '../components/LoadingSpinner'
 interface Post {
   id: string
   title: string
+  slug: string
   content: string
   author: string
   category: string
   tags: string[]
   created_at: string
+}
+
+declare global {
+  interface Window {
+    adsbygoogle: unknown[]
+  }
 }
 
 const BlogPost: React.FC = () => {
