@@ -180,7 +180,7 @@ const BlogEditor: React.FC = () => {
       </aside>
 
       {/* Editor */}
-      <main className="flex-grow p-8 overflow-y-auto">
+      <main className="flex-grow p-8 overflow-y-auto bg-white">
         <h1 className="text-3xl font-bold mb-4 text-main-dark">
           {editingPost ? 'Edit Blog Post' : 'Create Blog Post'}
         </h1>
@@ -241,7 +241,7 @@ const BlogEditor: React.FC = () => {
           </div>
 
           {/* Content Editor */}
-          <div className="bg-white border border-main rounded overflow-hidden min-h-[400px]">
+          <div className="bg-white border border-gray-200 rounded overflow-hidden min-h-[400px]">
             {editor ? (
               <EditorContent
                 editor={editor}
