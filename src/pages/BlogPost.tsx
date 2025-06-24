@@ -4,7 +4,7 @@ import { supabase } from '../services/supabaseClient'
 import { LikeButton } from '../components/LikeButton'
 import { CommentSection } from '../components/CommentSection'
 import { SocialShare } from '../components/SocialShare'
-import { LoadingSpinner } from '../components/LoadingSpinner'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 interface Post { id: string; title: string; content: string; author: string; category: string; tags: string[]; created_at: string }
 
