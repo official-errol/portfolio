@@ -19,7 +19,6 @@ import Nav from './components/Nav'
 // Admin pages
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
-import BlogEditor from './pages/BlogEditor'
 
 const isAdmin = window.location.hostname.startsWith('admin')
 
@@ -40,7 +39,6 @@ const App: React.FC = () => {
                     <>
                       <Route path="/" element={<AdminLogin />} />
                       <Route path="/dashboard" element={<AdminDashboard />} />
-                      <Route path="/editor" element={<BlogEditor />} />
                       <Route path="*" element={<Navigate to="/" />} />
                     </>
                   ) : (
