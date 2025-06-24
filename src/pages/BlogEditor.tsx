@@ -159,7 +159,7 @@ const BlogEditor: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex bg-gray-100 text-gray-800">
+    <div className="flex flex-grow bg-gray-100 text-gray-800 h-full">
       {/* Sidebar */}
       <aside className="w-[280px] flex-shrink-0 bg-white border-r border-gray-200 p-4 overflow-y-auto">
         <h2 className="text-lg font-bold mb-4">Your Posts</h2>
@@ -180,7 +180,7 @@ const BlogEditor: React.FC = () => {
       </aside>
 
       {/* Editor */}
-      <main className="flex-grow p-8 overflow-y-auto bg-white">
+      <main className="flex-grow overflow-y-auto bg-white p-8 max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-4 text-main-dark">
           {editingPost ? 'Edit Blog Post' : 'Create Blog Post'}
         </h1>
