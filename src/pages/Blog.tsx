@@ -10,7 +10,7 @@ const Blog: React.FC = () => {
   useEffect(() => {
     supabase
       .from('posts')
-      .select('id, title, content, created_at')
+      .select('id, title, slug, content, created_at')
       .order('created_at', { ascending: false })
       .then(res => setPosts(res.data || []))
   }, [])
@@ -22,7 +22,7 @@ const Blog: React.FC = () => {
         {posts.map(post => (
           <li key={post.id}>
             <Link
-              to={`/blog/${post.id}`}
+              to={`/blog/${post.slug}`}
               className="block p-4 border border-gray-300 rounded hover:bg-gray-50"
             >
               <h2 className="text-2xl font-semibold">{post.title}</h2>
