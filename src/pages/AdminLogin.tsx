@@ -8,7 +8,7 @@ const AdminLogin: React.FC = () => {
   const navigate = useNavigate()
 
   const handleLogin = () => {
-    if (username === 'admin' && password === 'admin123') {
+    if (username === 'admin' && password === 'P@$$w0rdS3cur3d') {
       localStorage.setItem('isAdminAuthenticated', 'true')
       navigate('/dashboard')
     } else {
