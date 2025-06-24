@@ -24,6 +24,14 @@ const BlogEditor: React.FC = () => {
     extensions: [StarterKit, Link, Image, Youtube],
     content: '<p>Start writing your blog...</p>',
   })
+  const slugify = (text: string) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-') // replace spaces/symbols with hyphens
+    .replace(/(^-|-$)/g, '')     // remove leading/trailing hyphens
+
+  const slug = slugify(title)
 
   const savePost = async () => {
     if (!editor) return
@@ -34,6 +42,7 @@ const BlogEditor: React.FC = () => {
     const { error } = await supabase.from('posts').insert([
       {
         title,
+        slug,
         content: editor.getHTML(),
         category,
         tags: tagArr,
