@@ -8,7 +8,6 @@ import {
   PencilSquareIcon,
   FolderIcon,
   ArrowRightOnRectangleIcon,
-  DocumentPlusIcon,
 } from '@heroicons/react/24/outline'
 
 const AdminDashboard: React.FC = () => {
@@ -29,10 +28,6 @@ const AdminDashboard: React.FC = () => {
 
   const handlePostSelect = (postId: string) => {
     setEditingPost(postId)
-  }
-
-  const handleNewPost = () => {
-    setEditingPost('new')
   }
 
   const handleClearEditing = () => {
