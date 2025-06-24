@@ -67,7 +67,7 @@ const AdminDashboard: React.FC = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-grow overflow-y-auto bg-white h-screen">
+      <main className="flex-grow overflow-y-auto bg-white h-screen min-w-0">
         {activeSection === 'blog' && <BlogEditor />}
         {activeSection === 'other' && (
           <div className="text-gray-700">
