@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 interface Post {
   id: string
   title: string
+  slug: string
   content: string
   created_at: string
 }
@@ -156,7 +157,7 @@ const LatestBlogPreview: React.FC = () => {
   useEffect(() => {
     supabase
       .from('posts')
-      .select('id, title, content, created_at')
+      .select('id, title, slug, content, created_at')
       .order('created_at', { ascending: false })
       .limit(3)
       .then(res => setPosts(res.data || []))
@@ -166,7 +167,7 @@ const LatestBlogPreview: React.FC = () => {
     <div className="grid gap-6 md:grid-cols-3 mt-6 text-left">
       {posts.map(post => (
         <Link
-          to={`/blog/${post.id}`}
+          to={`/blog/${post.slug}`}
           key={post.id}
           className="border border-gray-200 rounded-lg p-4 hover:shadow transition"
         >
