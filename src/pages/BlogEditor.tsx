@@ -5,8 +5,26 @@ import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
 import Youtube from '@tiptap/extension-youtube'
 import Placeholder from '@tiptap/extension-placeholder'
-import { supabase } from '../services/supabaseClient'
+import TextAlign from '@tiptap/extension-text-align'
+import Underline from '@tiptap/extension-underline'
+import BulletList from '@tiptap/extension-bullet-list'
+import OrderedList from '@tiptap/extension-ordered-list'
+import ListItem from '@tiptap/extension-list-item'
 import { useNavigate } from 'react-router-dom'
+import { supabase } from '../services/supabaseClient'
+
+import {
+  BoldIcon,
+  ItalicIcon,
+  UnderlineIcon,
+  ListBulletIcon,
+  ListOrderedIcon,
+  PhotoIcon,
+  ArrowTopRightOnSquareIcon,
+  Bars3BottomLeftIcon,
+  Bars3BottomRightIcon,
+  Bars3Icon,
+} from '@heroicons/react/24/outline'
 
 interface Post {
   id: string
@@ -21,10 +39,8 @@ interface Post {
 
 const BlogEditor: React.FC = () => {
   const navigate = useNavigate()
-
   const [posts, setPosts] = useState<Post[]>([])
   const [editingPost, setEditingPost] = useState<Post | null>(null)
-
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [category, setCategory] = useState('')
@@ -40,26 +56,12 @@ const BlogEditor: React.FC = () => {
   }, [])
 
   const fetchPosts = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('posts')
       .select('*')
       .order('created_at', { ascending: false })
     if (data) setPosts(data)
-    if (error) console.error(error.message)
   }
-
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Link,
-      Image,
-      Youtube,
-      Placeholder.configure({
-        placeholder: 'Write your blog content here...',
-      }),
-    ],
-    content: '',
-  })
 
   const slugify = (text: string) =>
     text
@@ -67,6 +69,36 @@ const BlogEditor: React.FC = () => {
       .trim()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '')
+
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: 'Start writing your blog...',
+      }),
+      Link,
+      Image,
+      Youtube,
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
+      Underline,
+      BulletList,
+      OrderedList,
+      ListItem,
+    ],
+    content: '',
+  })
+
+  const toolbarButton = (icon: JSX.Element, command: () => void, isActive: boolean) => (
+    <button
+      type="button"
+      onClick={command}
+      className={`p-2 rounded hover:bg-gray-200 ${
+        isActive ? 'bg-main text-white' : 'text-gray-800'
+      }`}
+    >
+      {icon}
+    </button>
+  )
 
   const loadPostForEditing = (post: Post) => {
     setEditingPost(post)
@@ -85,8 +117,7 @@ const BlogEditor: React.FC = () => {
     const slug = slugify(title)
 
     if (editingPost) {
-      // Update
-      const { error } = await supabase
+      await supabase
         .from('posts')
         .update({
           title,
@@ -97,12 +128,8 @@ const BlogEditor: React.FC = () => {
           author,
         })
         .eq('id', editingPost.id)
-
-      if (error) alert('Update error: ' + error.message)
-      else alert('Post updated!')
     } else {
-      // Insert new
-      const { error } = await supabase.from('posts').insert([
+      await supabase.from('posts').insert([
         {
           title,
           slug,
@@ -112,13 +139,11 @@ const BlogEditor: React.FC = () => {
           author,
         },
       ])
-      if (error) alert('Insert error: ' + error.message)
-      else alert('Post created!')
     }
 
     setSaving(false)
-    fetchPosts()
     clearForm()
+    fetchPosts()
   }
 
   const clearForm = () => {
@@ -132,8 +157,7 @@ const BlogEditor: React.FC = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-100 text-gray-800">
-      {/* Sidebar */}
-      <aside className="w-[280px] flex-shrink-0 bg-white border-r border-gray-200 p-4">
+      <aside className="w-[280px] flex-shrink-0 bg-white border-r border-gray-200 p-4 overflow-y-auto">
         <h2 className="text-lg font-bold mb-4">Your Posts</h2>
         <ul className="space-y-2">
           {posts.map(post => (
@@ -143,15 +167,16 @@ const BlogEditor: React.FC = () => {
               className="cursor-pointer px-3 py-2 rounded hover:bg-gray-100 border border-gray-200"
             >
               <p className="font-medium">{post.title}</p>
-              <p className="text-xs text-gray-500">{new Date(post.created_at).toLocaleDateString()}</p>
+              <p className="text-xs text-gray-500">
+                {new Date(post.created_at).toLocaleDateString()}
+              </p>
             </li>
           ))}
         </ul>
       </aside>
 
-      {/* Editor Form */}
       <main className="flex-grow p-8 overflow-y-auto">
-        <h1 className="text-3xl font-bold mb-6 text-main-dark">
+        <h1 className="text-3xl font-bold mb-4 text-main-dark">
           {editingPost ? 'Edit Blog Post' : 'Create Blog Post'}
         </h1>
 
@@ -185,17 +210,43 @@ const BlogEditor: React.FC = () => {
             onChange={e => setTags(e.target.value)}
           />
 
-          <div className="border border-gray-300 rounded bg-white min-h-[400px]">
+          {/* Toolbar */}
+          <div className="flex flex-wrap gap-2 bg-white p-3 border border-gray-200 rounded">
+            {editor && (
+              <>
+                {toolbarButton(<BoldIcon className="h-5 w-5" />, () => editor.chain().focus().toggleBold().run(), editor.isActive('bold'))}
+                {toolbarButton(<ItalicIcon className="h-5 w-5" />, () => editor.chain().focus().toggleItalic().run(), editor.isActive('italic'))}
+                {toolbarButton(<UnderlineIcon className="h-5 w-5" />, () => editor.chain().focus().toggleUnderline().run(), editor.isActive('underline'))}
+                {toolbarButton(<ListBulletIcon className="h-5 w-5" />, () => editor.chain().focus().toggleBulletList().run(), editor.isActive('bulletList'))}
+                {toolbarButton(<ListOrderedIcon className="h-5 w-5" />, () => editor.chain().focus().toggleOrderedList().run(), editor.isActive('orderedList'))}
+                {toolbarButton(<Bars3LeftIcon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('left').run(), editor.isActive({ textAlign: 'left' }))}
+                {toolbarButton(<Bars3Icon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('center').run(), editor.isActive({ textAlign: 'center' }))}
+                {toolbarButton(<Bars3BottomRightIcon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('right').run(), editor.isActive({ textAlign: 'right' }))}
+                {toolbarButton(<ArrowTopRightOnSquareIcon className="h-5 w-5" />, () => {
+                  const url = prompt('Enter URL')
+                  if (url) editor.chain().focus().setLink({ href: url }).run()
+                }, editor.isActive('link'))}
+                {toolbarButton(<PhotoIcon className="h-5 w-5" />, () => {
+                  const url = prompt('Enter image URL')
+                  if (url) editor.chain().focus().setImage({ src: url }).run()
+                }, false)}
+              </>
+            )}
+          </div>
+
+          {/* Editor */}
+          <div className="bg-white border border-gray-300 rounded min-h-[400px]">
             {editor ? (
               <EditorContent
                 editor={editor}
-                className="prose max-w-none p-4 min-h-[400px] outline-none"
+                className="p-4 prose max-w-none min-h-[400px] outline-none"
               />
             ) : (
               <p className="p-4 text-gray-500">Loading editor...</p>
             )}
           </div>
 
+          {/* Buttons */}
           <div className="flex gap-4">
             <button
               onClick={savePost}
