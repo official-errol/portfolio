@@ -45,9 +45,9 @@ const AdminDashboard: React.FC = () => {
                 setActiveSection('blog')
                 setEditingPost(null)
               }}
-              className={`flex items-center gap-3 w-full px-4 py-2 rounded-lg border ${
-                activeSection === 'blog' ? 'border-main-dark text-main-dark bg-white'
-                : 'border-gray-200 text-gray-600 bg-white'
+              className={`flex items-center gap-3 w-full px-4 py-2 rounded-lg border-l ${
+                activeSection === 'blog' ? 'border-main text-main-dark bg-white'
+                : 'text-gray-600 bg-white'
               }`}
             >
               <PencilSquareIcon className="h-5 w-5" />
@@ -56,9 +56,9 @@ const AdminDashboard: React.FC = () => {
 
             <button
               onClick={() => setActiveSection('other')}
-              className={`flex items-center gap-3 w-full px-4 py-2 rounded-lg ${
-                activeSection === 'other' ? 'border-main-dark text-main-dark bg-white'
-                : 'border-gray-200 text-gray-600 bg-white'
+              className={`flex items-center gap-3 w-full px-4 py-2 rounded-lg border-l ${
+                activeSection === 'other' ? 'border-main text-main-dark bg-white'
+                : 'text-gray-600 bg-white'
               }`}
             >
               <FolderIcon className="h-5 w-5" />
