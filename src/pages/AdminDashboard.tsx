@@ -45,16 +45,9 @@ const AdminDashboard: React.FC = () => {
                 setActiveSection('blog')
                 setEditingPost(null)
               }}
-              className={`flex items-center gap-3 w-full px-4 py-2 ${
-                activeSection === 'blog' ? `text-main-dark bg-main rounded-lg cursor-pointer select-none
-              active:translate-y-2 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
-              active:border-b-[1px]
-              transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
-              border-b border-main-dark` : `text-gray-800 bg-white rounded-lg cursor-pointer select-none
-              active:translate-y-2 active:[box-shadow:0_0px_0_0_#d1d5db,0_0px_0_0_#d1d5db66]
-              active:border-b-[1px]
-              transition-all duration-150 [box-shadow:0_6px_0_0_#d1d5db,0_10px_0_0_#d1d5db66]
-              border-[1px] border-gray-200`
+              className={`flex items-center gap-3 w-full px-4 py-2 rounded-lg ${
+                activeSection === 'blog' ? 'border-main-dark text-main-dark bg-white'
+                : 'border-gray-200 text-gray-600 bg-white'
               }`}
             >
               <PencilSquareIcon className="h-5 w-5" />
@@ -63,16 +56,9 @@ const AdminDashboard: React.FC = () => {
 
             <button
               onClick={() => setActiveSection('other')}
-              className={`flex items-center gap-3 w-full px-4 py-2 rounded-lg hover:bg-main-light transition ${
-                activeSection === 'other' ? `text-main-dark bg-main rounded-lg cursor-pointer select-none
-              active:translate-y-2 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
-              active:border-b-[1px]
-              transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
-              border-b border-main-dark` : `text-gray-800 bg-white rounded-lg cursor-pointer select-none
-              active:translate-y-2 active:[box-shadow:0_0px_0_0_#d1d5db,0_0px_0_0_#d1d5db66]
-              active:border-b-[1px]
-              transition-all duration-150 [box-shadow:0_6px_0_0_#d1d5db,0_10px_0_0_#d1d5db66]
-              border-[1px] border-gray-200`
+              className={`flex items-center gap-3 w-full px-4 py-2 rounded-lg ${
+                activeSection === 'other' ? 'border-main-dark text-main-dark bg-white'
+                : 'border-gray-200 text-gray-600 bg-white'
               }`}
             >
               <FolderIcon className="h-5 w-5" />
