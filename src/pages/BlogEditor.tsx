@@ -96,7 +96,7 @@ const BlogEditor: React.FC = () => {
       type="button"
       onClick={command}
       className={`p-2 rounded hover:bg-gray-200 ${
-        isActive ? 'bg-main text-white' : 'text-gray-800'
+        isActive ? 'bg-main text-main-dark' : 'text-gray-800'
       }`}
     >
       {icon}
