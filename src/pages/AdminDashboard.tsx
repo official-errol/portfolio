@@ -38,7 +38,7 @@ const AdminDashboard: React.FC = () => {
       {/* Sidebar - Fixed width with flex-shrink-0 */}
       <aside className="w-64 flex-shrink-0 h-screen sticky top-0 bg-white border-r border-gray-200 p-6 flex flex-col justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-main-dark mb-6">Admin Panel</h2>
+          <h2 className="text-2xl font-bold text-main-dark mb-6">Site Manager</h2>
           <nav className="space-y-3">
             <button
               onClick={() => {
