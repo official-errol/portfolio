@@ -87,7 +87,7 @@ const BlogEditor: React.FC = () => {
     content: '',
   })
 
-  const toolbarButton = (icon: JSX.Element, command: () => void, isActive: boolean) => (
+  const toolbarButton = (icon: React.ReactNode, command: () => void, isActive: boolean) => (
     <button
       type="button"
       onClick={command}
@@ -217,7 +217,7 @@ const BlogEditor: React.FC = () => {
                 {toolbarButton(<ItalicIcon className="h-5 w-5" />, () => editor.chain().focus().toggleItalic().run(), editor.isActive('italic'))}
                 {toolbarButton(<UnderlineIcon className="h-5 w-5" />, () => editor.chain().focus().toggleUnderline().run(), editor.isActive('underline'))}
                 {toolbarButton(<ListBulletIcon className="h-5 w-5" />, () => editor.chain().focus().toggleBulletList().run(), editor.isActive('bulletList'))}
-                {toolbarButton(<ListOrderedIcon className="h-5 w-5" />, () => editor.chain().focus().toggleOrderedList().run(), editor.isActive('orderedList'))}
+                {toolbarButton(<span className="font-bold">1.</span>, () => editor.chain().focus().toggleOrderedList().run(), editor.isActive('orderedList'))}
                 {toolbarButton(<Bars3BottomLeftIcon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('left').run(), editor.isActive({ textAlign: 'left' }))}
                 {toolbarButton(<Bars3Icon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('center').run(), editor.isActive({ textAlign: 'center' }))}
                 {toolbarButton(<Bars3BottomRightIcon className="h-5 w-5" />, () => editor.chain().focus().setTextAlign('right').run(), editor.isActive({ textAlign: 'right' }))}
