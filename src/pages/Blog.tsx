@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { supabase } from '../services/supabaseClient'
 import { Link } from 'react-router-dom'
 
-interface Post { id: string; title: string; content: string; created_at: string }
+interface Post { id: string; title: string; slug: string; content: string; created_at: string }
 
 const Blog: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([])
