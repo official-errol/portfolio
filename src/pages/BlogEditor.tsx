@@ -1,4 +1,5 @@
-import React, { useState, useEffect, ChangeEvent } from 'react'
+import React, { useState, useEffect } from 'react'
+import type { ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
 import { ArrowLeftIcon, PlusIcon } from '@heroicons/react/24/outline'
@@ -86,7 +87,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ editingPostId, onPostSelect, on
     const ext = file.name.split('.').pop()
     const filePath = `${Date.now()}.${ext}`
 
-    const { data, error } = await supabase.storage.from('media').upload(filePath, file)
+    const { error } = await supabase.storage.from('media').upload(filePath, file)
 
     if (error) {
       alert('Upload failed')
