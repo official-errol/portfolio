@@ -55,7 +55,7 @@ const AdminDashboard: React.FC = () => {
 
         <button
           onClick={handleLogout}
-              className="flex items-center gap-3 w-full py-2 px-3 text-md text-white bg-red-500 rounded-lg cursor-pointer select-none
+              className="flex items-center gap-2 w-full py-2 px-3 text-sm text-white bg-red-500 rounded-lg cursor-pointer select-none
                 active:translate-y-2 active:[box-shadow:0_0px_0_0_#e11d48,0_0px_0_0_#e11d4866]
                 active:border-b-[0px]
                 transition-all duration-150 [box-shadow:0_6px_0_0_#e11d48,0_10px_0_0_#e11d4866]
@@ -67,7 +67,7 @@ const AdminDashboard: React.FC = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-grow overflow-y-auto bg-white p-6 h-screen">
+      <main className="flex-grow overflow-y-auto bg-white h-screen">
         {activeSection === 'blog' && <BlogEditor />}
         {activeSection === 'other' && (
           <div className="text-gray-700">
