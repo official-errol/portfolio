@@ -50,11 +50,16 @@ const BlogPost: React.FC = () => {
   }, [post])
 
   useEffect(() => {
-    try {
-      // Load Google AdSense ad
-      (window.adsbygoogle = window.adsbygoogle || []).push({})
-    } catch (e) {}
-  }, [])
+    const timeout = setTimeout(() => {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.error("Adsbygoogle push error", e);
+      }
+    }, 500);
+  
+    return () => clearTimeout(timeout);
+  }, [post]);
 
   if (!post) {
     return (
