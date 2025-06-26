@@ -65,18 +65,19 @@ const Blog: React.FC = () => {
       <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
         {/* Main Section */}
         <div className="md:w-2/3 space-y-6">
-          <h1 className="text-4xl font-bold text-main-dark mb-4">Blogs</h1>
-
-          {/* Search */}
-          <div className="relative">
-            <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search posts..."
-              value={search}
-              onChange={e => applySearch(e.target.value)}
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full focus:border-main focus:outline-none"
-            />
+          {/* Title and Search side by side */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+            <h1 className="text-4xl font-bold text-main-dark">Blogs</h1>
+            <div className="relative w-full md:w-80">
+              <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search posts..."
+                value={search}
+                onChange={e => applySearch(e.target.value)}
+                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full focus:border-main focus:outline-none"
+              />
+            </div>
           </div>
 
           {/* Post List */}
