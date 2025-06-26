@@ -99,7 +99,7 @@ const Home: React.FC = () => {
         </section>
 
         {/* Services Section */}
-        <section className="snap-start min-h-screen bg-gray-50 flex items-center justify-center px-4">
+        <section className="snap-start min-h-screen bg-gray-50 flex items-center justify-center px-4 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
