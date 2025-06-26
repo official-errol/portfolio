@@ -6,7 +6,7 @@ import { CommentSection } from '../components/CommentSection'
 import { SocialShare } from '../components/SocialShare'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { Helmet } from 'react-helmet'
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
+import { ArrowLeftIcon, ArrowRightIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 
 interface Post {
   id: string
@@ -19,6 +19,12 @@ interface Post {
   media_url?: string
   media_type?: 'image' | 'video' | 'youtube'
   created_at: string
+}
+
+interface PostSearchResult {
+  id: string
+  title: string
+  slug: string
 }
 
 declare global {
@@ -86,7 +92,7 @@ const BlogPost: React.FC = () => {
   }, [post])
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<Post[]>([]);
+  const [searchResults, setSearchResults] = useState<PostSearchResult[]>([]);
   
   useEffect(() => {
     if (searchQuery.trim() === '') {
