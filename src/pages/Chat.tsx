@@ -14,7 +14,7 @@ const Chat: React.FC = () => {
     return (
       <>
         <Helmet>
-          <link rel="canonical" href="https://www.errolsolomon.me/contact" />
+          <link rel="canonical" href="https://www.errolsolomon.me/chat" />
         </Helmet>
       <div className="flex items-center justify-center h-screen w-full">
         <LoadingSpinner />
@@ -27,7 +27,7 @@ const Chat: React.FC = () => {
     return (
       <>
         <Helmet>
-          <link rel="canonical" href="https://www.errolsolomon.me/contact" />
+          <link rel="canonical" href="https://www.errolsolomon.me/chat" />
         </Helmet>
       <div className="flex flex-col items-center justify-center h-screen text-center px-4">
         <h1 className="text-3xl font-bold text-gray-800">Global Chat</h1>
@@ -72,7 +72,7 @@ const Chat: React.FC = () => {
   return (
       <>
         <Helmet>
-          <link rel="canonical" href="https://www.errolsolomon.me/contact" />
+          <link rel="canonical" href="https://www.errolsolomon.me/chat" />
         </Helmet>
     <div className="container mx-auto px-4 py-4 max-w-4xl">
       <div className="flex items-center justify-between mb-6">
