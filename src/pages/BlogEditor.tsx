@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import type { DragEvent } from 'react'
+import type { ChangeEvent, DragEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
 import {
@@ -7,7 +7,7 @@ import {
   PlusIcon,
   PhotoIcon,
   VideoCameraIcon,
-  PlayCircleIcon
+  PlayCircleIcon,
 } from '@heroicons/react/24/outline'
 
 interface Post {
@@ -29,7 +29,11 @@ interface BlogEditorProps {
   onClearEditing: () => void
 }
 
-const BlogEditor: React.FC<BlogEditorProps> = ({ editingPostId, onPostSelect, onClearEditing }) => {
+const BlogEditor: React.FC<BlogEditorProps> = ({
+  editingPostId,
+  onPostSelect,
+  onClearEditing,
+}) => {
   const navigate = useNavigate()
   const [posts, setPosts] = useState<Post[]>([])
   const [title, setTitle] = useState('')
@@ -86,34 +90,25 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ editingPostId, onPostSelect, on
     setMediaType('')
   }
 
-  const handleFileUpload = async (file: File) => {
+  const handleFileUpload = async (e: ChangeEvent<HTMLInputElement> | DragEvent<HTMLDivElement>) => {
+    const file = (e as ChangeEvent<HTMLInputElement>).target?.files?.[0] ||
+      (e as DragEvent<HTMLDivElement>).dataTransfer?.files?.[0]
+
+    if (!file) return
     const ext = file.name.split('.').pop()
     const filePath = `${Date.now()}.${ext}`
 
-    const { data: uploadData, error } = await supabase.storage.from('media').upload(filePath, file)
+    const { data: uploadData, error } = await supabase.storage
+      .from('media')
+      .upload(filePath, file)
 
-    if (error || !uploadData?.path) {
-      alert('Upload failed: ' + error?.message)
-      return
-    }
+    if (error || !uploadData?.path) return alert('Upload failed: ' + error?.message)
 
     const { publicUrl } = supabase.storage.from('media').getPublicUrl(uploadData.path).data
-    if (!publicUrl) return
-
     setMediaUrl(publicUrl)
 
     if (file.type.startsWith('image')) setMediaType('image')
     else if (file.type.startsWith('video')) setMediaType('video')
-  }
-
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    const file = e.dataTransfer.files?.[0]
-    if (file) handleFileUpload(file)
-  }
-
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
   }
 
   const handleMediaUrl = (url: string) => {
@@ -152,100 +147,95 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ editingPostId, onPostSelect, on
   }
 
   return (
-    <div className="flex flex-col bg-gray-50 text-gray-800 h-full">
+    <div className="flex flex-col bg-gray-100 text-gray-800 h-full">
       {editingPostId ? (
-        <div className="flex-grow overflow-y-auto bg-white p-6 w-full">
-          <button onClick={onClearEditing} className="flex items-center gap-2 mb-4 text-sm text-main hover:text-main-dark">
+        <div className="flex-grow overflow-y-auto bg-white p-6">
+          <button onClick={onClearEditing} className="flex items-center gap-2 mb-4 text-main hover:text-main-dark text-sm">
             <ArrowLeftIcon className="h-4 w-4" />
             Back
           </button>
 
-          <h1 className="text-2xl font-bold mb-4 text-main-dark">{editingPostId === 'new' ? 'New Post' : 'Edit Post'}</h1>
+          <h1 className="text-2xl font-bold mb-4 text-main-dark">{editingPostId === 'new' ? 'Create Post' : 'Edit Post'}</h1>
 
-          <div className="space-y-3 text-sm">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input title="Title" placeholder="Title" className="w-full p-2 border border-gray-300 rounded" value={title} onChange={e => setTitle(e.target.value)} />
-              <input title="Author" placeholder="Author" className="w-full p-2 border border-gray-300 rounded" value={author} onChange={e => setAuthor(e.target.value)} />
-              <input title="Category" placeholder="Category" className="w-full p-2 border border-gray-300 rounded" value={category} onChange={e => setCategory(e.target.value)} />
-              <input title="Tags" placeholder="Tags (comma separated)" className="w-full p-2 border border-gray-300 rounded" value={tags} onChange={e => setTags(e.target.value)} />
-            </div>
-            <textarea title="Content" placeholder="Content" className="w-full p-3 border border-gray-300 rounded min-h-[160px]" value={content} onChange={e => setContent(e.target.value)} />
-
-            {/* Drag & Drop Area */}
-            <div
-              onDrop={handleDrop}
-              onDragOver={handleDragOver}
-              className="border border-dashed border-gray-400 rounded p-4 text-center text-gray-500 bg-gray-50"
-            >
-              Drag & drop image or video here
-              <input type="file" accept="image/*,video/*" onChange={e => e.target.files && handleFileUpload(e.target.files[0])} className="mt-2" />
-            </div>
-
-            {/* YouTube Link */}
-            <input
-              title="YouTube URL"
-              placeholder="YouTube URL (optional)"
-              className="w-full p-2 border border-gray-300 rounded"
-              value={mediaUrl}
-              onChange={e => handleMediaUrl(e.target.value)}
-            />
-
-            {/* Media Type Display */}
-            {mediaType && mediaUrl && (
-              <div className="flex items-center gap-2 mt-2 text-sm text-gray-600">
-                {mediaType === 'image' && <PhotoIcon className="h-4 w-4 text-main-dark" />}
-                {mediaType === 'video' && <VideoCameraIcon className="h-4 w-4 text-main-dark" />}
-                {mediaType === 'youtube' && <PlayCircleIcon className="h-4 w-4 text-main-dark" />}
-                <span className="capitalize">{mediaType}</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            {/* LEFT COLUMN */}
+            <div className="space-y-3">
+              <input title="Title" placeholder="Title" className="w-full p-2 border rounded" value={title} onChange={e => setTitle(e.target.value)} />
+              <input title="Author" placeholder="Author" className="w-full p-2 border rounded" value={author} onChange={e => setAuthor(e.target.value)} />
+              <input title="Category" placeholder="Category" className="w-full p-2 border rounded" value={category} onChange={e => setCategory(e.target.value)} />
+              <input title="Tags" placeholder="Tags (comma separated)" className="w-full p-2 border rounded" value={tags} onChange={e => setTags(e.target.value)} />
+          
+              {/* Drag and Drop */}
+              <div
+                onDrop={handleFileUpload}
+                onDragOver={(e) => e.preventDefault()}
+                className="w-full border border-dashed border-gray-400 p-4 text-center rounded cursor-pointer bg-gray-50"
+              >
+                <p className="text-sm flex justify-center items-center gap-2 text-gray-700">
+                  <PhotoIcon className="w-4 h-4" />
+                  Drag & Drop Image or Video Here
+                </p>
               </div>
-            )}
-
-            {/* Media Preview */}
-            {mediaType === 'image' && mediaUrl && (
-              <img src={mediaUrl} alt="Uploaded" className="w-full max-w-xs rounded border mt-2" />
-            )}
-            {mediaType === 'video' && mediaUrl && (
-              <video src={mediaUrl} controls className="w-full max-w-xs rounded border mt-2" />
-            )}
-            {mediaType === 'youtube' && mediaUrl && (
-              <iframe
-                className="w-full max-w-xs h-48 rounded border mt-2"
-                src={`https://www.youtube.com/embed/${mediaUrl.split('v=')[1]}`}
-                title="YouTube video"
-                allowFullScreen
-              ></iframe>
-            )}
-
-            {/* Action Buttons */}
-            <div className="flex gap-3 mt-4">
-              <button onClick={savePost} disabled={saving} className="px-4 py-2 bg-main text-white text-sm rounded hover:bg-main-dark">
-                {saving ? 'Saving...' : editingPostId === 'new' ? 'Save Post' : 'Update Post'}
-              </button>
-              <button onClick={clearForm} className="px-4 py-2 bg-gray-200 text-gray-700 text-sm rounded hover:bg-gray-300">
-                Clear
-              </button>
+          
+              <div className="text-center text-sm text-gray-500">— or —</div>
+          
+              {/* YouTube Link */}
+              <div className="relative">
+                <PlayCircleIcon className="w-4 h-4 absolute left-2 top-2.5 text-gray-400" />
+                <input
+                  title="YouTube Link"
+                  type="text"
+                  placeholder="YouTube link (https://...)"
+                  className="w-full pl-8 p-2 border rounded"
+                  value={mediaType === 'youtube' ? mediaUrl : ''}
+                  onChange={(e) => handleMediaUrl(e.target.value)}
+                />
+              </div>
+          
+              {/* Media Preview */}
+              {mediaType === 'image' && <img src={mediaUrl} alt="Uploaded" className="w-full max-w-sm rounded border" />}
+              {mediaType === 'video' && <video src={mediaUrl} controls className="w-full max-w-sm rounded border" />}
+              {mediaType === 'youtube' && (
+                <iframe
+                  className="w-full max-w-sm h-56 border rounded"
+                  src={`https://www.youtube.com/embed/${mediaUrl.split('v=')[1] || ''}`}
+                  title="YouTube video"
+                  allowFullScreen
+                ></iframe>
+              )}
+            </div>
+          
+            {/* RIGHT COLUMN (Content Textarea) */}
+            <div>
+              <label className="block mb-1 text-gray-700 font-medium">Blog Content</label>
+              <textarea
+                title="Content"
+                placeholder="Write your blog here..."
+                className="w-full h-full min-h-[450px] p-4 border rounded"
+                value={content}
+                onChange={e => setContent(e.target.value)}
+              />
             </div>
           </div>
+
         </div>
       ) : (
         <div className="flex-grow overflow-y-auto bg-white p-6">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-main-dark">Blog Posts</h1>
-            <button onClick={() => onPostSelect('new')} className="px-4 py-2 text-sm bg-main text-white rounded hover:bg-main-dark flex items-center gap-1">
-              <PlusIcon className="h-4 w-4" />
-              New
+            <button onClick={() => onPostSelect('new')} className="px-4 py-2 bg-main text-white rounded hover:bg-main-dark flex items-center gap-2 text-sm">
+              <PlusIcon className="h-5 w-5" />
+              New Post
             </button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {posts.map(post => (
-              <div key={post.id} onClick={() => onPostSelect(post.id)} className="cursor-pointer p-3 rounded-lg border border-gray-200 hover:border-main transition-colors text-sm">
-                <p className="font-semibold">{post.title}</p>
+              <div key={post.id} onClick={() => onPostSelect(post.id)} className="cursor-pointer p-3 rounded border hover:border-main transition text-sm">
+                <p className="font-medium text-base">{post.title}</p>
                 <p className="text-xs text-gray-500">{new Date(post.created_at).toLocaleDateString()}</p>
                 <div className="mt-2 flex flex-wrap gap-1">
                   {post.tags.map(tag => (
-                    <span key={tag} className="px-2 py-0.5 bg-gray-100 text-gray-700 rounded text-xs">
-                      {tag}
-                    </span>
+                    <span key={tag} className="px-2 py-0.5 bg-gray-100 text-gray-700 rounded text-xs">{tag}</span>
                   ))}
                 </div>
               </div>
