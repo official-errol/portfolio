@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
 import { LikeButton } from '../components/LikeButton'
 import { CommentSection } from '../components/CommentSection'
 import { SocialShare } from '../components/SocialShare'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { Helmet } from 'react-helmet'
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 
 interface Post {
   id: string
@@ -29,7 +30,10 @@ declare global {
 const BlogPost: React.FC = () => {
   const [post, setPost] = useState<Post | null>(null)
   const [relatedPosts, setRelatedPosts] = useState<Post[]>([])
+  const [previousPost, setPreviousPost] = useState<Post | null>(null)
+  const [nextPost, setNextPost] = useState<Post | null>(null)
   const { slug } = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
     supabase
@@ -49,6 +53,24 @@ const BlogPost: React.FC = () => {
         .eq('category', post.category)
         .limit(5)
         .then((res) => setRelatedPosts(res.data || []))
+
+      // Previous post
+      supabase
+        .from('posts')
+        .select('*')
+        .lt('created_at', post.created_at)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .then((res) => setPreviousPost(res.data?.[0] || null))
+
+      // Next post
+      supabase
+        .from('posts')
+        .select('*')
+        .gt('created_at', post.created_at)
+        .order('created_at', { ascending: true })
+        .limit(1)
+        .then((res) => setNextPost(res.data?.[0] || null))
     }
   }, [post])
 
@@ -128,6 +150,30 @@ const BlogPost: React.FC = () => {
           <div className="mt-6 flex items-center gap-6">
             <LikeButton postId={post.id} />
             <SocialShare title={post.title} url={window.location.href} />
+          </div>
+
+          {/* Previous & Next */}
+          <div className="mt-10 flex justify-between items-center">
+            <button
+              disabled={!previousPost}
+              onClick={() => previousPost && navigate(`/blog/${previousPost.slug}`)}
+              className={`flex items-center gap-2 px-4 py-2 rounded ${
+                previousPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              }`}
+            >
+              <ArrowLeftIcon className="w-5 h-5" />
+              Previous
+            </button>
+            <button
+              disabled={!nextPost}
+              onClick={() => nextPost && navigate(`/blog/${nextPost.slug}`)}
+              className={`flex items-center gap-2 px-4 py-2 rounded ${
+                nextPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              }`}
+            >
+              Next
+              <ArrowRightIcon className="w-5 h-5" />
+            </button>
           </div>
 
           <CommentSection postId={post.id} />
