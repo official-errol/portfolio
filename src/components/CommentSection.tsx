@@ -227,7 +227,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
       <h3 className="text-xl font-semibold mb-4">Comments</h3>
 
       {/* Comment List */}
-      <div className="space-y-4 mb-6">
+      <div className="space-y-4">
         {comments.filter(c => c.parent_id === null).map(renderComment)}
       </div>
 
