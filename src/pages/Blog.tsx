@@ -64,7 +64,7 @@ const Blog: React.FC = () => {
 
       <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
         {/* Main Section */}
-        <div className="md:w-2/3 space-y-6">
+        <div className="md:w-4/5 space-y-6">
           <h1 className="text-4xl font-bold text-main-dark mb-4">Blogs</h1>
 
           {/* Search */}
@@ -117,7 +117,7 @@ const Blog: React.FC = () => {
         </div>
 
         {/* Sidebar with Google Ads */}
-        <aside className="md:w-1/3 space-y-6">
+        <aside className="md:w-1/5 space-y-6">
           <div>
             <h3 className="text-lg font-bold text-main-dark mb-2">Sponsored</h3>
             <ins
