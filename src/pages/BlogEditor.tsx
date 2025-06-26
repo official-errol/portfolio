@@ -6,6 +6,7 @@ import {
   ArrowLeftIcon,
   PlusIcon,
   PhotoIcon,
+  VideoCameraIcon,
   PlayCircleIcon,
 } from '@heroicons/react/24/outline'
 
@@ -156,74 +157,61 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
 
           <h1 className="text-2xl font-bold mb-4 text-main-dark">{editingPostId === 'new' ? 'Create Post' : 'Edit Post'}</h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-            {/* LEFT COLUMN */}
-            <div className="space-y-3">
-              <input title="Title" placeholder="Title" className="w-full p-2 border rounded" value={title} onChange={e => setTitle(e.target.value)} />
-              <input title="Author" placeholder="Author" className="w-full p-2 border rounded" value={author} onChange={e => setAuthor(e.target.value)} />
-              <input title="Category" placeholder="Category" className="w-full p-2 border rounded" value={category} onChange={e => setCategory(e.target.value)} />
-              <input title="Tags" placeholder="Tags (comma separated)" className="w-full p-2 border rounded" value={tags} onChange={e => setTags(e.target.value)} />
-          
-              {/* Drag and Drop */}
-              <div
-                onDrop={handleFileUpload}
-                onDragOver={(e) => e.preventDefault()}
-                className="w-full border border-dashed border-gray-400 p-4 text-center rounded cursor-pointer bg-gray-50"
-              >
-                <p className="text-sm flex justify-center items-center gap-2 text-gray-700">
-                  <PhotoIcon className="w-4 h-4" />
-                  Drag & Drop Image or Video Here
-                </p>
-              </div>
-          
-              <div className="text-center text-sm text-gray-500">— or —</div>
-          
-              {/* YouTube Link */}
-              <div className="relative">
-                <PlayCircleIcon className="w-4 h-4 absolute left-2 top-2.5 text-gray-400" />
-                <input
-                  title="YouTube Link"
-                  type="text"
-                  placeholder="YouTube link (https://...)"
-                  className="w-full pl-8 p-2 border rounded"
-                  value={mediaType === 'youtube' ? mediaUrl : ''}
-                  onChange={(e) => handleMediaUrl(e.target.value)}
-                />
-              </div>
-          
-              {/* Media Preview */}
-              {mediaType === 'image' && <img src={mediaUrl} alt="Uploaded" className="w-full max-w-sm rounded border" />}
-              {mediaType === 'video' && <video src={mediaUrl} controls className="w-full max-w-sm rounded border" />}
-              {mediaType === 'youtube' && (
-                <iframe
-                  className="w-full max-w-sm h-56 border rounded"
-                  src={`https://www.youtube.com/embed/${mediaUrl.split('v=')[1] || ''}`}
-                  title="YouTube video"
-                  allowFullScreen
-                ></iframe>
-              )}
+          <div className="space-y-3 text-sm">
+            <input title="Title" placeholder="Title" className="w-full p-2 border rounded" value={title} onChange={e => setTitle(e.target.value)} />
+            <input title="Author" placeholder="Author" className="w-full p-2 border rounded" value={author} onChange={e => setAuthor(e.target.value)} />
+            <input title="Category" placeholder="Category" className="w-full p-2 border rounded" value={category} onChange={e => setCategory(e.target.value)} />
+            <input title="Tags" placeholder="Tags (comma separated)" className="w-full p-2 border rounded" value={tags} onChange={e => setTags(e.target.value)} />
+            <textarea title="Content" placeholder="Write your blog here..." className="w-full p-3 border rounded min-h-[150px]" value={content} onChange={e => setContent(e.target.value)} />
+
+            {/* Drag and Drop Upload */}
+            <div
+              onDrop={handleFileUpload}
+              onDragOver={(e) => e.preventDefault()}
+              className="w-full border border-dashed border-gray-400 p-4 text-center rounded cursor-pointer bg-gray-50"
+            >
+              <p className="text-sm flex justify-center items-center gap-2 text-gray-700">
+                <PhotoIcon className="w-4 h-4" />
+                Drag & Drop Image or Video Here
+              </p>
             </div>
-          
-            {/* RIGHT COLUMN (Content Textarea) */}
-            <div>
-              <label className="block mb-1 text-gray-700 font-medium">Blog Content</label>
-              <textarea
-                title="Content"
-                placeholder="Write your blog here..."
-                className="w-full h-full min-h-[450px] p-4 border rounded"
-                value={content}
-                onChange={e => setContent(e.target.value)}
+
+            <div className="text-center text-sm text-gray-500 mt-2 mb-2">— or —</div>
+
+            {/* YouTube Link */}
+            <div className="relative">
+              <PlayCircleIcon className="w-4 h-4 absolute left-2 top-2.5 text-gray-400" />
+              <input
+                title="YouTube Link"
+                type="text"
+                placeholder="YouTube link (https://...)"
+                className="w-full pl-8 p-2 border rounded"
+                value={mediaType === 'youtube' ? mediaUrl : ''}
+                onChange={(e) => handleMediaUrl(e.target.value)}
               />
             </div>
-          </div>
-          <div className="flex gap-4 mt-4">
-            <button onClick={savePost} disabled={saving} className="px-5 py-2 bg-main text-white rounded hover:bg-main-dark text-sm">
-              {saving ? 'Saving...' : editingPostId === 'new' ? 'Save' : 'Update'}
-            </button>
-            <button onClick={clearForm} className="px-5 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
-              Clear
-            </button>
+
+            {/* Media Preview */}
+            {mediaType === 'image' && <img src={mediaUrl} alt="Uploaded" className="w-full max-w-sm rounded border" />}
+            {mediaType === 'video' && <video src={mediaUrl} controls className="w-full max-w-sm rounded border" />}
+            {mediaType === 'youtube' && (
+              <iframe
+                className="w-full max-w-sm h-56 border rounded"
+                src={`https://www.youtube.com/embed/${mediaUrl.split('v=')[1] || ''}`}
+                title="YouTube video"
+                allowFullScreen
+              ></iframe>
+            )}
+
+            <div className="flex gap-4 mt-4">
+              <button onClick={savePost} disabled={saving} className="px-5 py-2 bg-main text-white rounded hover:bg-main-dark text-sm">
+                {saving ? 'Saving...' : editingPostId === 'new' ? 'Save' : 'Update'}
+              </button>
+              <button onClick={clearForm} className="px-5 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                Clear
+              </button>
             </div>
+          </div>
         </div>
       ) : (
         <div className="flex-grow overflow-y-auto bg-white p-6">
