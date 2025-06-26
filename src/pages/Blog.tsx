@@ -84,11 +84,6 @@ const Blog: React.FC = () => {
             {pagePosts.map(post => (
               <li key={post.id}>
                 <Link to={`/blog/${post.slug}`} className="flex items-center gap-4 border border-gray-200 rounded-lg overflow-hidden hover:bg-gray-50 transition">
-                  {post.media_type === 'image' && post.media_url ? (
-                    <img src={post.media_url} alt={post.title} className="w-32 h-24 object-cover flex-shrink-0" />
-                  ) : (
-                    <div className="w-32 h-24 bg-gray-200 flex items-center justify-center text-gray-500 text-xs">No Image</div>
-                  )}
                   <div className="py-3 pr-4 flex-1">
                     <h2 className="text-xl font-semibold text-main-dark">{post.title}</h2>
                     <p className="text-sm text-gray-500 mt-1">{new Date(post.created_at).toLocaleDateString()}</p>
