@@ -40,6 +40,8 @@ const BlogPost: React.FC = () => {
   const [nextPost, setNextPost] = useState<Post | null>(null)
   const { slug } = useParams()
   const navigate = useNavigate()
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<PostSearchResult[]>([]);
 
   useEffect(() => {
     supabase
@@ -90,9 +92,6 @@ const BlogPost: React.FC = () => {
       }
     }
   }, [post])
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<PostSearchResult[]>([]);
   
   useEffect(() => {
     if (searchQuery.trim() === '') {
