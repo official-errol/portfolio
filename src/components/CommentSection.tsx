@@ -137,7 +137,12 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
     const userReacted = userReaction(comment.id)
 
     return (
-      <div key={comment.id} className="border-b border-gray-200 pb-3">
+      <div
+        key={comment.id}
+        className={`${
+          comment.parent_id ? 'border-t' : 'border-b'
+        } border-gray-200 pb-3`}
+      >
         <div className="flex items-start gap-3">
           <img src={comment.user_avatar} alt={comment.user_name} className="w-8 h-8 rounded-full" />
           <div className="flex-1">
