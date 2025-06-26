@@ -40,7 +40,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
       <h3 className="text-xl font-semibold mb-2">Comments</h3>
       <div className="space-y-4 mb-4">
         {comments.map(c => (
-          <div key={c.id} className="border-b pb-2 flex items-start gap-3">
+          <div key={c.id} className="border-b border-gray-200 pb-2 flex items-start gap-3">
             <img src={c.user_avatar} alt="" className="w-8 h-8 rounded-full" />
             <div>
               <p className="text-sm font-semibold">{c.user_name}</p>
@@ -51,7 +51,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
       </div>
       <div className="flex gap-2">
         <textarea
-          className="flex-grow border p-2 rounded"
+          className="flex-grow border border-gray-200 p-2 rounded"
           rows={2}
           placeholder="Write a comment..."
           value={newComment}
