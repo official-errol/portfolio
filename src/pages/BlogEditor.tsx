@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import type { ChangeEvent, DragEvent } from 'react'
+import type { DragEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
 import {
