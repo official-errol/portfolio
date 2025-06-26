@@ -35,7 +35,7 @@ const Chat: React.FC = () => {
           Please sign in to access the chat.
         </p>
         <button 
-          onClick={() => login('google')}
+          onClick={() => login('google', `${window.location.origin}/chat`)}
             className="mb-6 flex items-center gap-4 px-6 py-3 text-gray-800 bg-white rounded-lg cursor-pointer select-none
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#d1d5db,0_0px_0_0_#d1d5db66]
     active:border-b-[1px]
@@ -50,7 +50,7 @@ const Chat: React.FC = () => {
           Sign in with Google
         </button>
         <button 
-          onClick={() => login('github')}
+          onClick={() => login('github', `${window.location.origin}/chat`)}
             className="flex items-center gap-4 px-6 py-3 text-white bg-stone-900 rounded-lg cursor-pointer select-none
     active:translate-y-2 active:[box-shadow:0_0px_0_0_#383534,0_0px_0_0_#0f172a66]
     active:border-b-[1px]
