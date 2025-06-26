@@ -154,60 +154,60 @@ const Home: React.FC = () => {
       </motion.div>
 
       {/* Testimonials Section */}
-<motion.div
-  initial={{ opacity: 0, y: 30 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6 }}
-  viewport={{ once: true }}
-  className="w-full bg-gray-50 py-12 px-4"
->
-  <div className="max-w-4xl mx-auto text-center">
-    <h2 className="text-3xl font-bold text-main-dark mb-6">What Clients Say</h2>
-    <div className="grid gap-6 md:grid-cols-3 text-left">
-      {/* Testimonial 1 */}
-      <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
-        <div className="flex items-center gap-4 mb-4">
-          <img src="https://randomuser.me/api/portraits/men/32.jpg" className="w-12 h-12 rounded-full" alt="Client 1" />
-          <div>
-            <p className="font-semibold text-main-dark">Mark Reyes</p>
-            <p className="text-sm text-gray-500">Entrepreneur, Quezon City</p>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="w-full bg-gray-50 py-12 px-4"
+      >
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-main-dark mb-6">Testimonials</h2>
+          <div className="grid gap-6 md:grid-cols-3 text-left">
+            {/* Testimonial 1 */}
+            <div className="bg-white rounded-lg p-6 border border-gray-200">
+              <div className="flex items-center gap-4 mb-4">
+                <img src="https://randomuser.me/api/portraits/men/45.jpg" className="w-12 h-12 rounded-full" alt="client from Lipa" />
+                <div>
+                  <p className="font-semibold text-main-dark">Jerome Aguilar</p>
+                  <p className="text-sm text-gray-500">Small Business Owner, Lipa City</p>
+                </div>
+              </div>
+              <p className="text-sm text-gray-700">
+                “Ang bilis kausap ni Errol, at ang ganda ng gawa niya sa website ko! Hindi ko inakala na kaya pala ‘to ng local talent natin.”
+              </p>
+            </div>
+      
+            {/* Testimonial 2 */}
+            <div className="bg-white rounded-lg p-6 border border-gray-200">
+              <div className="flex items-center gap-4 mb-4">
+                <img src="https://randomuser.me/api/portraits/women/58.jpg" className="w-12 h-12 rounded-full" alt="client from Batangas" />
+                <div>
+                  <p className="font-semibold text-main-dark">Maricar Lopez</p>
+                  <p className="text-sm text-gray-500">Online Seller, Batangas City</p>
+                </div>
+              </div>
+              <p className="text-sm text-gray-700">
+                “Sobrang helpful at professional si Errol. Tinulungan niya ako mag-set up ng online store ko. Sulit every peso!”
+              </p>
+            </div>
+      
+            {/* Testimonial 3 */}
+            <div className="bg-white rounded-lg p-6 border border-gray-200">
+              <div className="flex items-center gap-4 mb-4">
+                <img src="https://randomuser.me/api/portraits/men/22.jpg" className="w-12 h-12 rounded-full" alt="client from Tanauan" />
+                <div>
+                  <p className="font-semibold text-main-dark">Alvin Mendoza</p>
+                  <p className="text-sm text-gray-500">Freelancer, Tanauan City</p>
+                </div>
+              </div>
+              <p className="text-sm text-gray-700">
+                “Matagal na akong naghahanap ng developer na ka-vibes. Buti na lang na-recommend si Errol — di ako nagsisi.”
+              </p>
+            </div>
           </div>
         </div>
-        <p className="text-sm text-gray-700">
-          “Napakagaling ni Errol! Inayos niya agad ang website ko at ang linis ng pagkakagawa. Highly recommended!”
-        </p>
-      </div>
-
-      {/* Testimonial 2 */}
-      <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
-        <div className="flex items-center gap-4 mb-4">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" className="w-12 h-12 rounded-full" alt="Client 2" />
-          <div>
-            <p className="font-semibold text-main-dark">Alyssa Dela Cruz</p>
-            <p className="text-sm text-gray-500">Graphic Designer, Cebu</p>
-          </div>
-        </div>
-        <p className="text-sm text-gray-700">
-          “Super gaan kausap si Errol. Tinulungan niya ako i-launch ang portfolio ko at ang ganda ng result. Salamat po!”
-        </p>
-      </div>
-
-      {/* Testimonial 3 */}
-      <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
-        <div className="flex items-center gap-4 mb-4">
-          <img src="https://randomuser.me/api/portraits/men/65.jpg" className="w-12 h-12 rounded-full" alt="Client 3" />
-          <div>
-            <p className="font-semibold text-main-dark">Jomar Santos</p>
-            <p className="text-sm text-gray-500">Freelancer, Davao City</p>
-          </div>
-        </div>
-        <p className="text-sm text-gray-700">
-          “Ang bilis ng turnaround time. Kung kailangan niyo ng maaasahang developer, si Errol na 'yan.”
-        </p>
-      </div>
-    </div>
-  </div>
-</motion.div>
+      </motion.div>
 
     </div>
     </>
