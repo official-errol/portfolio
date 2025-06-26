@@ -155,6 +155,7 @@ const Home: React.FC = () => {
         </div>
       </motion.div>
     </div>
+    </>
   )
 }
 
@@ -193,7 +194,6 @@ const LatestBlogPreview: React.FC = () => {
         </Link>
       ))}
     </div>
-    </>
   )
 }
 
