@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import type { ChangeEvent, DragEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
@@ -7,6 +7,7 @@ import {
   PlusIcon,
   PhotoIcon,
   PlayCircleIcon,
+  TrashIcon,
 } from '@heroicons/react/24/outline'
 
 interface Post {
@@ -43,6 +44,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   const [mediaUrl, setMediaUrl] = useState('')
   const [mediaType, setMediaType] = useState<'image' | 'youtube' | 'video' | ''>('')
   const [saving, setSaving] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     if (localStorage.getItem('isAdminAuthenticated') !== 'true') {
@@ -90,10 +92,11 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   }
 
   const handleFileUpload = async (e: ChangeEvent<HTMLInputElement> | DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
     const file = (e as ChangeEvent<HTMLInputElement>).target?.files?.[0] ||
       (e as DragEvent<HTMLDivElement>).dataTransfer?.files?.[0]
-
     if (!file) return
+
     const ext = file.name.split('.').pop()
     const filePath = `${Date.now()}.${ext}`
 
@@ -115,6 +118,16 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     if (url.includes('youtube.com') || url.includes('youtu.be')) {
       setMediaType('youtube')
     }
+  }
+
+  const getYoutubeEmbedId = (url: string) => {
+    const match = url.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})/)
+    return match ? match[1] : ''
+  }
+
+  const removeMedia = () => {
+    setMediaUrl('')
+    setMediaType('')
   }
 
   const savePost = async () => {
@@ -163,21 +176,27 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
             <input title="Tags" placeholder="Tags (comma separated)" className="w-full p-2 border border-gray-200 rounded" value={tags} onChange={e => setTags(e.target.value)} />
             <textarea title="Content" placeholder="Write your blog here..." className="w-full p-3 border border-gray-200 rounded min-h-[150px]" value={content} onChange={e => setContent(e.target.value)} />
 
-            {/* Drag and Drop Upload */}
             <div
               onDrop={handleFileUpload}
               onDragOver={(e) => e.preventDefault()}
+              onClick={() => fileInputRef.current?.click()}
               className="w-full border border-dashed border-gray-200 p-4 text-center rounded cursor-pointer bg-gray-50"
             >
               <p className="text-sm flex justify-center items-center gap-2 text-gray-700">
                 <PhotoIcon className="w-4 h-4" />
-                Drag & Drop Image or Video Here
+                Drag & Drop or Click to Upload Image/Video
               </p>
+              <input
+                type="file"
+                accept="image/*,video/*"
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+              />
             </div>
 
             <div className="text-center text-sm text-gray-500 mt-2 mb-2">— or —</div>
 
-            {/* YouTube Link */}
             <div className="relative">
               <PlayCircleIcon className="w-4 h-4 absolute left-2 top-2.5 text-gray-400" />
               <input
@@ -190,17 +209,28 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
               />
             </div>
 
-            {/* Media Preview */}
-            {mediaType === 'image' && <img src={mediaUrl} alt="Uploaded" className="w-full max-w-sm rounded border border-gray-200" />}
-            {mediaType === 'video' && <video src={mediaUrl} controls className="w-full max-w-sm rounded border border-gray-200" />}
-            {mediaType === 'youtube' && (
-              <iframe
-                className="w-full max-w-sm h-56 border rounded"
-                src={`https://www.youtube.com/embed/${mediaUrl.split('v=')[1] || ''}`}
-                title="YouTube video"
-                allowFullScreen
-              ></iframe>
-            )}
+            {/* Media Preview + Delete */}
+            <div className="relative w-full max-w-sm mt-2">
+              {mediaType === 'image' && <img src={mediaUrl} alt="Uploaded" className="rounded border border-gray-200" />}
+              {mediaType === 'video' && <video src={mediaUrl} controls className="rounded border border-gray-200" />}
+              {mediaType === 'youtube' && (
+                <iframe
+                  className="w-full h-56 border rounded"
+                  src={`https://www.youtube.com/embed/${getYoutubeEmbedId(mediaUrl)}`}
+                  title="YouTube video"
+                  allowFullScreen
+                ></iframe>
+              )}
+              {mediaUrl && (
+                <button
+                  onClick={removeMedia}
+                  className="absolute top-2 right-2 p-1 bg-white rounded-full shadow hover:bg-gray-100"
+                  title="Remove media"
+                >
+                  <TrashIcon className="h-4 w-4 text-red-500" />
+                </button>
+              )}
+            </div>
 
             <div className="flex gap-4 mt-4">
               <button onClick={savePost} disabled={saving} className="px-5 py-2 bg-main text-white rounded hover:bg-main-dark text-sm">
