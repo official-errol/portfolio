@@ -36,7 +36,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${window.location.origin}/chat`,
+        redirectTo: redirectTo || window.location.href,
         queryParams: { prompt: 'select_account' }
       }
     })
