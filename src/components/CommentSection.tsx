@@ -1,16 +1,14 @@
-// CommentSection.tsx
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../services/supabaseClient'
 import { useLocation } from 'react-router-dom'
-
 import {
   HandThumbUpIcon,
-  HandThumbDownIcon
+  HandThumbDownIcon,
+  ArrowUturnLeftIcon,
 } from '@heroicons/react/24/outline'
-
 import {
   HandThumbUpIcon as HandThumbUpSolid,
-  HandThumbDownIcon as HandThumbDownSolid
+  HandThumbDownIcon as HandThumbDownSolid,
 } from '@heroicons/react/24/solid'
 
 interface Comment {
@@ -19,6 +17,7 @@ interface Comment {
   user_avatar: string
   content: string
   created_at: string
+  parent_id: string | null
 }
 
 interface Reaction {
@@ -31,6 +30,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
   const [comments, setComments] = useState<Comment[]>([])
   const [reactions, setReactions] = useState<Reaction[]>([])
   const [newComment, setNewComment] = useState('')
+  const [replyTo, setReplyTo] = useState<string | null>(null)
   const [user, setUser] = useState<any>(null)
   const location = useLocation()
 
@@ -74,7 +74,6 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
 
     if (existing) {
       if (existing.reaction_type === type) {
-        // Remove same reaction
         await supabase
           .from('comment_reactions')
           .delete()
@@ -83,7 +82,6 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
 
         setReactions(reactions.filter(r => !(r.comment_id === commentId && r.user_id === user.id)))
       } else {
-        // Switch reaction
         await supabase
           .from('comment_reactions')
           .update({ reaction_type: type })
@@ -97,7 +95,6 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
         ))
       }
     } else {
-      // New reaction
       await supabase.from('comment_reactions').insert({
         comment_id: commentId,
         user_id: user.id,
@@ -108,7 +105,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
     }
   }
 
-  const addComment = async () => {
+  const addComment = async (parent_id: string | null = null) => {
     if (!user || newComment.trim() === '') return
 
     const { error } = await supabase.from('comments').insert({
@@ -116,11 +113,13 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
       user_id: user.id,
       user_name: user.user_metadata?.full_name || 'Anonymous',
       user_avatar: user.user_metadata?.avatar_url || '',
-      content: newComment.trim()
+      content: newComment.trim(),
+      parent_id
     })
 
     if (!error) {
       setNewComment('')
+      setReplyTo(null)
       fetchComments()
     }
   }
@@ -134,58 +133,100 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
     })
   }
 
+  const renderComment = (comment: Comment) => {
+    const userReacted = userReaction(comment.id)
+
+    return (
+      <div key={comment.id} className="border-b border-gray-200 pb-3">
+        <div className="flex items-start gap-3">
+          <img src={comment.user_avatar} alt={comment.user_name} className="w-8 h-8 rounded-full" />
+          <div className="flex-1">
+            <p className="text-sm font-semibold">{comment.user_name}</p>
+            <p className="text-sm">{comment.content}</p>
+
+            {user && (
+              <div className="flex gap-6 mt-2 text-sm items-center text-gray-500">
+                <button onClick={() => handleReaction(comment.id, 'like')} className="flex items-center gap-1">
+                  {userReacted === 'like' ? (
+                    <HandThumbUpSolid className="w-4 h-4 text-blue-600" />
+                  ) : (
+                    <HandThumbUpIcon className="w-4 h-4" />
+                  )}
+                  <span>{getCount(comment.id, 'like')}</span>
+                </button>
+
+                <button onClick={() => handleReaction(comment.id, 'dislike')} className="flex items-center gap-1">
+                  {userReacted === 'dislike' ? (
+                    <HandThumbDownSolid className="w-4 h-4 text-red-600" />
+                  ) : (
+                    <HandThumbDownIcon className="w-4 h-4" />
+                  )}
+                  <span>{getCount(comment.id, 'dislike')}</span>
+                </button>
+
+                <button
+                  onClick={() => setReplyTo(comment.id)}
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <ArrowUturnLeftIcon className="w-4 h-4" />
+                  Reply
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Replies */}
+        <div className="ml-10 mt-2 space-y-3">
+          {comments
+            .filter(r => r.parent_id === comment.id)
+            .map(reply => renderComment(reply))}
+        </div>
+
+        {/* Reply input box */}
+        {replyTo === comment.id && (
+          <div className="ml-10 mt-3 flex items-start gap-3">
+            <img
+              src={user.user_metadata?.avatar_url}
+              alt={user.user_metadata?.full_name}
+              className="w-8 h-8 rounded-full"
+            />
+            <div className="flex-1">
+              <textarea
+                className="w-full border p-2 rounded resize-none mb-2"
+                rows={2}
+                placeholder="Write a reply..."
+                value={newComment}
+                onChange={e => setNewComment(e.target.value)}
+              />
+              <div className="flex gap-2">
+                <button
+                  onClick={() => addComment(comment.id)}
+                  className="bg-main text-white px-4 py-1 rounded hover:bg-main-dark"
+                >
+                  Reply
+                </button>
+                <button onClick={() => setReplyTo(null)} className="text-sm text-gray-500 hover:underline">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
+
   return (
     <div className="mt-6">
       <h3 className="text-xl font-semibold mb-4">Comments</h3>
 
+      {/* Comment List */}
       <div className="space-y-4 mb-6">
-        {comments.length === 0 ? (
-          <p className="text-sm text-gray-500">No comments yet. Be the first to comment!</p>
-        ) : (
-          comments.map(comment => {
-            const userReacted = userReaction(comment.id)
-
-            return (
-              <div key={comment.id} className="border-b border-gray-200 pb-3 flex items-start gap-3">
-                <img src={comment.user_avatar} alt={comment.user_name} className="w-8 h-8 rounded-full" />
-                <div className="flex-1">
-                  <p className="text-sm font-semibold">{comment.user_name}</p>
-                  <p className="text-sm">{comment.content}</p>
-
-                  {user && (
-                    <div className="flex gap-6 mt-2 text-sm items-center text-gray-500">
-                      <button
-                        onClick={() => handleReaction(comment.id, 'like')}
-                        className="flex items-center gap-1"
-                      >
-                        {userReacted === 'like' ? (
-                          <HandThumbUpSolid className="w-4 h-4 text-blue-600" />
-                        ) : (
-                          <HandThumbUpIcon className="w-4 h-4" />
-                        )}
-                        <span>{getCount(comment.id, 'like')}</span>
-                      </button>
-
-                      <button
-                        onClick={() => handleReaction(comment.id, 'dislike')}
-                        className="flex items-center gap-1"
-                      >
-                        {userReacted === 'dislike' ? (
-                          <HandThumbDownSolid className="w-4 h-4 text-red-600" />
-                        ) : (
-                          <HandThumbDownIcon className="w-4 h-4" />
-                        )}
-                        <span>{getCount(comment.id, 'dislike')}</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )
-          })
-        )}
+        {comments.filter(c => c.parent_id === null).map(renderComment)}
       </div>
 
+      {/* Authenticated: Show comment form */}
       {user ? (
         <div className="flex items-start gap-3">
           <img
@@ -202,7 +243,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
               onChange={e => setNewComment(e.target.value)}
             />
             <button
-              onClick={addComment}
+              onClick={() => addComment(null)}
               className="self-end bg-main text-white px-4 py-1 rounded hover:bg-main-dark"
             >
               Post
