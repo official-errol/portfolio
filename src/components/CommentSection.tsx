@@ -198,13 +198,13 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
             />
             <div className="flex-1">
               <textarea
-                className="w-full border p-2 rounded resize-none mb-2"
+                className="w-full border border-gray-200 p-2 rounded resize-none mb-2"
                 rows={2}
                 placeholder="Write a reply..."
                 value={newComment}
                 onChange={e => setNewComment(e.target.value)}
               />
-              <div className="flex gap-2">
+              <div className="flex gap-2 mb-2">
                 <button
                   onClick={() => addComment(comment.id)}
                   className="bg-main text-white px-4 py-1 rounded hover:bg-main-dark"
