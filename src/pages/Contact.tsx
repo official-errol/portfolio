@@ -2,6 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { motion } from 'framer-motion'
 import { EnvelopeIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/24/outline'
+import { Helmet } from 'react-helmet'
 
 interface FormData {
   name: string
