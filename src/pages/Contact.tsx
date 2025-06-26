@@ -26,6 +26,10 @@ const Contact: React.FC = () => {
   }
 
   return (
+    <>
+    <Helmet>
+      <link rel="canonical" href="https://www.errolsolomon.me/contact" />
+    </Helmet>
     <div className="container mx-auto px-4 py-12">
       <motion.div
         initial={{ opacity: 0 }}
@@ -256,6 +260,7 @@ const Contact: React.FC = () => {
         </div>
       </motion.div>
     </div>
+    </>
   )
 }
 
