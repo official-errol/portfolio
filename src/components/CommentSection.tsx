@@ -44,7 +44,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
 
     supabase.auth.getUser().then(resp => setUser(resp.data.user))
     return () => listener?.subscription.unsubscribe()
-  }, [])
+  }, [postId])
 
   const fetchComments = async () => {
     const { data } = await supabase
