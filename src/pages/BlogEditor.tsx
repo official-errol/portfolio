@@ -157,17 +157,17 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
           <h1 className="text-2xl font-bold mb-4 text-main-dark">{editingPostId === 'new' ? 'Create Post' : 'Edit Post'}</h1>
 
           <div className="space-y-3 text-sm">
-            <input title="Title" placeholder="Title" className="w-full p-2 border rounded" value={title} onChange={e => setTitle(e.target.value)} />
-            <input title="Author" placeholder="Author" className="w-full p-2 border rounded" value={author} onChange={e => setAuthor(e.target.value)} />
-            <input title="Category" placeholder="Category" className="w-full p-2 border rounded" value={category} onChange={e => setCategory(e.target.value)} />
-            <input title="Tags" placeholder="Tags (comma separated)" className="w-full p-2 border rounded" value={tags} onChange={e => setTags(e.target.value)} />
-            <textarea title="Content" placeholder="Write your blog here..." className="w-full p-3 border rounded min-h-[150px]" value={content} onChange={e => setContent(e.target.value)} />
+            <input title="Title" placeholder="Title" className="w-full p-2 border border-gray-200 rounded" value={title} onChange={e => setTitle(e.target.value)} />
+            <input title="Author" placeholder="Author" className="w-full p-2 border border-gray-200 rounded" value={author} onChange={e => setAuthor(e.target.value)} />
+            <input title="Category" placeholder="Category" className="w-full p-2 border border-gray-200 rounded" value={category} onChange={e => setCategory(e.target.value)} />
+            <input title="Tags" placeholder="Tags (comma separated)" className="w-full p-2 border border-gray-200 rounded" value={tags} onChange={e => setTags(e.target.value)} />
+            <textarea title="Content" placeholder="Write your blog here..." className="w-full p-3 border border-gray-200 rounded min-h-[150px]" value={content} onChange={e => setContent(e.target.value)} />
 
             {/* Drag and Drop Upload */}
             <div
               onDrop={handleFileUpload}
               onDragOver={(e) => e.preventDefault()}
-              className="w-full border border-dashed border-gray-400 p-4 text-center rounded cursor-pointer bg-gray-50"
+              className="w-full border border-dashed border-gray-200 p-4 text-center rounded cursor-pointer bg-gray-50"
             >
               <p className="text-sm flex justify-center items-center gap-2 text-gray-700">
                 <PhotoIcon className="w-4 h-4" />
@@ -184,15 +184,15 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
                 title="YouTube Link"
                 type="text"
                 placeholder="YouTube link (https://...)"
-                className="w-full pl-8 p-2 border rounded"
+                className="w-full pl-8 p-2 border border-gray-200 rounded"
                 value={mediaType === 'youtube' ? mediaUrl : ''}
                 onChange={(e) => handleMediaUrl(e.target.value)}
               />
             </div>
 
             {/* Media Preview */}
-            {mediaType === 'image' && <img src={mediaUrl} alt="Uploaded" className="w-full max-w-sm rounded border" />}
-            {mediaType === 'video' && <video src={mediaUrl} controls className="w-full max-w-sm rounded border" />}
+            {mediaType === 'image' && <img src={mediaUrl} alt="Uploaded" className="w-full max-w-sm rounded border border-gray-200" />}
+            {mediaType === 'video' && <video src={mediaUrl} controls className="w-full max-w-sm rounded border border-gray-200" />}
             {mediaType === 'youtube' && (
               <iframe
                 className="w-full max-w-sm h-56 border rounded"
@@ -223,7 +223,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {posts.map(post => (
-              <div key={post.id} onClick={() => onPostSelect(post.id)} className="cursor-pointer p-3 rounded border hover:border-main transition text-sm">
+              <div key={post.id} onClick={() => onPostSelect(post.id)} className="cursor-pointer p-3 rounded border border-gray-200 text-sm">
                 <p className="font-medium text-base">{post.title}</p>
                 <p className="text-xs text-gray-500">{new Date(post.created_at).toLocaleDateString()}</p>
                 <div className="mt-2 flex flex-wrap gap-1">
