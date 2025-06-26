@@ -1,11 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
-  process.env.VITE_SUPABASE_URL!,
-  process.env.VITE_SUPABASE_ANON_KEY!
+  process.env.VITE_SUPABASE_URL,
+  process.env.VITE_SUPABASE_ANON_KEY
 )
 
-export default async function handler(_req: any, res: any) {
+export default async function handler(_req, res) {
   const staticPages = [
     '',
     'about',
@@ -27,7 +27,7 @@ export default async function handler(_req: any, res: any) {
 
   const today = new Date().toISOString().split('T')[0]
 
-  const staticUrls = staticPages.map((path) => `
+  const staticUrls = staticPages.map(path => `
     <url>
       <loc>https://www.errolsolomon.me/${path}</loc>
       <lastmod>${today}</lastmod>
@@ -35,7 +35,7 @@ export default async function handler(_req: any, res: any) {
       <priority>${path === '' ? '1.0' : '0.7'}</priority>
     </url>`).join('\n')
 
-  const blogUrls = posts.map((post) => `
+  const blogUrls = posts.map(post => `
     <url>
       <loc>https://www.errolsolomon.me/blog/${post.slug}</loc>
       <lastmod>${new Date(post.created_at).toISOString().split('T')[0]}</lastmod>
