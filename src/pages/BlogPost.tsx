@@ -67,18 +67,18 @@ const BlogPost: React.FC = () => {
     if (!post?.media_url || !post?.media_type) return null
 
     if (post.media_type === 'image') {
-      return <img src={post.media_url} alt="Post Media" className="my-6 w-full max-w-xl rounded border" />
+      return <img src={post.media_url} alt="Post Media" className="my-6 w-full max-w-xl rounded border border-gray-200" />
     }
 
     if (post.media_type === 'video') {
-      return <video src={post.media_url} controls className="my-6 w-full max-w-xl rounded border" />
+      return <video src={post.media_url} controls className="my-6 w-full max-w-xl rounded border border-gray-200" />
     }
 
     if (post.media_type === 'youtube') {
       const videoId = post.media_url.split('v=')[1]?.split('&')[0]
       return videoId ? (
         <iframe
-          className="my-6 w-full max-w-xl h-64 border rounded"
+          className="my-6 w-full max-w-xl h-64 border border-gray-200 rounded"
           src={`https://www.youtube.com/embed/${videoId}`}
           title="YouTube Video"
           allowFullScreen
