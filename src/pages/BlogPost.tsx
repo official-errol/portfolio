@@ -15,6 +15,8 @@ interface Post {
   author: string
   category: string
   tags: string[]
+  media_url?: string
+  media_type?: 'image' | 'video' | 'youtube'
   created_at: string
 }
 
@@ -49,18 +51,43 @@ const BlogPost: React.FC = () => {
         .then((res) => setRelatedPosts(res.data || []))
     }
   }, [post])
-  
+
   useEffect(() => {
-    const adElement = document.querySelector('ins.adsbygoogle') as any;
-  
+    const adElement = document.querySelector('ins.adsbygoogle') as any
     if (adElement && !adElement.getAttribute('data-adsbygoogle-status')) {
       try {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
+        (window.adsbygoogle = window.adsbygoogle || []).push({})
       } catch (e) {
-        console.error('Adsbygoogle push error', e);
+        console.error('Adsbygoogle push error', e)
       }
     }
-  }, [post]);
+  }, [post])
+
+  const renderMedia = () => {
+    if (!post?.media_url || !post?.media_type) return null
+
+    if (post.media_type === 'image') {
+      return <img src={post.media_url} alt="Post Media" className="my-6 w-full max-w-xl rounded border" />
+    }
+
+    if (post.media_type === 'video') {
+      return <video src={post.media_url} controls className="my-6 w-full max-w-xl rounded border" />
+    }
+
+    if (post.media_type === 'youtube') {
+      const videoId = post.media_url.split('v=')[1]?.split('&')[0]
+      return videoId ? (
+        <iframe
+          className="my-6 w-full max-w-xl h-64 border rounded"
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title="YouTube Video"
+          allowFullScreen
+        ></iframe>
+      ) : null
+    }
+
+    return null
+  }
 
   if (!post) {
     return (
@@ -72,63 +99,66 @@ const BlogPost: React.FC = () => {
 
   return (
     <>
-    <Helmet>
-      <link rel="canonical" href={`https://www.errolsolomon.me/blog/${post.slug}`} />
-    </Helmet>
-    <div className="flex flex-col md:flex-row max-w-6xl mx-auto p-4 py-12 bg-white">
-      {/* Main Content */}
-      <div className="md:w-2/3 pr-6">
-        <h1 className="text-4xl font-bold text-main-dark mb-2">{post.title}</h1>
-        <p className="text-sm text-gray-500 mb-2">
-          By {post.author} • {new Date(post.created_at).toLocaleDateString()}
-        </p>
-        <p className="text-sm text-gray-500 mb-4">{post.category}</p>
+      <Helmet>
+        <link rel="canonical" href={`https://www.errolsolomon.me/blog/${post.slug}`} />
+      </Helmet>
 
-        <div
-          dangerouslySetInnerHTML={{ __html: post.content }}
-          className="prose max-w-none mt-4"
-        />
+      <div className="flex flex-col md:flex-row max-w-6xl mx-auto p-4 py-12 bg-white">
+        {/* Main Content */}
+        <div className="md:w-2/3 pr-6">
+          <h1 className="text-4xl font-bold text-main-dark mb-2">{post.title}</h1>
+          <p className="text-sm text-gray-500 mb-2">
+            By {post.author} • {new Date(post.created_at).toLocaleDateString()}
+          </p>
+          <p className="text-sm text-gray-500 mb-4">{post.category}</p>
 
-        <div className="flex flex-wrap gap-2 mt-6">
-          {post.tags.map(t => (
-            <span key={t} className="text-xs bg-gray-200 px-2 py-1 rounded">{t}</span>
-          ))}
+          {renderMedia()}
+
+          <div
+            dangerouslySetInnerHTML={{ __html: post.content }}
+            className="prose max-w-none mt-4"
+          />
+
+          <div className="flex flex-wrap gap-2 mt-6">
+            {post.tags.map(t => (
+              <span key={t} className="text-xs bg-gray-200 px-2 py-1 rounded">{t}</span>
+            ))}
+          </div>
+
+          <div className="mt-6 flex items-center gap-6">
+            <LikeButton postId={post.id} />
+            <SocialShare title={post.title} url={window.location.href} />
+          </div>
+
+          <CommentSection postId={post.id} />
         </div>
 
-        <div className="mt-6 flex items-center gap-6">
-          <LikeButton postId={post.id} />
-          <SocialShare title={post.title} url={window.location.href} />
-        </div>
+        {/* Sidebar */}
+        <aside className="md:w-1/3 mt-8 md:mt-0 border-l border-gray-200 pl-6 space-y-6">
+          <div>
+            <h3 className="text-lg font-bold text-main-dark mb-4">Related Posts</h3>
+            {relatedPosts.length === 0 ? (
+              <p className="text-sm text-gray-500">No related posts found.</p>
+            ) : (
+              <ul className="space-y-3">
+                {relatedPosts.map(rp => (
+                  <li key={rp.id}>
+                    <a
+                      href={`/blog/${rp.slug}`}
+                      className="block text-sm font-medium text-main hover:underline"
+                    >
+                      {rp.title}
+                    </a>
+                    <p className="text-xs text-gray-500">{new Date(rp.created_at).toLocaleDateString()}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
-        <CommentSection postId={post.id} />
-      </div>
-
-      {/* Sidebar */}
-      <aside className="md:w-1/3 mt-8 md:mt-0 border-l border-gray-200 pl-6 space-y-6">
-        <div>
-          <h3 className="text-lg font-bold text-main-dark mb-4">Related Posts</h3>
-          {relatedPosts.length === 0 ? (
-            <p className="text-sm text-gray-500">No related posts found.</p>
-          ) : (
-            <ul className="space-y-3">
-              {relatedPosts.map(rp => (
-                <li key={rp.id}>
-                  <a
-                    href={`/blog/${rp.slug}`}
-                    className="block text-sm font-medium text-main hover:underline"
-                  >
-                    {rp.title}
-                  </a>
-                  <p className="text-xs text-gray-500">{new Date(rp.created_at).toLocaleDateString()}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        {/* Google Ad */}
-        <div>
-          <h3 className="text-lg font-bold text-main-dark mb-2">Sponsored</h3>
+          {/* Google Ad */}
+          <div>
+            <h3 className="text-lg font-bold text-main-dark mb-2">Sponsored</h3>
             <ins
               key={post.id}
               className="adsbygoogle"
@@ -138,9 +168,9 @@ const BlogPost: React.FC = () => {
               data-ad-format="auto"
               data-full-width-responsive="true"
             />
-        </div>
-      </aside>
-    </div>
+          </div>
+        </aside>
+      </div>
     </>
   )
 }
