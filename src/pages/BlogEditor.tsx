@@ -6,7 +6,6 @@ import {
   ArrowLeftIcon,
   PlusIcon,
   PhotoIcon,
-  VideoCameraIcon,
   PlayCircleIcon,
 } from '@heroicons/react/24/outline'
 
