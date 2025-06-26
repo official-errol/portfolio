@@ -49,17 +49,17 @@ const BlogPost: React.FC = () => {
         .then((res) => setRelatedPosts(res.data || []))
     }
   }, [post])
-
+  
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    const adElement = document.querySelector('ins.adsbygoogle') as any;
+  
+    if (adElement && !adElement.getAttribute('data-adsbygoogle-status')) {
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       } catch (e) {
-        console.error("Adsbygoogle push error", e);
+        console.error('Adsbygoogle push error', e);
       }
-    }, 500);
-  
-    return () => clearTimeout(timeout);
+    }
   }, [post]);
 
   if (!post) {
@@ -130,6 +130,7 @@ const BlogPost: React.FC = () => {
         <div>
           <h3 className="text-lg font-bold text-main-dark mb-2">Sponsored</h3>
             <ins
+              key={post.id}
               className="adsbygoogle"
               style={{ display: 'block' }}
               data-ad-client="ca-pub-4551987474608561"
