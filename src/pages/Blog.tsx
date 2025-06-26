@@ -62,7 +62,7 @@ const Blog: React.FC = () => {
       </Helmet>
     
       {/* Title and Search */}
-      <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 md:items-center gap-4 mb-6">
+      <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 md:items-center gap-4">
         <h1 className="text-2xl font-bold text-main-dark">Blogs</h1>
       
         {/* Search */}
