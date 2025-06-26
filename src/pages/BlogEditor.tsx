@@ -163,10 +163,12 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ editingPostId, onPostSelect, on
           <h1 className="text-2xl font-bold mb-4 text-main-dark">{editingPostId === 'new' ? 'New Post' : 'Edit Post'}</h1>
 
           <div className="space-y-3 text-sm">
-            <input title="Title" placeholder="Title" className="w-full p-2 border border-gray-300 rounded" value={title} onChange={e => setTitle(e.target.value)} />
-            <input title="Author" placeholder="Author" className="w-full p-2 border border-gray-300 rounded" value={author} onChange={e => setAuthor(e.target.value)} />
-            <input title="Category" placeholder="Category" className="w-full p-2 border border-gray-300 rounded" value={category} onChange={e => setCategory(e.target.value)} />
-            <input title="Tags" placeholder="Tags (comma separated)" className="w-full p-2 border border-gray-300 rounded" value={tags} onChange={e => setTags(e.target.value)} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input title="Title" placeholder="Title" className="w-full p-2 border border-gray-300 rounded" value={title} onChange={e => setTitle(e.target.value)} />
+              <input title="Author" placeholder="Author" className="w-full p-2 border border-gray-300 rounded" value={author} onChange={e => setAuthor(e.target.value)} />
+              <input title="Category" placeholder="Category" className="w-full p-2 border border-gray-300 rounded" value={category} onChange={e => setCategory(e.target.value)} />
+              <input title="Tags" placeholder="Tags (comma separated)" className="w-full p-2 border border-gray-300 rounded" value={tags} onChange={e => setTags(e.target.value)} />
+            </div>
             <textarea title="Content" placeholder="Content" className="w-full p-3 border border-gray-300 rounded min-h-[160px]" value={content} onChange={e => setContent(e.target.value)} />
 
             {/* Drag & Drop Area */}
