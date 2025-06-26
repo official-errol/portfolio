@@ -1,6 +1,8 @@
 User-agent: *
 Disallow: /dashboard
-Disallow: /editor
 Allow: /
+
+User-agent: Mediapartners-Google
+Disallow:
 
 Sitemap: https://errolsolomon.me/sitemap.xml
