@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import ChatBox from '../components/ChatBox'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
+import { Helmet } from 'react-helmet'
 
 const ADMIN_USER_ID = '4f702a81-2788-4b32-bf0b-5a6a4233f5c4'
 
@@ -11,14 +12,23 @@ const Chat: React.FC = () => {
 
   if (loading) {
     return (
+      <>
+        <Helmet>
+          <link rel="canonical" href="https://www.errolsolomon.me/contact" />
+        </Helmet>
       <div className="flex items-center justify-center h-screen w-full">
         <LoadingSpinner />
       </div>
+      </>
     )
   }
 
   if (!user) {
     return (
+      <>
+        <Helmet>
+          <link rel="canonical" href="https://www.errolsolomon.me/contact" />
+        </Helmet>
       <div className="flex flex-col items-center justify-center h-screen text-center px-4">
         <h1 className="text-3xl font-bold text-gray-800">Global Chat</h1>
         <p className="mb-4 text-lg text-gray-700">
@@ -55,10 +65,15 @@ const Chat: React.FC = () => {
           Sign in with Github
         </button>
       </div>
+      </>
     )
   }
 
   return (
+      <>
+        <Helmet>
+          <link rel="canonical" href="https://www.errolsolomon.me/contact" />
+        </Helmet>
     <div className="container mx-auto px-4 py-4 max-w-4xl">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center mx-auto">
@@ -134,6 +149,7 @@ const Chat: React.FC = () => {
         </div>
       </div>
     </div>
+      </>
   )
 }
 
