@@ -27,7 +27,7 @@ const Home: React.FC = () => {
       <div className="h-screen overflow-y-scroll snap-y snap-mandatory">
         
         {/* Hero Section */}
-        <section className="snap-start min-h-screen flex items-center justify-center text-center px-4 [&>div]:absolute [&>div]:h-full [&>div]:w-full [&>div]:bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [&>div]:[background-size:16px_16px] [&>div]:[mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]">
+        <section className="snap-start min-h-screen flex items-center justify-center text-center px-4 [&>div]:h-full [&>div]:w-full [&>div]:bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [&>div]:[background-size:16px_16px] [&>div]:[mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -175,7 +175,7 @@ const LatestBlogPreview: React.FC = () => {
   }, [])
 
   return (
-    <div className="grid gap-6 md:grid-cols-3 mt-6 text-left">
+    <div className="grid gap-6 md:grid-cols-3 mt-6 text-left bg-white">
       {posts.map(post => (
         <Link
           to={`/blog/${post.slug}`}
