@@ -34,6 +34,17 @@ const Blog: React.FC = () => {
       })
   }, [])
 
+  useEffect(() => {
+    const adElement = document.querySelector('ins.adsbygoogle') as any
+    if (adElement && !adElement.getAttribute('data-adsbygoogle-status')) {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({})
+      } catch (e) {
+        console.error('Adsbygoogle push error', e)
+      }
+    }
+  }, [])
+
   const applySearch = (q: string) => {
     setSearch(q)
     const low = q.toLowerCase()
@@ -47,64 +58,83 @@ const Blog: React.FC = () => {
   return (
     <>
       <Helmet>
+        <title>Blogs | Errol Solomon</title>
         <link rel="canonical" href="https://www.errolsolomon.me/blog" />
       </Helmet>
 
-      <div className="max-w-6xl mx-auto py-8 px-4 space-y-6">
-        {/* Search */}
-        <div className="relative">
-          <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search posts..."
-            value={search}
-            onChange={e => applySearch(e.target.value)}
-            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full focus:border-main focus:outline-none"
-          />
+      <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
+        {/* Main Section */}
+        <div className="md:w-2/3 space-y-6">
+          <h1 className="text-4xl font-bold text-main-dark mb-4">Blogs</h1>
+
+          {/* Search */}
+          <div className="relative">
+            <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search posts..."
+              value={search}
+              onChange={e => applySearch(e.target.value)}
+              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full focus:border-main focus:outline-none"
+            />
+          </div>
+
+          {/* Post List */}
+          <ul className="space-y-6">
+            {pagePosts.map(post => (
+              <li key={post.id}>
+                <Link to={`/blog/${post.slug}`} className="flex items-center gap-4 border border-gray-200 rounded-lg overflow-hidden hover:bg-gray-50 transition">
+                  {post.media_type === 'image' && post.media_url ? (
+                    <img src={post.media_url} alt={post.title} className="w-32 h-24 object-cover flex-shrink-0" />
+                  ) : (
+                    <div className="w-32 h-24 bg-gray-200 flex items-center justify-center text-gray-500 text-xs">No Image</div>
+                  )}
+                  <div className="py-3 pr-4 flex-1">
+                    <h2 className="text-xl font-semibold text-main-dark">{post.title}</h2>
+                    <p className="text-sm text-gray-500 mt-1">{new Date(post.created_at).toLocaleDateString()}</p>
+                  </div>
+                </Link>
+              </li>
+            ))}
+            {pagePosts.length === 0 && <p className="text-center text-gray-500">No posts found.</p>}
+          </ul>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-4 mt-8">
+              <button
+                disabled={page === 1}
+                onClick={() => setPage(p => p - 1)}
+                className={`px-3 py-1 rounded-lg ${page === 1 ? 'bg-gray-200' : 'bg-main text-white hover:bg-main-dark'}`}
+              >
+                <ChevronLeftIcon className="h-5 w-5" />
+              </button>
+              <span className="text-gray-700">Page {page} of {totalPages}</span>
+              <button
+                disabled={page === totalPages}
+                onClick={() => setPage(p => p + 1)}
+                className={`px-3 py-1 rounded-lg ${page === totalPages ? 'bg-gray-200' : 'bg-main text-white hover:bg-main-dark'}`}
+              >
+                <ChevronRightIcon className="h-5 w-5" />
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Post List */}
-        <ul className="space-y-6">
-          {pagePosts.map(post => (
-            <li key={post.id}>
-              <Link to={`/blog/${post.slug}`} className="flex items-center gap-4 border border-gray-200 rounded-lg overflow-hidden hover:bg-gray-50 transition">
-                {post.media_type === 'image' && post.media_url ? (
-                  <img src={post.media_url} alt={post.title} className="w-32 h-24 object-cover flex-shrink-0" />
-                ) : (
-                  <div className="w-32 h-24 bg-gray-200 flex items-center justify-center text-gray-500 text-xs">No Image</div>
-                )}
-                <div className="py-3 pr-4 flex-1">
-                  <h2 className="text-xl font-semibold text-main-dark">{post.title}</h2>
-                  <p className="text-sm text-gray-500 mt-1">{new Date(post.created_at).toLocaleDateString()}</p>
-                </div>
-              </Link>
-            </li>
-          ))}
-          {pagePosts.length === 0 && <p className="text-center text-gray-500">No posts found.</p>}
-        </ul>
-
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-4 mt-8">
-            <button
-              disabled={page === 1}
-              onClick={() => setPage(p => p - 1)}
-              className={`px-3 py-1 rounded-lg ${page === 1 ? 'bg-gray-200' : 'bg-main text-white hover:bg-main-dark'}`}
-            >
-              <ChevronLeftIcon className="h-5 w-5" />
-            </button>
-            <span className="text-gray-700">
-              Page {page} of {totalPages}
-            </span>
-            <button
-              disabled={page === totalPages}
-              onClick={() => setPage(p => p + 1)}
-              className={`px-3 py-1 rounded-lg ${page === totalPages ? 'bg-gray-200' : 'bg-main text-white hover:bg-main-dark'}`}
-            >
-              <ChevronRightIcon className="h-5 w-5" />
-            </button>
+        {/* Sidebar with Google Ads */}
+        <aside className="md:w-1/3 space-y-6">
+          <div>
+            <h3 className="text-lg font-bold text-main-dark mb-2">Sponsored</h3>
+            <ins
+              className="adsbygoogle"
+              style={{ display: 'block' }}
+              data-ad-client="ca-pub-4551987474608561"
+              data-ad-slot="3193255453"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            />
           </div>
-        )}
+        </aside>
       </div>
     </>
   )
