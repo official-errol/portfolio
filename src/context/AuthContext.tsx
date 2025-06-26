@@ -31,7 +31,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return () => subscription.unsubscribe()
   }, [])
 
-  const login = async (provider: 'google' | 'github') => {
+  const login = async (provider: 'google' | 'github', redirectTo?: string) => {
     setLoading(true)
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
