@@ -20,7 +20,6 @@ const Home: React.FC = () => {
   return (
     <>
     <Helmet>
-      <title>Errol Solomon</title>
       <link rel="canonical" href="https://www.errolsolomon.me/" />
     </Helmet>
     <div className="relative min-h-[80vh] flex flex-col justify-center items-center text-center">
