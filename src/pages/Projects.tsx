@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import { Helmet } from 'react-helmet'
 
 const Projects: React.FC = () => {
   const [filter, setFilter] = useState('all')
@@ -54,6 +55,10 @@ const Projects: React.FC = () => {
     : projects.filter(project => project.category === filter)
 
   return (
+    <>
+    <Helmet>
+      <link rel="canonical" href="https://www.errolsolomon.me/projects" />
+    </Helmet>
     <div className="container mx-auto px-4 py-12">
       <motion.div
         initial={{ opacity: 0 }}
@@ -125,6 +130,7 @@ const Projects: React.FC = () => {
         </div>
       </motion.div>
     </div>
+    </>
   )
 }
 
