@@ -141,7 +141,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
         key={comment.id}
         className={`${
           comment.parent_id ? 'border-t pt-3' : 'border-b'
-        } border-gray-200 pb-3`}
+        } border-gray-200`}
       >
         <div className="flex items-start gap-3">
           <img src={comment.user_avatar} alt={comment.user_name} className="w-8 h-8 rounded-full" />
@@ -227,7 +227,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
       <h3 className="text-xl font-semibold mb-4">Comments</h3>
 
       {/* Comment List */}
-      <div className="space-y-4">
+      <div className="space-y-4 mb-6">
         {comments.filter(c => c.parent_id === null).map(renderComment)}
       </div>
 
