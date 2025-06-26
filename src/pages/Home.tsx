@@ -27,7 +27,7 @@ const Home: React.FC = () => {
       <div className="h-screen overflow-y-scroll snap-y snap-mandatory">
         
         {/* Hero Section */}
-        <section className="snap-start min-h-screen flex items-center justify-center text-center px-4">
+        <section className="snap-start min-h-screen flex items-center justify-center text-center px-4 [&>div]:absolute [&>div]:h-full [&>div]:w-full [&>div]:bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [&>div]:[background-size:16px_16px] [&>div]:[mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -128,7 +128,7 @@ const Home: React.FC = () => {
         </section>
 
         {/* Blog Section */}
-        <section className="snap-start min-h-screen bg-white flex items-center justify-center px-4">
+        <section className="snap-start min-h-screen bg-white flex items-center justify-center px-4 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
