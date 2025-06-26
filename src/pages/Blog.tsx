@@ -84,7 +84,7 @@ const Blog: React.FC = () => {
             {pagePosts.map(post => (
               <li key={post.id}>
                 <Link to={`/blog/${post.slug}`} className="flex items-center gap-4 border border-gray-200 rounded-lg overflow-hidden hover:bg-gray-50 transition">
-                  <div className="py-3 pr-4 flex-1">
+                  <div className="py-3 px-4 flex-1">
                     <h2 className="text-xl font-semibold text-main-dark">{post.title}</h2>
                     <p className="text-sm text-gray-500 mt-1">{new Date(post.created_at).toLocaleDateString()}</p>
                   </div>
