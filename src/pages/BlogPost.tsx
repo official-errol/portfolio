@@ -85,6 +85,27 @@ const BlogPost: React.FC = () => {
     }
   }, [post])
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<Post[]>([]);
+  
+  useEffect(() => {
+    if (searchQuery.trim() === '') {
+      setSearchResults([]);
+      return;
+    }
+  
+    const delayDebounce = setTimeout(() => {
+      supabase
+        .from('posts')
+        .select('id, title, slug')
+        .ilike('title', `%${searchQuery}%`)
+        .limit(5)
+        .then(res => setSearchResults(res.data || []));
+    }, 300);
+  
+    return () => clearTimeout(delayDebounce);
+  }, [searchQuery]);
+
   const renderMedia = () => {
     if (!post?.media_url || !post?.media_type) return null
 
@@ -124,8 +145,39 @@ const BlogPost: React.FC = () => {
       <Helmet>
         <link rel="canonical" href={`https://www.errolsolomon.me/blog/${post.slug}`} />
       </Helmet>
-
-      <div className="flex flex-col md:flex-row max-w-6xl mx-auto p-4 py-12 bg-white">
+      
+      {/* Title and Search */}
+      <div className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+        <h1 className="text-2xl font-bold text-main-dark">Blog Post</h1>
+      
+        <div className="relative w-full">
+          <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search posts..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full focus:border-main focus:outline-none"
+          />
+      
+          {/* Search Result Dropdown */}
+          {searchResults.length > 0 && (
+            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded shadow">
+              {searchResults.map(result => (
+                <div
+                  key={result.id}
+                  onClick={() => navigate(`/blog/${result.slug}`)}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                >
+                  {result.title}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <div className="flex flex-col md:flex-row max-w-6xl mx-auto p-4 py-4 bg-white">
         {/* Main Content */}
         <div className="md:w-2/3 pr-6">
           <h1 className="text-4xl font-bold text-main-dark mb-2">{post.title}</h1>
