@@ -20,8 +20,7 @@ const Home: React.FC = () => {
   return (
     <>
     <Helmet>
-      <title>Errol Solomon | Web Developer & UI/UX Designer</title>
-      <meta name="description" content="Crafting modern, responsive websites and applications with sleek UI/UX." />
+      <title>Errol Solomon</title>
       <link rel="canonical" href="https://www.errolsolomon.me/" />
     </Helmet>
     <div className="relative min-h-[80vh] flex flex-col justify-center items-center text-center">
