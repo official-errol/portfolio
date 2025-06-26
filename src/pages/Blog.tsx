@@ -80,7 +80,7 @@ const Blog: React.FC = () => {
         </div>
 
         {/* Main Section */}
-        <div className="md:w-2/3 space-y-6
+        <div className="md:w-2/3 space-y-6">
           {/* Post List */}
           <ul className="space-y-6">
             {pagePosts.map(post => (
