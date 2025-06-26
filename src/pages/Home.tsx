@@ -16,13 +16,13 @@ interface Post {
 }
 
 const Home: React.FC = () => {
-  const ownerName = import.meta.env.VITE_PORTFOLIO_OWNER_NAME
-  return (
     <Helmet>
       <title>Errol Solomon | Web Developer & UI/UX Designer</title>
       <meta name="description" content="Crafting modern, responsive websites and applications with sleek UI/UX." />
       <link rel="canonical" href="https://www.errolsolomon.me/" />
     </Helmet>
+  const ownerName = import.meta.env.VITE_PORTFOLIO_OWNER_NAME
+  return (
     <div className="relative min-h-[80vh] flex flex-col justify-center items-center text-center">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
