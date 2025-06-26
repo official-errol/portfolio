@@ -1,4 +1,3 @@
-import { VercelRequest, VercelResponse } from '@vercel/node'
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
@@ -6,7 +5,7 @@ const supabase = createClient(
   process.env.VITE_SUPABASE_ANON_KEY!
 )
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(_req: any, res: any) {
   const staticPages = [
     '',
     'about',
@@ -17,7 +16,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     'blog',
   ]
 
-  const { data: posts, error } = await supabase
+  const { data: posts } = await supabase
     .from('posts')
     .select('slug, created_at')
 
