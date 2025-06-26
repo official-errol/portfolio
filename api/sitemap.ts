@@ -16,30 +16,32 @@ export default async function handler(_req: any, res: any) {
     'blog',
   ]
 
-  const { data: posts } = await supabase
+  const { data: posts, error } = await supabase
     .from('posts')
     .select('slug, created_at')
 
+  if (error || !posts) {
+    console.error('Failed to fetch posts:', error)
+    return res.status(500).send('Error fetching blog posts')
+  }
+
   const today = new Date().toISOString().split('T')[0]
 
-  const staticUrls = staticPages
-    .map((path) => `
+  const staticUrls = staticPages.map((path) => `
     <url>
       <loc>https://www.errolsolomon.me/${path}</loc>
       <lastmod>${today}</lastmod>
       <changefreq>weekly</changefreq>
       <priority>${path === '' ? '1.0' : '0.7'}</priority>
-    </url>`)
-    .join('\n')
+    </url>`).join('\n')
 
-  const blogUrls = posts?.map((post) => `
+  const blogUrls = posts.map((post) => `
     <url>
       <loc>https://www.errolsolomon.me/blog/${post.slug}</loc>
       <lastmod>${new Date(post.created_at).toISOString().split('T')[0]}</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
-    </url>
-  `).join('\n') || ''
+    </url>`).join('\n')
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
