@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../services/supabaseClient'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
 interface Post { id: string; title: string; slug: string; content: string; created_at: string }
 
@@ -16,6 +17,10 @@ const Blog: React.FC = () => {
   }, [])
 
   return (
+    <>
+    <Helmet>
+      <link rel="canonical" href="https://www.errolsolomon.me/blog" />
+    </Helmet>
     <div className="max-w-4xl mx-auto py-10">
       <h1 className="text-4xl font-bold mb-6 text-main-dark">Blog</h1>
       <ul className="space-y-4">
@@ -32,6 +37,7 @@ const Blog: React.FC = () => {
         ))}
       </ul>
     </div>
+    </>
   )
 }
 
