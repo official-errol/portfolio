@@ -5,6 +5,7 @@ import profilePic from '../assets/meh.jpg'
 import { Link } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
 import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet'
 
 interface Post {
   id: string
@@ -17,6 +18,11 @@ interface Post {
 const Home: React.FC = () => {
   const ownerName = import.meta.env.VITE_PORTFOLIO_OWNER_NAME
   return (
+    <Helmet>
+      <title>Errol Solomon | Web Developer & UI/UX Designer</title>
+      <meta name="description" content="Crafting modern, responsive websites and applications with sleek UI/UX." />
+      <link rel="canonical" href="https://www.errolsolomon.me/" />
+    </Helmet>
     <div className="relative min-h-[80vh] flex flex-col justify-center items-center text-center">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
