@@ -13,7 +13,6 @@ const About: React.FC = () => {
   return (
   <>
     <Helmet>
-      <title>Errol Solomon</title>
       <link rel="canonical" href="https://www.errolsolomon.me/about" />
     </Helmet>
     <div className="container mx-auto px-4 py-12">
