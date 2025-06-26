@@ -5,6 +5,7 @@ import { LikeButton } from '../components/LikeButton'
 import { CommentSection } from '../components/CommentSection'
 import { SocialShare } from '../components/SocialShare'
 import LoadingSpinner from '../components/LoadingSpinner'
+import { Helmet } from 'react-helmet'
 
 interface Post {
   id: string
@@ -70,6 +71,10 @@ const BlogPost: React.FC = () => {
   }
 
   return (
+    <>
+    <Helmet>
+      <link rel="canonical" href={`https://www.errolsolomon.me/blog/${post.slug}`} />
+    </Helmet>
     <div className="flex flex-col md:flex-row max-w-6xl mx-auto p-4 py-12 bg-white">
       {/* Main Content */}
       <div className="md:w-2/3 pr-6">
@@ -135,6 +140,7 @@ const BlogPost: React.FC = () => {
         </div>
       </aside>
     </div>
+    </>
   )
 }
 
