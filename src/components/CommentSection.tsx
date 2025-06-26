@@ -140,7 +140,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
       <div
         key={comment.id}
         className={`${
-          comment.parent_id ? 'border-t' : 'border-b'
+          comment.parent_id ? 'border-t pt-3' : 'border-b'
         } border-gray-200 pb-3`}
       >
         <div className="flex items-start gap-3">
