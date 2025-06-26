@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { CodeBracketIcon, PaintBrushIcon, DevicePhoneMobileIcon } from '@heroicons/react/24/outline'
+import { Helmet } from 'react-helmet'
 
 const About: React.FC = () => {
   const skills = [
@@ -10,6 +11,11 @@ const About: React.FC = () => {
   ]
 
   return (
+  <>
+    <Helmet>
+      <title>Errol Solomon</title>
+      <link rel="canonical" href="https://www.errolsolomon.me/about" />
+    </Helmet>
     <div className="container mx-auto px-4 py-12">
       <motion.div
         initial={{ opacity: 0 }}
@@ -160,6 +166,7 @@ const About: React.FC = () => {
         </motion.div>
       </motion.div>
     </div>
+    </>
   )
 }
 
