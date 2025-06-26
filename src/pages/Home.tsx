@@ -22,7 +22,7 @@ const Home: React.FC = () => {
     <Helmet>
       <link rel="canonical" href="https://www.errolsolomon.me/" />
     </Helmet>
-    <div className="relative min-h-[80vh] flex flex-col justify-center items-center text-center">
+    <div className="min-h-screen flex flex-col justify-center items-center text-center">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -99,7 +99,7 @@ const Home: React.FC = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="w-full bg-gray-50 py-12 px-4 mt-20"
+        className="w-full bg-gray-50 min-h-screen flex items-center justify-center px-4"
       >
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-main-dark mb-4">
@@ -128,7 +128,7 @@ const Home: React.FC = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="w-full bg-white py-12 px-4"
+        className="w-full bg-white min-h-screen flex items-center justify-center px-4"
       >
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-main-dark mb-6">
