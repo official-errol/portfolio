@@ -5,4 +5,4 @@ Allow: /
 User-agent: Mediapartners-Google
 Disallow:
 
-Sitemap: https://errolsolomon.me/sitemap.xml
+Sitemap: https://errolsolomon.me/api/sitemap
