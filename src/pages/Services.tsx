@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { PaintBrushIcon, DocumentIcon, CpuChipIcon, DevicePhoneMobileIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
+import { Helmet } from 'react-helmet'
 
 const Services: React.FC = () => {
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
@@ -13,6 +14,10 @@ const Services: React.FC = () => {
     setOpenSections(prev => ({ ...prev, [section]: !prev[section] }))
 
   return (
+    <>
+    <Helmet>
+      <link rel="canonical" href="https://www.errolsolomon.me/services" />
+    </Helmet>
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
@@ -147,6 +152,7 @@ const Services: React.FC = () => {
         </section>
       </div>
     </motion.div>
+    </>
   )
 }
 
