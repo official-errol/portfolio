@@ -73,7 +73,7 @@ const BlogPost: React.FC = () => {
         .gt('created_at', post.created_at)
         .order('created_at', { ascending: true })
         .limit(1)
-        .then(res => setNextPost(res.data?.[0] || null));
+        .then(res => setPreviousPost(res.data?.[0] || null));
   
       supabase
         .from('posts')
@@ -81,7 +81,7 @@ const BlogPost: React.FC = () => {
         .lt('created_at', post.created_at)
         .order('created_at', { ascending: false })
         .limit(1)
-        .then(res => setPreviousPost(res.data?.[0] || null));
+        .then(res => setNextPost(res.data?.[0] || null));
     }
   }, [post]);
 
