@@ -1,6 +1,10 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { CodeBracketIcon, PaintBrushIcon, DevicePhoneMobileIcon } from '@heroicons/react/24/outline'
+import {
+  CodeBracketIcon,
+  PaintBrushIcon,
+  DevicePhoneMobileIcon
+} from '@heroicons/react/24/outline'
 import { Helmet } from 'react-helmet'
 
 const About: React.FC = () => {
@@ -21,121 +25,122 @@ const About: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          {/* Header Section */}
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-            <div className="flex-1">
-              <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">About Me</h1>
-              
-              {/* My Journey Title + Image beside */}
-              <div className="flex items-center mb-4">
-                <motion.h2
-                  className="text-2xl font-semibold text-main-dark"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 }}
+          <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800 text-center">About Me</h1>
+
+          {/* Two Column Layout (My Journey + My Philosophy) */}
+          <div className="flex flex-col md:flex-row gap-10">
+
+            {/* Left: My Journey */}
+            <div className="md:w-1/2">
+              <motion.h2
+                className="text-2xl font-semibold mb-6 text-main-dark"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                My Journey
+              </motion.h2>
+
+              {/* Paragraph + Image Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                <motion.p
+                  className="text-gray-600"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
                 >
-                  My Journey
-                </motion.h2>
+                  I've been passionate about technology since childhood, starting with basic HTML/CSS websites and gradually growing into full-stack development. Now, as a graduating BSCS student, I've built a strong foundation through academic projects, internships, and personal learning.
+                </motion.p>
 
                 <motion.img
                   src="/static-website.svg"
                   alt="Static website illustration"
-                  className="w-16 h-16 object-contain ml-4 hidden md:block"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 }}
+                  className="w-full h-auto object-contain max-w-[120px] mx-auto"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
                 />
               </div>
+
+              {/* Second paragraph */}
+              <motion.p
+                className="text-gray-600 mt-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                I enjoy creating digital solutions that are both functional and user-friendly, blending technical skills with a focus on design and user experience.
+              </motion.p>
             </div>
-          </div>
 
-          {/* Description Paragraphs */}
-          <div className="mt-2">
-            <motion.p
-              className="mb-4 text-gray-600"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              I've been passionate about technology since childhood, starting with basic HTML/CSS websites and gradually growing into full-stack development. Now, as a graduating BSCS student, I've built a strong foundation through academic projects, internships, and personal learning. I enjoy creating digital solutions that are both functional and user-friendly, blending technical skills with a focus on design and user experience.
-            </motion.p>
-
-            <motion.p
-              className="text-gray-600"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              My approach combines technical excellence with design thinking, ensuring that every solution not only works flawlessly but also delivers an exceptional user experience.
-            </motion.p>
-          </div>
-
-          {/* My Philosophy */}
-          <div className="mt-16">
-            <motion.h2
-              className="text-2xl font-semibold mb-4 text-main-dark"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6 }}
-            >
-              My Philosophy
-            </motion.h2>
-            <div className="space-y-6">
-              <motion.div
-                className="flex items-start"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 }}
+            {/* Right: My Philosophy */}
+            <div className="md:w-1/2">
+              <motion.h2
+                className="text-2xl font-semibold mb-6 text-main-dark"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
               >
-                <CodeBracketIcon className="w-6 h-6 mr-4 text-main mt-1" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">Clean Code</h3>
-                  <p className="text-gray-600">
-                    Writing maintainable, efficient code with best practices.
-                  </p>
-                </div>
-              </motion.div>
+                My Philosophy
+              </motion.h2>
 
-              <motion.div
-                className="flex items-start"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-              >
-                <PaintBrushIcon className="w-6 h-6 mr-4 text-main mt-1" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">Beautiful Design</h3>
-                  <p className="text-gray-600">
-                    Creating intuitive interfaces with attention to detail.
-                  </p>
-                </div>
-              </motion.div>
+              <div className="space-y-6">
+                <motion.div
+                  className="flex items-start"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <CodeBracketIcon className="w-6 h-6 mr-4 text-main mt-1" />
+                  <div>
+                    <h3 className="font-semibold text-lg mb-1">Clean Code</h3>
+                    <p className="text-gray-600">
+                      Writing maintainable, efficient code with best practices.
+                    </p>
+                  </div>
+                </motion.div>
 
-              <motion.div
-                className="flex items-start"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9 }}
-              >
-                <DevicePhoneMobileIcon className="w-6 h-6 mr-4 text-main mt-1" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">Responsive Experiences</h3>
-                  <p className="text-gray-600">
-                    Ensuring seamless performance across all devices.
-                  </p>
-                </div>
-              </motion.div>
+                <motion.div
+                  className="flex items-start"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <PaintBrushIcon className="w-6 h-6 mr-4 text-main mt-1" />
+                  <div>
+                    <h3 className="font-semibold text-lg mb-1">Beautiful Design</h3>
+                    <p className="text-gray-600">
+                      Creating intuitive interfaces with attention to detail.
+                    </p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="flex items-start"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                >
+                  <DevicePhoneMobileIcon className="w-6 h-6 mr-4 text-main mt-1" />
+                  <div>
+                    <h3 className="font-semibold text-lg mb-1">Responsive Experiences</h3>
+                    <p className="text-gray-600">
+                      Ensuring seamless performance across all devices.
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </div>
 
           {/* Skills Section */}
           <motion.div
-            className="mt-12"
+            className="mt-16"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.0 }}
+            transition={{ delay: 0.8 }}
           >
-            <h2 className="text-2xl font-semibold mb-6 text-main-dark">Skills & Technologies</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-main-dark text-center">Skills & Technologies</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {skills.map((category, index) => (
                 <motion.div
@@ -143,7 +148,7 @@ const About: React.FC = () => {
                   className="p-6 rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.2 + index * 0.2 }}
+                  transition={{ delay: 1 + index * 0.2 }}
                 >
                   <h3 className="text-xl font-semibold mb-4">{category.name}</h3>
                   <div className="flex flex-wrap gap-2">
