@@ -4,7 +4,6 @@ import {
   PaintBrushIcon,
   DocumentIcon,
   CpuChipIcon,
-  DevicePhoneMobileIcon,
   ChevronDownIcon,
   ChevronUpIcon
 } from '@heroicons/react/24/outline'
@@ -13,8 +12,7 @@ import { Helmet } from 'react-helmet'
 const Services: React.FC = () => {
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
     print: false,
-    digital: false,
-    social: false
+    digital: false
   })
 
   const toggle = (section: string) =>
@@ -33,26 +31,26 @@ const Services: React.FC = () => {
         className="min-h-screen bg-white px-4 py-12 text-gray-800"
       >
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-4xl font-bold mb-12 text-center text-main-dark">
+          <h1 className="text-4xl font-bold mb-12 text-left text-gray-900">
             My Services
           </h1>
 
           {/* Logo & Branding Section */}
           <section className="mb-12">
             <div className="flex items-center gap-3 mb-4">
-              <PaintBrushIcon className="w-6 h-6 text-main" />
-              <h2 className="text-2xl font-semibold text-main">Logo & Brand Visual Identity</h2>
+              <PaintBrushIcon className="w-6 h-6 text-main-dark" />
+              <h2 className="text-2xl font-semibold text-main-dark">Logo & Brand Visual Identity</h2>
             </div>
 
-            <div className="flex space-x-4 overflow-x-auto pb-2 text-sm scrollbar-thin">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-sm">
               {[
-                { title: 'Basic', desc: 'Logo Design Only', price: '₱500 – ₱1,000' },
-                { title: 'Standard', desc: 'Logo + Brand Guide', price: '₱1,500 – ₱2,000' },
-                { title: 'Premium', desc: 'Full Branding, Stationery, Poster', price: '₱2,500 – ₱3,000' }
+                { title: 'Basic', desc: 'Logo Design Only', price: '₱800' },
+                { title: 'Standard', desc: 'Logo + Brand Guide', price: '₱1,800' },
+                { title: 'Premium', desc: 'Full Branding, Stationery, Poster', price: '₱3,000' }
               ].map((item) => (
                 <div
                   key={item.title}
-                  className="min-w-[220px] bg-white border border-gray-300 rounded-lg p-4"
+                  className="bg-white border border-gray-300 rounded-lg p-4 shadow-sm"
                 >
                   <h3 className="font-bold mb-1">{item.title}</h3>
                   <p className="text-gray-600">{item.desc}</p>
@@ -69,11 +67,11 @@ const Services: React.FC = () => {
             open={openSections.print}
             onToggle={() => toggle('print')}
             items={[
-              ['Flyer (1–2 pages)', '₱300 – ₱500'],
-              ['Poster / Banner', '₱400 – ₱700'],
-              ['Business Card', '₱300 – ₱500'],
-              ['Invitation / Letterhead', '₱400 – ₱600'],
-              ['Certificate / Folder', '₱400 – ₱600']
+              ['Flyer (1–2 pages)', '₱350'],
+              ['Poster / Banner', '₱500'],
+              ['Business Card', '₱400'],
+              ['Invitation / Letterhead', '₱450'],
+              ['Certificate / Folder', '₱500']
             ]}
           />
 
@@ -84,27 +82,11 @@ const Services: React.FC = () => {
             open={openSections.digital}
             onToggle={() => toggle('digital')}
             items={[
-              ['Menu Design', '₱800 – ₱1,000'],
-              ['Photo Editing', '₱150 – ₱300'],
-              ['Product Label', '₱500 – ₱800'],
-              ['Photomanipulation', '₱400 – ₱700'],
-              ['Event Poster', '₱700 – ₱1,000']
-            ]}
-          />
-
-          {/* Social Media Section */}
-          <ServiceCollapse
-            icon={DevicePhoneMobileIcon}
-            title="Social Media Design"
-            open={openSections.social}
-            onToggle={() => toggle('social')}
-            items={[
-              ['Single Post (FB/IG)', '₱200 – ₱300'],
-              ['10 Posts', '₱1,000 – ₱1,500'],
-              ['20 Posts', '₱2,000 – ₱2,500'],
-              ['30 Posts', '₱3,000 – ₱4,000'],
-              ['Reels / TikTok Layout', '₱500 – ₱800'],
-              ['Cover Banner', '₱400 – ₱600']
+              ['Menu Design', '₱900'],
+              ['Photo Editing', '₱200'],
+              ['Product Label', '₱600'],
+              ['Photomanipulation', '₱500'],
+              ['Event Poster', '₱800']
             ]}
           />
 
@@ -134,18 +116,18 @@ const ServiceCollapse: React.FC<CollapseProps> = ({ title, icon: Icon, open, onT
         className="w-full flex items-center justify-between mb-2"
       >
         <div className="flex items-center gap-2">
-          <Icon className="w-5 h-5 text-main" />
-          <h2 className="text-xl font-semibold text-main">{title}</h2>
+          <Icon className="w-5 h-5 text-main-dark" />
+          <h2 className="text-xl font-semibold text-main-dark">{title}</h2>
         </div>
         {open ? (
-          <ChevronUpIcon className="w-4 h-4 text-main" />
+          <ChevronUpIcon className="w-4 h-4 text-main-dark" />
         ) : (
-          <ChevronDownIcon className="w-4 h-4 text-main" />
+          <ChevronDownIcon className="w-4 h-4 text-main-dark" />
         )}
       </button>
 
       {open && (
-        <div className="grid md:grid-cols-2 gap-4 text-sm mt-2 bg-white p-4 rounded-lg border border-gray-300">
+        <div className="grid md:grid-cols-2 gap-4 text-sm mt-2 bg-white p-4 rounded-lg border border-gray-300 shadow-sm">
           {items.map(([item, price]) => (
             <div
               key={item}
