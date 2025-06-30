@@ -23,7 +23,7 @@ canvas {
   padding: 8px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: #87E64B;
+  background: #d1f843;
   --_m: 
     conic-gradient(#0000 10%,#000),
     linear-gradient(#000 0 0) content-box;
@@ -34,17 +34,19 @@ canvas {
   animation: l3 1s infinite linear;
 }
 @keyframes l3 {to{transform: rotate(1turn)}}
+
 .text-tiny {
   font-size: 10px;
 }
+
 .bg-main {
-  background-color: #87E64B;
+  background-color: #d1f843;
 }
 .text-main {
-  color: #87E64B;
+  color: #d1f843;
 }
 .text-main-dark {
-  color: #2e7400;
+  color: #005840;
 }
 .text-primary-light {
   color: #191919;
@@ -71,11 +73,11 @@ canvas {
   background-color: #383838;
 }
 .border-main {
-  border-color: #87E64B;
+  border-color: #d1f843;
 }
 .border-main-dark {
-  border-color: #2e7400;
+  border-color: #005840;
 }
 .fill-main {
-  fill: #87E64B;
+  fill: #d1f843;
 }
