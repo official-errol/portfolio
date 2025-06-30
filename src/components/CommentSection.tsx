@@ -165,7 +165,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
         </div>
 
         {replyTo === comment.id && user && (
-          <div className="ml-10 mt-3 flex items-start gap-3">
+          <div className="ml-10 mt-3 mb-3 flex items-start gap-3">
             <img src={user.user_metadata?.avatar_url} alt="user" className="w-8 h-8 rounded-full" />
             <div className="flex-1 bg-gray-200 p-3 rounded-2xl">
               <textarea
@@ -176,9 +176,9 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
                 value={newComment}
                 onChange={e => setNewComment(e.target.value)}
               />
-              <div className="flex justify-end gap-2 mt-2">
+              <div className="flex justify-end gap-4 mt-2">
                 <button onClick={handleCancel} className="text-sm text-gray-500 hover:underline">Cancel</button>
-                <button onClick={() => addComment(comment.id)} className="bg-main text-white px-4 py-1 rounded hover:bg-main-dark text-sm">Reply</button>
+                <button onClick={() => addComment(comment.id)} className="bg-main text-main-dark px-4 py-2 rounded-full hover:bg-main-dark text-sm">Reply</button>
               </div>
             </div>
           </div>
@@ -207,9 +207,9 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
               value={newComment}
               onChange={e => setNewComment(e.target.value)}
             />
-            <div className="flex justify-end gap-2 mt-2">
+            <div className="flex justify-end gap-4 mt-2">
               <button onClick={handleCancel} className="text-sm text-gray-500 hover:underline">Cancel</button>
-              <button onClick={() => addComment(null)} className="bg-main text-white px-4 py-1 rounded hover:bg-main-dark text-sm">Post</button>
+              <button onClick={() => addComment(null)} className="bg-main text-main-dark px-4 py-2 rounded-full hover:bg-main-dark text-sm">Post</button>
             </div>
           </div>
         </div>
