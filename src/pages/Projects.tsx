@@ -60,9 +60,7 @@ const Projects: React.FC = () => {
   ]
 
   const filteredProjects =
-    filter === 'all'
-      ? projects
-      : projects.filter((project) => project.category === filter)
+    filter === 'all' ? projects : projects.filter(p => p.category === filter)
 
   return (
     <>
@@ -80,26 +78,26 @@ const Projects: React.FC = () => {
             My Projects
           </h1>
 
+          {/* Filters */}
           <div className="mb-10">
             <div className="flex flex-wrap gap-2">
-              {['all', 'frontend', 'backend', 'fullstack', 'design'].map(
-                (category) => (
-                  <button
-                    key={category}
-                    onClick={() => setFilter(category)}
-                    className={`px-4 py-2 rounded-full capitalize ${
-                      filter === category
-                        ? 'bg-main text-main-dark'
-                        : 'text-gray-700 hover:bg-gray-200/30 rounded-full bg-white/30 backdrop-blur-md border border-gray-500/20'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                )
-              )}
+              {['all', 'frontend', 'backend', 'fullstack', 'design'].map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setFilter(category)}
+                  className={`px-4 py-2 rounded-full capitalize ${
+                    filter === category
+                      ? 'bg-main text-main-dark'
+                      : 'text-gray-700 hover:bg-gray-200/30 bg-white/30 backdrop-blur-md border border-gray-500/20'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
             </div>
           </div>
 
+          {/* Projects */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project, index) => (
               <motion.div
@@ -107,8 +105,9 @@ const Projects: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20 overflow-hidden"
+                className="rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20 overflow-hidden shadow"
               >
+                {/* Live Preview */}
                 <div
                   className="relative w-full overflow-hidden bg-gray-100"
                   style={{ aspectRatio: '16 / 9' }}
@@ -132,66 +131,43 @@ const Projects: React.FC = () => {
                           title={project.title}
                         />
                       </div>
-
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10" />
-                      <div className="absolute bottom-4 left-4 z-20">
-                        <h3 className="text-xl font-bold text-white">{project.title}</h3>
-                        <p className="text-gray-300">{project.description}</p>
-                      </div>
                     </a>
                   ) : (
-                    <>
-                      <div className="w-full h-full bg-gray-300" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10" />
-                      <div className="absolute bottom-4 left-4 z-20">
-                        <h3 className="text-xl font-bold text-white">{project.title}</h3>
-                        <p className="text-gray-300">{project.description}</p>
-                      </div>
-                    </>
+                    <div className="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500">
+                      Preview not available
+                    </div>
                   )}
                 </div>
 
-                <div className="p-6">
-                  <div className="flex flex-wrap gap-2 mb-4">
+                {/* Project Info */}
+                <div className="p-6 space-y-2">
+                  <h3 className="text-xl font-bold text-gray-800">{project.title}</h3>
+                  <p className="text-gray-600">{project.description}</p>
+
+                  <div className="flex flex-wrap gap-2 mt-2">
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1 bg-gray-100 rounded-full text-sm"
+                        className="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-700"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  <div className="flex justify-between items-center">
+                  <div className="pt-4">
                     {project.liveLink ? (
                       <a
                         href={project.liveLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-main-dark font-medium hover:underline"
+                        className="inline-block px-4 py-2 rounded bg-main text-main-dark font-medium hover:underline"
                       >
                         Visit Site
                       </a>
                     ) : (
-                      <button className="text-main-dark font-medium hover:underline">
-                        View Details
-                      </button>
+                      <span className="text-gray-500 text-sm">Coming Soon</span>
                     )}
-                    <button className="text-gray-700 hover:text-main">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
                   </div>
                 </div>
               </motion.div>
