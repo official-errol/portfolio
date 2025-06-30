@@ -105,7 +105,7 @@ const Projects: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20 overflow-hidden shadow"
+                className="rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20 overflow-hidden"
               >
                 {/* Live Preview */}
                 <div
@@ -120,7 +120,7 @@ const Projects: React.FC = () => {
                       className="block w-full h-full"
                     >
                       <div
-                        className="absolute top-0 left-0 origin-top-left scale-[0.2] md:scale-[0.22] lg:scale-[0.24]"
+                        className="absolute top-0 left-0 origin-top-left scale-[0.18] md:scale-[0.20] lg:scale-[0.22]"
                         style={{ width: '1920px', height: '1080px' }}
                       >
                         <iframe
