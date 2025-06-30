@@ -38,7 +38,7 @@ const Services: React.FC = () => {
           {/* Logo & Branding Section */}
           <section className="mb-12">
             <div className="flex items-center gap-3 mb-4">
-              <span className="bg-main p-4 rounded-sm">
+              <span className="bg-main p-2 rounded-lg">
                 <PaintBrushIcon className="w-5 h-5 text-gray-800" />
               </span>
               <h2 className="text-2xl font-semibold text-gray-800">
@@ -120,7 +120,7 @@ const ServiceCollapse: React.FC<CollapseProps> = ({ title, icon: Icon, open, onT
         className="w-full flex items-center justify-between mb-2"
       >
         <div className="flex items-center gap-2">
-          <span className="bg-main p-4 rounded-sm">
+          <span className="bg-main p-2 rounded-lg">
             <Icon className="w-5 h-5 text-gray-800" />
           </span>
           <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
