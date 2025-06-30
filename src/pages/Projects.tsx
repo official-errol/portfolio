@@ -9,11 +9,11 @@ const Projects: React.FC = () => {
     {
       id: 0,
       title: 'QuicksheetCV',
-      description: 'Free online resume builder — no login required.',
+      description: 'Live resume builder – no login required.',
       category: 'frontend',
-      tags: ['React', 'Tailwind CSS', 'Framer Motion'],
+      tags: ['React', 'Tailwind CSS', 'Vite'],
+      iframe: true,
       liveLink: 'https://quicksheetcv.vercel.app',
-      iframe: true, // custom flag for iframe preview
     },
     {
       id: 1,
@@ -60,7 +60,9 @@ const Projects: React.FC = () => {
   ]
 
   const filteredProjects =
-    filter === 'all' ? projects : projects.filter((p) => p.category === filter)
+    filter === 'all'
+      ? projects
+      : projects.filter((project) => project.category === filter)
 
   return (
     <>
@@ -107,28 +109,43 @@ const Projects: React.FC = () => {
                 transition={{ delay: index * 0.1 }}
                 className="rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20 overflow-hidden"
               >
-                {/* Preview Area */}
-                {project.iframe && project.liveLink ? (
-                  <div className="relative w-full h-56 overflow-hidden rounded-t-xl bg-gray-100">
-                    <div className="absolute top-0 left-0 origin-top-left scale-[0.3] md:scale-[0.4] lg:scale-[0.45] pointer-events-none">
-                      <iframe
-                        src={project.liveLink}
-                        className="w-[1280px] h-[720px] border-none"
-                        title={project.title}
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="h-48 bg-gray-200 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4">
-                      <h3 className="text-xl font-bold text-white">{project.title}</h3>
-                      <p className="text-gray-300">{project.description}</p>
-                    </div>
-                  </div>
-                )}
+                <div className="relative w-full h-[300px] overflow-hidden rounded-t-xl bg-gray-100">
+                  {project.iframe && project.liveLink ? (
+                    <a
+                      href={project.liveLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full h-full"
+                    >
+                      <div
+                        className="absolute top-0 left-0 origin-top-left scale-[0.1875] md:scale-[0.2]"
+                        style={{
+                          width: '1920px',
+                          height: '1080px',
+                        }}
+                      >
+                        <iframe
+                          src={project.liveLink}
+                          width="1920"
+                          height="1080"
+                          className="border-none pointer-events-none"
+                          title={project.title}
+                        />
+                      </div>
+                    </a>
+                  ) : (
+                    <>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                      <div className="absolute bottom-4 left-4">
+                        <h3 className="text-xl font-bold text-white">
+                          {project.title}
+                        </h3>
+                        <p className="text-gray-300">{project.description}</p>
+                      </div>
+                    </>
+                  )}
+                </div>
 
-                {/* Card Content */}
                 <div className="p-6">
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tags.map((tag) => (
@@ -149,10 +166,12 @@ const Projects: React.FC = () => {
                         rel="noopener noreferrer"
                         className="text-main-dark font-medium hover:underline"
                       >
-                        Live Preview
+                        Visit Site
                       </a>
                     ) : (
-                      <span className="text-gray-500">Coming Soon</span>
+                      <button className="text-main-dark font-medium hover:underline">
+                        View Details
+                      </button>
                     )}
                     <button className="text-gray-700 hover:text-main">
                       <svg
