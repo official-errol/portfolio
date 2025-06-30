@@ -38,11 +38,8 @@ const Services: React.FC = () => {
           {/* Logo & Branding Section */}
           <section className="mb-12">
             <div className="flex items-center gap-3 mb-4">
-              <span className="bg-main p-2 rounded-lg">
-                <PaintBrushIcon className="w-5 h-5 text-gray-800" />
-              </span>
               <h2 className="text-2xl font-semibold text-gray-800">
-                Logo & Brand Visual Identity
+                🎨 Logo & Brand Visual Identity
               </h2>
             </div>
 
@@ -54,7 +51,7 @@ const Services: React.FC = () => {
               ].map((item) => (
                 <div
                   key={item.title}
-                  className="bg-white border border-gray-300 rounded-lg p-4"
+                  className="bg-white border border-gray-200 rounded-lg p-4"
                 >
                   <h3 className="font-bold mb-1">{item.title}</h3>
                   <p className="text-gray-600">{item.desc}</p>
@@ -67,7 +64,7 @@ const Services: React.FC = () => {
           {/* Printables Section */}
           <ServiceCollapse
             icon={DocumentIcon}
-            title="Printables"
+            title="🖨️ Printables"
             open={openSections.print}
             onToggle={() => toggle('print')}
             items={[
@@ -82,7 +79,7 @@ const Services: React.FC = () => {
           {/* Digital Art Section */}
           <ServiceCollapse
             icon={CpuChipIcon}
-            title="Digital Artwork & Editing"
+            title="🖌️ Digital Artwork & Editing"
             open={openSections.digital}
             onToggle={() => toggle('digital')}
             items={[
@@ -120,9 +117,6 @@ const ServiceCollapse: React.FC<CollapseProps> = ({ title, icon: Icon, open, onT
         className="w-full flex items-center justify-between mb-2"
       >
         <div className="flex items-center gap-2">
-          <span className="bg-main p-2 rounded-lg">
-            <Icon className="w-5 h-5 text-gray-800" />
-          </span>
           <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
         </div>
         {open ? (
@@ -133,7 +127,7 @@ const ServiceCollapse: React.FC<CollapseProps> = ({ title, icon: Icon, open, onT
       </button>
 
       {open && (
-        <div className="grid md:grid-cols-2 gap-4 text-sm mt-2 bg-white p-4 rounded-lg border border-gray-300">
+        <div className="grid md:grid-cols-2 gap-4 text-sm mt-2 bg-white p-4 rounded-lg border border-gray-200">
           {items.map(([item, price]) => (
             <div
               key={item}
