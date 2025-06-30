@@ -188,7 +188,7 @@ const BlogPost: React.FC = () => {
       {/* Blog Post Content */}
       <div className="flex flex-col md:flex-row max-w-6xl mx-auto p-4 py-4 bg-white">
         <div className="md:w-2/3 pr-6">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">{post.title}</h1>
+          <h1 className="text-4xl font-bold text-main-dark mb-2">{post.title}</h1>
           <p className="text-sm text-gray-500 mb-2">By {post.author} • {new Date(post.created_at).toLocaleDateString()}</p>
           <p className="text-sm text-gray-500 mb-4">{post.category}</p>
 
@@ -198,7 +198,7 @@ const BlogPost: React.FC = () => {
 
           <div className="flex flex-wrap gap-2 mt-6">
             {post.tags.map(t => (
-              <span key={t} className="text-xs bg-gray-200 px-2 py-1 rounded-lg">{t}</span>
+              <span key={t} className="text-xs bg-gray-200 px-2 py-1 rounded-full">{t}</span>
             ))}
           </div>
 
@@ -212,7 +212,7 @@ const BlogPost: React.FC = () => {
             <button
               disabled={!previousPost}
               onClick={() => previousPost && navigate(`/blog/${previousPost.slug}`)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg ${previousPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full ${previousPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
             >
               <ArrowLeftIcon className="w-4 h-4" />
               Previous
@@ -220,7 +220,7 @@ const BlogPost: React.FC = () => {
             <button
               disabled={!nextPost}
               onClick={() => nextPost && navigate(`/blog/${nextPost.slug}`)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg ${nextPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
+              className={`flex items-center text-md gap-2 px-4 py-2 rounded-full ${nextPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
             >
               Next
               <ArrowRightIcon className="w-4 h-4" />
