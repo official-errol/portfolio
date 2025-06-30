@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const AdminLogin: React.FC = () => {
@@ -6,6 +6,13 @@ const AdminLogin: React.FC = () => {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isAdminAuthenticated') === 'true'
+    if (isLoggedIn) {
+      navigate('/dashboard')
+    }
+  }, [navigate])
 
   const handleLogin = () => {
     if (username === 'admin' && password === 'P@$$w0rdS3cur3d') {
