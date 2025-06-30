@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
-  PaintBrushIcon,
-  DocumentIcon,
-  CpuChipIcon,
   ChevronDownIcon,
   ChevronUpIcon
 } from '@heroicons/react/24/outline'
@@ -63,7 +60,6 @@ const Services: React.FC = () => {
 
           {/* Printables Section */}
           <ServiceCollapse
-            icon={DocumentIcon}
             title="🖨️ Printables"
             open={openSections.print}
             onToggle={() => toggle('print')}
@@ -78,7 +74,6 @@ const Services: React.FC = () => {
 
           {/* Digital Art Section */}
           <ServiceCollapse
-            icon={CpuChipIcon}
             title="🖌️ Digital Artwork & Editing"
             open={openSections.digital}
             onToggle={() => toggle('digital')}
@@ -103,13 +98,12 @@ const Services: React.FC = () => {
 
 interface CollapseProps {
   title: string
-  icon: React.ElementType
   open: boolean
   onToggle: () => void
   items: [string, string][]
 }
 
-const ServiceCollapse: React.FC<CollapseProps> = ({ title, icon: Icon, open, onToggle, items }) => {
+const ServiceCollapse: React.FC<CollapseProps> = ({ title, open, onToggle, items }) => {
   return (
     <section className="mb-8">
       <button
