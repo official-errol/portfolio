@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { EnvelopeIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 import profilePic from '../assets/meh.jpg'
 import { Link } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
-import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 
 interface Post {
@@ -17,142 +16,148 @@ interface Post {
 
 const Home: React.FC = () => {
   const ownerName = import.meta.env.VITE_PORTFOLIO_OWNER_NAME
+
   return (
     <>
-    <Helmet>
-      <link rel="canonical" href="https://www.errolsolomon.me/" />
-    </Helmet>
-    <div className="relative min-h-[80vh] flex flex-col justify-center items-center text-center">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="max-w-4xl mx-auto px-4 flex flex-col items-center"
-      >
-        {/* Profile Image with space above */}
-        <div className="mt-8 mb-6">
-          <img
-            src={profilePic}
-            alt="Profile"
-            className="w-32 h-32 rounded-full object-cover shadow-md"
-          />
-        </div>
+      <Helmet>
+        <link rel="canonical" href="https://www.errolsolomon.me/" />
+      </Helmet>
 
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light">
-          Hi, I'm <span className="text-main-dark">{ownerName}</span>
-        </h1>
+      {/* Page Container (Removed snap) */}
+      <div className="min-h-screen flex flex-col">
 
-        <motion.h2 
-          className="text-2xl md:text-3xl font-semibold mb-8 text-secondary-light"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-        >
-          Full-Stack Developer & UI/UX Designer
-        </motion.h2>
-
-        <motion.p 
-          className="text-md md:text-lg mb-10 text-secondary-light max-w-3xl"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-        >
-          I create beautiful, responsive websites and applications with a focus on user experience 
-          and modern technologies. Passionate about solving complex problems with elegant solutions.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9, duration: 0.5 }}
-          className="flex flex-row justify-center space-x-4 text-xs"
-        >
-          <a 
-            href="/contact" 
-            className="flex items-center px-5 py-3 text-main-dark bg-main rounded-lg cursor-pointer select-none
-              active:translate-y-2 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
-              active:border-b-[1px]
-              transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
-              border-b border-main-dark"
+        {/* Hero Section */}
+        <section className="min-h-screen flex items-center justify-center text-center px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-4xl mx-auto flex flex-col items-center"
           >
-            <EnvelopeIcon className='w-4 h-4 mr-3'/>
-            HIRE ME
-          </a>
+            <div className="mt-8 mb-6">
+              <img
+                src={profilePic}
+                alt="Profile"
+                className="w-32 h-32 rounded-full object-cover shadow-md"
+              />
+            </div>
 
-          <a 
-            href="/projects" 
-            className="flex items-center px-5 py-3 text-gray-800 bg-white rounded-lg cursor-pointer select-none
-              active:translate-y-2 active:[box-shadow:0_0px_0_0_#d1d5db,0_0px_0_0_#d1d5db66]
-              active:border-b-[1px]
-              transition-all duration-150 [box-shadow:0_6px_0_0_#d1d5db,0_10px_0_0_#d1d5db66]
-              border-[1px] border-gray-200"
-          >
-            <ArrowRightIcon className="w-4 h-4 mr-2" />
-            VIEW PROJECTS
-          </a>
-        </motion.div>
-      </motion.div>
-      
-      {/* Services Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="w-full bg-gray-50 py-12 px-4 mt-20"
-      >
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-main-dark mb-4">
-            Need Graphic Design Services?
-          </h2>
-          <p className="text-gray-600 mb-6">
-            From logo creation to full branding packages and social media designs, I offer high-quality, customizable solutions at flexible pricing.
-          </p>
-          <a 
-            href="/services" 
-            className="inline-flex items-center px-5 py-3 text-xs text-main-dark bg-main rounded-lg cursor-pointer select-none
-                    active:translate-y-2 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
-                    active:border-b-[1px]
-                    transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
-                    border-b border-main-dark"
-          >
-            <ArrowRightIcon className="w-5 h-5 mr-2" />
-            MY SERVICES
-          </a>
-        </div>
-      </motion.div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light">
+              Hi, I'm <span className="text-main-dark">{ownerName}</span>
+            </h1>
 
-      {/* Latest Blog Posts Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="w-full bg-white py-12 px-4"
-      >
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-main-dark mb-6">
-            Latest Blog Posts
-          </h2>
-      
-          <LatestBlogPreview />
-          
-          <div className="mt-6">
+            <motion.h2
+              className="text-2xl md:text-3xl font-semibold mb-8 text-secondary-light"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              Full-Stack Developer & UI/UX Designer
+            </motion.h2>
+
+            <motion.p
+              className="text-md md:text-lg mb-10 text-secondary-light max-w-3xl"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+              I create beautiful, responsive websites and applications with a focus on user experience 
+              and modern technologies. Passionate about solving complex problems with elegant solutions.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9, duration: 0.5 }}
+              className="flex flex-row justify-center space-x-4 text-xs"
+            >
+              <a
+                href="/contact"
+                className="flex items-center px-5 py-3 text-main-dark bg-main rounded-lg cursor-pointer select-none
+                  active:translate-y-2 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
+                  active:border-b-[1px]
+                  transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
+                  border-b border-main-dark"
+              >
+                <EnvelopeIcon className='w-4 h-4 mr-3'/>
+                HIRE ME
+              </a>
+
+              <a
+                href="/projects"
+                className="flex items-center px-5 py-3 text-gray-800 bg-white rounded-lg cursor-pointer select-none
+                  active:translate-y-2 active:[box-shadow:0_0px_0_0_#d1d5db,0_0px_0_0_#d1d5db66]
+                  active:border-b-[1px]
+                  transition-all duration-150 [box-shadow:0_6px_0_0_#d1d5db,0_10px_0_0_#d1d5db66]
+                  border-[1px] border-gray-200"
+              >
+                <ArrowRightIcon className="w-4 h-4 mr-2" />
+                VIEW PROJECTS
+              </a>
+            </motion.div>
+          </motion.div>
+        </section>
+
+        {/* Services Section */}
+        <section className="min-h-screen bg-gray-50 flex items-center justify-center px-4 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <h2 className="text-3xl font-bold text-main-dark mb-4">
+              Need Graphic Design Services?
+            </h2>
+            <p className="text-gray-600 mb-6">
+              From logo creation to full branding packages and social media designs, I offer high-quality, customizable solutions at flexible pricing.
+            </p>
             <a
-              href="/blog"
-              className="inline-flex items-center px-5 py-3 text-xs text-gray-800 bg-white rounded-lg cursor-pointer select-none
-              active:translate-y-2 active:[box-shadow:0_0px_0_0_#d1d5db,0_0px_0_0_#d1d5db66]
-              active:border-b-[1px]
-              transition-all duration-150 [box-shadow:0_6px_0_0_#d1d5db,0_10px_0_0_#d1d5db66]
-              border-[1px] border-gray-200"
+              href="/services"
+              className="inline-flex items-center px-5 py-3 text-xs text-main-dark bg-main rounded-lg cursor-pointer select-none
+                      active:translate-y-2 active:[box-shadow:0_0px_0_0_#6CC832,0_0px_0_0_#9cee69]
+                      active:border-b-[1px]
+                      transition-all duration-150 [box-shadow:0_6px_0_0_#6CC832,0_10px_0_0_#9cee69]
+                      border-b border-main-dark"
             >
               <ArrowRightIcon className="w-5 h-5 mr-2" />
-              VIEW ALL BLOGS
+              MY SERVICES
             </a>
-          </div>
-        </div>
-      </motion.div>
-    </div>
+          </motion.div>
+        </section>
+
+        {/* Blog Section */}
+        <section className="min-h-screen bg-white flex items-center justify-center px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <h2 className="text-3xl font-bold text-main-dark mb-6">
+              Latest Blog Posts
+            </h2>
+
+            <LatestBlogPreview />
+
+            <div className="mt-6">
+              <a
+                href="/blog"
+                className="inline-flex items-center px-5 py-3 text-xs text-gray-800 bg-white rounded-lg cursor-pointer select-none
+                active:translate-y-2 active:[box-shadow:0_0px_0_0_#d1d5db,0_0px_0_0_#d1d5db66]
+                active:border-b-[1px]
+                transition-all duration-150 [box-shadow:0_6px_0_0_#d1d5db,0_10px_0_0_#d1d5db66]
+                border-[1px] border-gray-200"
+              >
+                <ArrowRightIcon className="w-5 h-5 mr-2" />
+                VIEW ALL BLOGS
+              </a>
+            </div>
+          </motion.div>
+        </section>
+      </div>
     </>
   )
 }
@@ -170,7 +175,7 @@ const LatestBlogPreview: React.FC = () => {
   }, [])
 
   return (
-    <div className="grid gap-6 md:grid-cols-3 mt-6 text-left">
+    <div className="grid gap-6 md:grid-cols-3 mt-6 text-left bg-white">
       {posts.map(post => (
         <Link
           to={`/blog/${post.slug}`}
