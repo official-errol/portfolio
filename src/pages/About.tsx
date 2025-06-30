@@ -25,7 +25,7 @@ const About: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800 text-center">About Me</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800">About Me</h1>
 
           {/* Two Column Layout (My Journey + My Philosophy) */}
           <div className="flex flex-col md:flex-row gap-10">
@@ -55,7 +55,7 @@ const About: React.FC = () => {
                 <motion.img
                   src="/static-website.svg"
                   alt="Static website illustration"
-                  className="w-full h-auto object-contain max-w-[120px] mx-auto"
+                  className="w-full h-auto object-contain max-w-[200px] mx-auto"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
