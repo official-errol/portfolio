@@ -198,7 +198,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
             />
             <div className="flex-1">
               <textarea
-                className="w-full border border-gray-200 p-2 rounded resize-none mb-2"
+                className="w-full border border-gray-200 p-2 rounded-lg resize-none mb-2"
                 rows={2}
                 placeholder="Write a reply..."
                 value={newComment}
@@ -241,7 +241,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
           />
           <div className="flex flex-col flex-grow">
             <textarea
-              className="border border-gray-300 p-2 rounded w-full mb-2 resize-none"
+              className="border border-gray-300 p-2 rounded-lg w-full mb-2 resize-none"
               rows={2}
               placeholder="Write a comment..."
               value={newComment}
@@ -249,7 +249,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
             />
             <button
               onClick={() => addComment(null)}
-              className="self-end bg-main text-white px-4 py-1 rounded hover:bg-main-dark"
+              className="self-end bg-main text-main-dark px-2 py-1 rounded-full hover:bg-main-dark"
             >
               Post
             </button>
