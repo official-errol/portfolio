@@ -35,26 +35,28 @@ const About: React.FC = () => {
 
           {/* Journey & Philosophy */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-            {/* My Journey */}
+            {/* My Journey Section */}
             <div>
-              <motion.h2
-                className="text-2xl font-semibold mb-4 text-main-dark"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                My Journey
-              </motion.h2>
-
-              <motion.img
-                src="/static-website.svg"
-                alt="Static website illustration"
-                className="w-full max-w-sm mb-4"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              />
-
+              <div className="flex items-center justify-between mb-4">
+                <motion.h2
+                  className="text-2xl font-semibold text-main-dark"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  My Journey
+                </motion.h2>
+            
+                <motion.img
+                  src="/static-website.svg"
+                  alt="Static website illustration"
+                  className="w-16 h-16 object-contain ml-4 hidden md:block"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                />
+              </div>
+            
               <motion.p
                 className="mb-4 text-gray-600"
                 initial={{ opacity: 0 }}
@@ -63,6 +65,16 @@ const About: React.FC = () => {
               >
                 I've been passionate about technology since childhood, starting with basic HTML/CSS websites and gradually growing into full-stack development. Now, as a graduating BSCS student, I've built a strong foundation through academic projects, internships, and personal learning. I enjoy creating digital solutions that are both functional and user-friendly, blending technical skills with a focus on design and user experience.
               </motion.p>
+            
+              <motion.p
+                className="text-gray-600"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                My approach combines technical excellence with design thinking, ensuring that every solution not only works flawlessly but also delivers an exceptional user experience.
+              </motion.p>
+            </div>
 
               <motion.p
                 className="text-gray-600"
