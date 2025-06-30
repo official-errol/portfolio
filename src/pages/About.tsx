@@ -31,28 +31,10 @@ const About: React.FC = () => {
 
       <div className="container mx-auto px-4 py-12">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-          {/* Header Section */}
-          <div className="flex flex-row items-start justify-between gap-6">
-            <div className="flex flex-col flex-1">
-              <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">About Me</h1>
-            </div>
-
-            <motion.div
-              className="w-24 h-24 flex-shrink-0"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <img
-                src="/static-website.svg"
-                alt="Static website illustration"
-                className="w-full h-full object-contain"
-              />
-            </motion.div>
-          </div>
+          <h1 className="text-3xl md:text-4xl font-bold mb-10 text-gray-800">About Me</h1>
 
           {/* Journey & Philosophy */}
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             {/* My Journey */}
             <div>
               <motion.h2
@@ -64,11 +46,20 @@ const About: React.FC = () => {
                 My Journey
               </motion.h2>
 
+              <motion.img
+                src="/static-website.svg"
+                alt="Static website illustration"
+                className="w-full max-w-sm mb-4"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              />
+
               <motion.p
                 className="mb-4 text-gray-600"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
+                transition={{ delay: 0.4 }}
               >
                 I've been passionate about technology since childhood, starting with basic HTML/CSS websites and gradually growing into full-stack development. Now, as a graduating BSCS student, I've built a strong foundation through academic projects, internships, and personal learning. I enjoy creating digital solutions that are both functional and user-friendly, blending technical skills with a focus on design and user experience.
               </motion.p>
@@ -77,7 +68,7 @@ const About: React.FC = () => {
                 className="text-gray-600"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: 0.5 }}
               >
                 My approach combines technical excellence with design thinking, ensuring that every solution not only works flawlessly but also delivers an exceptional user experience.
               </motion.p>
@@ -89,7 +80,7 @@ const About: React.FC = () => {
                 className="text-2xl font-semibold mb-4 text-main-dark"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 }}
+                transition={{ delay: 0.6 }}
               >
                 My Philosophy
               </motion.h2>
@@ -99,7 +90,7 @@ const About: React.FC = () => {
                   className="flex items-start"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
+                  transition={{ delay: 0.7 }}
                 >
                   <CodeBracketIcon className="w-6 h-6 mr-4 text-main mt-1" />
                   <div>
@@ -112,7 +103,7 @@ const About: React.FC = () => {
                   className="flex items-start"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
+                  transition={{ delay: 0.8 }}
                 >
                   <PaintBrushIcon className="w-6 h-6 mr-4 text-main mt-1" />
                   <div>
@@ -125,7 +116,7 @@ const About: React.FC = () => {
                   className="flex items-start"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 }}
+                  transition={{ delay: 0.9 }}
                 >
                   <DevicePhoneMobileIcon className="w-6 h-6 mr-4 text-main mt-1" />
                   <div>
@@ -137,12 +128,12 @@ const About: React.FC = () => {
             </div>
           </div>
 
-          {/* Skills */}
+          {/* Skills Section */}
           <motion.div
             className="mt-16"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
+            transition={{ delay: 1.1 }}
           >
             <h2 className="text-2xl font-semibold mb-6 text-main-dark">Skills & Technologies</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -152,12 +143,15 @@ const About: React.FC = () => {
                   className="p-6 rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1 + index * 0.2 }}
+                  transition={{ delay: 1.3 + index * 0.2 }}
                 >
                   <h3 className="text-xl font-semibold mb-4">{category.name}</h3>
                   <div className="flex flex-wrap gap-2">
                     {category.items.map((item) => (
-                      <span key={item} className="px-3 py-1 bg-gray-100 rounded-full text-sm">
+                      <span
+                        key={item}
+                        className="px-3 py-1 bg-gray-100 rounded-full text-sm"
+                      >
                         {item}
                       </span>
                     ))}
