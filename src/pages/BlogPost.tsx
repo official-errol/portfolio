@@ -167,10 +167,10 @@ const BlogPost: React.FC = () => {
             placeholder="Search posts..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full focus:border-main focus:outline-none"
+            className="pl-10 pr-4 py-2 border border-gray-300 rounded-full w-full focus:border-main focus:outline-none"
           />
           {searchResults.length > 0 && (
-            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded shadow">
+            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-full shadow">
               {searchResults.map(result => (
                 <div
                   key={result.id}
