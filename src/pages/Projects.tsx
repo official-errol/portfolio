@@ -109,27 +109,20 @@ const Projects: React.FC = () => {
                 transition={{ delay: index * 0.1 }}
                 className="rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20 overflow-hidden"
               >
-                <div className="relative w-full overflow-hidden rounded-t-xl bg-gray-100">
-                {project.iframe && project.liveLink ? (
-                  <a
-                    href={project.liveLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full"
-                  >
-                    <div
-                      className="relative w-[384px] md:w-[400px] lg:w-[460px]" // Match to card width
-                      style={{
-                        height: 'auto',
-                        aspectRatio: '16 / 9',
-                      }}
+                <div
+                  className="relative w-full overflow-hidden bg-gray-100"
+                  style={{ aspectRatio: '16 / 9' }}
+                >
+                  {project.iframe && project.liveLink ? (
+                    <a
+                      href={project.liveLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full h-full"
                     >
                       <div
                         className="absolute top-0 left-0 origin-top-left scale-[0.2] md:scale-[0.22] lg:scale-[0.24]"
-                        style={{
-                          width: '1920px',
-                          height: '1080px',
-                        }}
+                        style={{ width: '1920px', height: '1080px' }}
                       >
                         <iframe
                           src={project.liveLink}
@@ -139,18 +132,24 @@ const Projects: React.FC = () => {
                           title={project.title}
                         />
                       </div>
-                    </div>
-                  </a>
-                ) : (
-                  <>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4">
-                      <h3 className="text-xl font-bold text-white">{project.title}</h3>
-                      <p className="text-gray-300">{project.description}</p>
-                    </div>
-                  </>
-                )}
-              </div>
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10" />
+                      <div className="absolute bottom-4 left-4 z-20">
+                        <h3 className="text-xl font-bold text-white">{project.title}</h3>
+                        <p className="text-gray-300">{project.description}</p>
+                      </div>
+                    </a>
+                  ) : (
+                    <>
+                      <div className="w-full h-full bg-gray-300" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10" />
+                      <div className="absolute bottom-4 left-4 z-20">
+                        <h3 className="text-xl font-bold text-white">{project.title}</h3>
+                        <p className="text-gray-300">{project.description}</p>
+                      </div>
+                    </>
+                  )}
+                </div>
 
                 <div className="p-6">
                   <div className="flex flex-wrap gap-2 mb-4">
