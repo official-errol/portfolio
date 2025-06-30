@@ -249,7 +249,7 @@ export const CommentSection: React.FC<{ postId: string }> = ({ postId }) => {
             />
             <button
               onClick={() => addComment(null)}
-              className="self-end bg-main text-main-dark px-2 py-1 rounded-full hover:bg-main-dark"
+              className="self-end bg-main text-md text-main-dark px-4 py-1 rounded-full hover:bg-main-dark"
             >
               Post
             </button>
