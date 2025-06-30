@@ -109,7 +109,7 @@ export const LikeButton: React.FC<{ postId: string }> = ({ postId }) => {
   }
 
   return (
-    <div className="flex items-center gap-4 text-main-dark">
+    <div className="flex items-center gap-4 text-gray-500">
       <button onClick={() => handleReaction('like')} className="flex items-center gap-1">
         {liked ? (
           <HandThumbUpSolid className="w-5 h-5 text-blue-600" />
