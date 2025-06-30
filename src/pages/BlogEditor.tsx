@@ -44,14 +44,12 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   const [mediaUrl, setMediaUrl] = useState('')
   const [mediaType, setMediaType] = useState<'image' | 'youtube' | 'video' | ''>('')
   const [saving, setSaving] = useState(false)
+  const contentRef = useRef<HTMLDivElement | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
-    if (localStorage.getItem('isAdminAuthenticated') !== 'true') {
-      navigate('/')
-    } else {
-      fetchPosts()
-    }
+    if (localStorage.getItem('isAdminAuthenticated') !== 'true') navigate('/')
+    else fetchPosts()
   }, [])
 
   useEffect(() => {
@@ -62,31 +60,6 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
       clearForm()
     }
   }, [editingPostId, posts])
-
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
-
-  const wrapSelectionWithTag = (tag: string) => {
-    const textarea = textareaRef.current
-    if (!textarea) return
-  
-    const start = textarea.selectionStart
-    const end = textarea.selectionEnd
-    const selected = content.substring(start, end)
-    const before = content.substring(0, start)
-    const after = content.substring(end)
-  
-    let wrapped =
-      tag === 'br'
-        ? `${before}<br>${after}`
-        : `${before}<${tag}>${selected}</${tag}>${after}`
-  
-    setContent(wrapped)
-  
-    setTimeout(() => {
-      textarea.focus()
-      textarea.setSelectionRange(start, start + wrapped.length)
-    }, 0)
-  }
 
   const fetchPosts = async () => {
     const { data } = await supabase.from('posts').select('*').order('created_at', { ascending: false })
@@ -114,6 +87,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     setContent('')
     setMediaUrl('')
     setMediaType('')
+    if (contentRef.current) contentRef.current.innerHTML = ''
   }
 
   const handleFileUpload = async (e: ChangeEvent<HTMLInputElement> | DragEvent<HTMLDivElement>) => {
@@ -121,28 +95,19 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     const file = (e as ChangeEvent<HTMLInputElement>).target?.files?.[0] ||
       (e as DragEvent<HTMLDivElement>).dataTransfer?.files?.[0]
     if (!file) return
-
     const ext = file.name.split('.').pop()
     const filePath = `${Date.now()}.${ext}`
-
-    const { data: uploadData, error } = await supabase.storage
-      .from('media')
-      .upload(filePath, file)
-
+    const { data: uploadData, error } = await supabase.storage.from('media').upload(filePath, file)
     if (error || !uploadData?.path) return alert('Upload failed: ' + error?.message)
-
     const { publicUrl } = supabase.storage.from('media').getPublicUrl(uploadData.path).data
     setMediaUrl(publicUrl)
-
     if (file.type.startsWith('image')) setMediaType('image')
     else if (file.type.startsWith('video')) setMediaType('video')
   }
 
   const handleMediaUrl = (url: string) => {
     setMediaUrl(url)
-    if (url.includes('youtube.com') || url.includes('youtu.be')) {
-      setMediaType('youtube')
-    }
+    if (url.includes('youtube.com') || url.includes('youtu.be')) setMediaType('youtube')
   }
 
   const getYoutubeEmbedId = (url: string) => {
@@ -159,28 +124,30 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     setSaving(true)
     const slug = slugify(title)
     const tagArr = tags.split(',').map(t => t.trim()).filter(Boolean)
-
+    const htmlContent = contentRef.current?.innerHTML || ''
     const newPost = {
       title,
       slug,
-      content,
+      content: htmlContent,
       author,
       category,
       tags: tagArr,
       media_url: mediaUrl,
       media_type: mediaType,
     }
-
     if (editingPostId && editingPostId !== 'new') {
       await supabase.from('posts').update(newPost).eq('id', editingPostId)
     } else {
       await supabase.from('posts').insert([newPost])
     }
-
     setSaving(false)
     clearForm()
     fetchPosts()
     onClearEditing()
+  }
+
+  const formatText = (command: string) => {
+    document.execCommand(command, false)
   }
 
   return (
@@ -199,74 +166,44 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
             <input title="Author" placeholder="Author" className="w-full p-2 border border-gray-200 rounded" value={author} onChange={e => setAuthor(e.target.value)} />
             <input title="Category" placeholder="Category" className="w-full p-2 border border-gray-200 rounded" value={category} onChange={e => setCategory(e.target.value)} />
             <input title="Tags" placeholder="Tags (comma separated)" className="w-full p-2 border border-gray-200 rounded" value={tags} onChange={e => setTags(e.target.value)} />
-            {/* Formatting Buttons */}
-            <div className="flex gap-2 flex-wrap mb-2">
-              <button type="button" onClick={() => wrapSelectionWithTag('b')} className="bg-gray-200 px-2 py-1 rounded text-sm font-bold">B</button>
-              <button type="button" onClick={() => wrapSelectionWithTag('i')} className="bg-gray-200 px-2 py-1 rounded text-sm italic">I</button>
-              <button type="button" onClick={() => wrapSelectionWithTag('u')} className="bg-gray-200 px-2 py-1 rounded text-sm underline">U</button>
-              <button type="button" onClick={() => wrapSelectionWithTag('s')} className="bg-gray-200 px-2 py-1 rounded text-sm line-through">S</button>
-              <button type="button" onClick={() => wrapSelectionWithTag('br')} className="bg-gray-200 px-2 py-1 rounded text-sm">↵ Break</button>
+
+            <div className="flex gap-2 mb-2">
+              <button type="button" onClick={() => formatText('bold')} className="text-sm px-2 py-1 border rounded">Bold</button>
+              <button type="button" onClick={() => formatText('italic')} className="text-sm px-2 py-1 border rounded">Italic</button>
+              <button type="button" onClick={() => formatText('underline')} className="text-sm px-2 py-1 border rounded">Underline</button>
             </div>
-            <textarea
-              ref={textareaRef}
-              title="Content"
-              placeholder="Write your blog here..."
-              className="w-full p-3 border border-gray-200 rounded min-h-[150px]"
-              value={content}
-              onChange={e => setContent(e.target.value)}
-            />
 
             <div
-              onDrop={handleFileUpload}
-              onDragOver={(e) => e.preventDefault()}
-              onClick={() => fileInputRef.current?.click()}
-              className="w-full border border-dashed border-gray-200 p-4 text-center rounded cursor-pointer bg-gray-50"
-            >
+              ref={contentRef}
+              contentEditable
+              className="w-full min-h-[150px] p-3 border border-gray-200 rounded bg-white"
+              onInput={() => setContent(contentRef.current?.innerHTML || '')}
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+
+            <div onDrop={handleFileUpload} onDragOver={(e) => e.preventDefault()} onClick={() => fileInputRef.current?.click()} className="w-full border border-dashed border-gray-200 p-4 text-center rounded cursor-pointer bg-gray-50">
               <p className="text-sm flex justify-center items-center gap-2 text-gray-700">
                 <PhotoIcon className="w-4 h-4" />
                 Drag & Drop or Click to Upload Image/Video
               </p>
-              <input
-                type="file"
-                accept="image/*,video/*"
-                className="hidden"
-                ref={fileInputRef}
-                onChange={handleFileUpload}
-              />
+              <input type="file" accept="image/*,video/*" className="hidden" ref={fileInputRef} onChange={handleFileUpload} />
             </div>
 
             <div className="text-center text-sm text-gray-500 mt-2 mb-2">— or —</div>
 
             <div className="relative">
               <PlayCircleIcon className="w-4 h-4 absolute left-2 top-2.5 text-gray-400" />
-              <input
-                title="YouTube Link"
-                type="text"
-                placeholder="YouTube link (https://...)"
-                className="w-full pl-8 p-2 border border-gray-200 rounded"
-                value={mediaType === 'youtube' ? mediaUrl : ''}
-                onChange={(e) => handleMediaUrl(e.target.value)}
-              />
+              <input title="YouTube Link" type="text" placeholder="YouTube link (https://...)" className="w-full pl-8 p-2 border border-gray-200 rounded" value={mediaType === 'youtube' ? mediaUrl : ''} onChange={(e) => handleMediaUrl(e.target.value)} />
             </div>
 
-            {/* Media Preview + Delete */}
             <div className="relative w-full max-w-sm mt-2">
               {mediaType === 'image' && <img src={mediaUrl} alt="Uploaded" className="rounded border border-gray-200" />}
               {mediaType === 'video' && <video src={mediaUrl} controls className="rounded border border-gray-200" />}
               {mediaType === 'youtube' && (
-                <iframe
-                  className="w-full h-56 border rounded"
-                  src={`https://www.youtube.com/embed/${getYoutubeEmbedId(mediaUrl)}`}
-                  title="YouTube video"
-                  allowFullScreen
-                ></iframe>
+                <iframe className="w-full h-56 border rounded" src={`https://www.youtube.com/embed/${getYoutubeEmbedId(mediaUrl)}`} title="YouTube video" allowFullScreen />
               )}
               {mediaUrl && (
-                <button
-                  onClick={removeMedia}
-                  className="absolute top-2 right-2 p-1 bg-white rounded-full shadow hover:bg-gray-100"
-                  title="Remove media"
-                >
+                <button onClick={removeMedia} className="absolute top-2 right-2 p-1 bg-white rounded-full shadow hover:bg-gray-100" title="Remove media">
                   <TrashIcon className="h-4 w-4 text-red-500" />
                 </button>
               )}
