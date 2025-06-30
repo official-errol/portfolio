@@ -63,6 +63,31 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     }
   }, [editingPostId, posts])
 
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+
+  const wrapSelectionWithTag = (tag: string) => {
+    const textarea = textareaRef.current
+    if (!textarea) return
+  
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    const selected = content.substring(start, end)
+    const before = content.substring(0, start)
+    const after = content.substring(end)
+  
+    let wrapped =
+      tag === 'br'
+        ? `${before}<br>${after}`
+        : `${before}<${tag}>${selected}</${tag}>${after}`
+  
+    setContent(wrapped)
+  
+    setTimeout(() => {
+      textarea.focus()
+      textarea.setSelectionRange(start, start + wrapped.length)
+    }, 0)
+  }
+
   const fetchPosts = async () => {
     const { data } = await supabase.from('posts').select('*').order('created_at', { ascending: false })
     if (data) setPosts(data)
@@ -174,7 +199,22 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
             <input title="Author" placeholder="Author" className="w-full p-2 border border-gray-200 rounded" value={author} onChange={e => setAuthor(e.target.value)} />
             <input title="Category" placeholder="Category" className="w-full p-2 border border-gray-200 rounded" value={category} onChange={e => setCategory(e.target.value)} />
             <input title="Tags" placeholder="Tags (comma separated)" className="w-full p-2 border border-gray-200 rounded" value={tags} onChange={e => setTags(e.target.value)} />
-            <textarea title="Content" placeholder="Write your blog here..." className="w-full p-3 border border-gray-200 rounded min-h-[150px]" value={content} onChange={e => setContent(e.target.value)} />
+            {/* Formatting Buttons */}
+            <div className="flex gap-2 flex-wrap mb-2">
+              <button type="button" onClick={() => wrapSelectionWithTag('b')} className="bg-gray-200 px-2 py-1 rounded text-sm font-bold">B</button>
+              <button type="button" onClick={() => wrapSelectionWithTag('i')} className="bg-gray-200 px-2 py-1 rounded text-sm italic">I</button>
+              <button type="button" onClick={() => wrapSelectionWithTag('u')} className="bg-gray-200 px-2 py-1 rounded text-sm underline">U</button>
+              <button type="button" onClick={() => wrapSelectionWithTag('s')} className="bg-gray-200 px-2 py-1 rounded text-sm line-through">S</button>
+              <button type="button" onClick={() => wrapSelectionWithTag('br')} className="bg-gray-200 px-2 py-1 rounded text-sm">↵ Break</button>
+            </div>
+            <textarea
+              ref={textareaRef}
+              title="Content"
+              placeholder="Write your blog here..."
+              className="w-full p-3 border border-gray-200 rounded min-h-[150px]"
+              value={content}
+              onChange={e => setContent(e.target.value)}
+            />
 
             <div
               onDrop={handleFileUpload}
