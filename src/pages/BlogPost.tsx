@@ -212,7 +212,7 @@ const BlogPost: React.FC = () => {
             <button
               disabled={!previousPost}
               onClick={() => previousPost && navigate(`/blog/${previousPost.slug}`)}
-              className={`flex text-sm items-center gap-2 px-4 py-2 rounded-full ${previousPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
+              className={`flex text-xs items-center gap-2 px-4 py-2 rounded-full ${previousPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
             >
               <ArrowLeftIcon className="w-4 h-4" />
               PREVIOUS
@@ -220,7 +220,7 @@ const BlogPost: React.FC = () => {
             <button
               disabled={!nextPost}
               onClick={() => nextPost && navigate(`/blog/${nextPost.slug}`)}
-              className={`flex text-sm items-center gap-2 px-4 py-2 rounded-full ${nextPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
+              className={`flex text-xs items-center gap-2 px-4 py-2 rounded-full ${nextPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
             >
               NEXT
               <ArrowRightIcon className="w-4 h-4" />
