@@ -159,7 +159,7 @@ const BlogPost: React.FC = () => {
 
       {/* Title and Search */}
       <div className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-        <h1 className="text-2xl font-bold text-main-dark">Blogs</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Blogs</h1>
         <div className="relative w-full">
           <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
           <input
@@ -188,7 +188,7 @@ const BlogPost: React.FC = () => {
       {/* Blog Post Content */}
       <div className="flex flex-col md:flex-row max-w-6xl mx-auto p-4 py-4 bg-white">
         <div className="md:w-2/3 pr-6">
-          <h1 className="text-4xl font-bold text-main-dark mb-2">{post.title}</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">{post.title}</h1>
           <p className="text-sm text-gray-500 mb-2">By {post.author} • {new Date(post.created_at).toLocaleDateString()}</p>
           <p className="text-sm text-gray-500 mb-4">{post.category}</p>
 
@@ -198,7 +198,7 @@ const BlogPost: React.FC = () => {
 
           <div className="flex flex-wrap gap-2 mt-6">
             {post.tags.map(t => (
-              <span key={t} className="text-xs bg-gray-200 px-2 py-1 rounded">{t}</span>
+              <span key={t} className="text-xs bg-gray-200 px-2 py-1 rounded-lg">{t}</span>
             ))}
           </div>
 
@@ -212,18 +212,18 @@ const BlogPost: React.FC = () => {
             <button
               disabled={!previousPost}
               onClick={() => previousPost && navigate(`/blog/${previousPost.slug}`)}
-              className={`flex items-center gap-2 px-4 py-2 rounded ${previousPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg ${previousPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
             >
-              <ArrowLeftIcon className="w-5 h-5" />
+              <ArrowLeftIcon className="w-4 h-4" />
               Previous
             </button>
             <button
               disabled={!nextPost}
               onClick={() => nextPost && navigate(`/blog/${nextPost.slug}`)}
-              className={`flex items-center gap-2 px-4 py-2 rounded ${nextPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg ${nextPost ? 'bg-gray-200 hover:bg-gray-300 text-black' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
             >
               Next
-              <ArrowRightIcon className="w-5 h-5" />
+              <ArrowRightIcon className="w-4 h-4" />
             </button>
           </div>
 
@@ -233,7 +233,7 @@ const BlogPost: React.FC = () => {
         {/* Sidebar */}
         <aside className="md:w-1/3 mt-8 md:mt-0 border-l border-gray-200 pl-6 space-y-6">
           <div>
-            <h3 className="text-lg font-bold text-main-dark mb-4">Related Posts</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Related Posts</h3>
             {relatedPosts.length === 0 ? (
               <p className="text-sm text-gray-500">No related posts found.</p>
             ) : (
@@ -251,7 +251,7 @@ const BlogPost: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-bold text-main-dark mb-2">Sponsored</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Sponsored</h3>
             <ins
               key={post.id}
               className="adsbygoogle"
