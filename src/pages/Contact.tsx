@@ -143,7 +143,7 @@ const Contact: React.FC = () => {
               transition={{ delay: 0.6 }}
             >
               <form onSubmit={handleSubmit(onSubmit)} className="px-4 py-6 rounded-xl bg-white/30 backdrop-blur-md border border-gray-500/20">
-                {['name', 'email', 'subject'].map((field, i) => (
+                {['name', 'email', 'subject'].map((field) => (
                   <div className="mb-4" key={field}>
                     <label htmlFor={field} className="block text-gray-700 mb-2 capitalize">{field}</label>
                     <input
