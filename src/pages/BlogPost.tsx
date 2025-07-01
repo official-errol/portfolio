@@ -186,7 +186,7 @@ const BlogPost: React.FC = () => {
             className="pl-10 pr-4 py-2 border border-gray-200 rounded-full w-full focus:border-main focus:outline-none"
           />
           {showResults && (
-            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-2xl shadow">
+            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-2xl">
               {searchResults.length > 0 ? (
                 searchResults.map(result => (
                   <div
