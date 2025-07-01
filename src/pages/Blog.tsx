@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { supabase } from '../services/supabaseClient'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
@@ -16,6 +16,7 @@ interface Post {
   created_at: string
   media_url?: string
   media_type?: 'image' | 'video' | 'youtube'
+  category?: string
 }
 
 const POSTS_PER_PAGE = 10
@@ -25,51 +26,44 @@ const Blog: React.FC = () => {
   const [filtered, setFiltered] = useState<Post[]>([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const [showResults, setShowResults] = useState(false)
-  const searchRef = useRef<HTMLDivElement>(null)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [categories, setCategories] = useState<string[]>([])
 
   useEffect(() => {
     supabase
       .from('posts')
-      .select('id, title, slug, content, created_at, media_url, media_type')
+      .select('id, title, slug, content, created_at, media_url, media_type, category')
       .order('created_at', { ascending: false })
       .then(res => {
         const data = res.data || []
         setPosts(data)
         setFiltered(data)
+
+        // Get unique categories
+        const uniqueCategories = Array.from(new Set(data.map(p => p.category).filter(Boolean)))
+        setCategories(uniqueCategories)
       })
   }, [])
 
-  useEffect(() => {
-    const adElement = document.querySelector('ins.adsbygoogle') as any
-    if (adElement && !adElement.getAttribute('data-adsbygoogle-status')) {
-      try {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      } catch (e) {
-        console.error('Adsbygoogle push error', e)
-      }
-    }
-  }, [])
+  const applyFilters = (q: string, category: string | null) => {
+    let filteredPosts = posts
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setShowResults(false)
-      }
+    if (q.trim()) {
+      const low = q.toLowerCase()
+      filteredPosts = filteredPosts.filter(p => p.title.toLowerCase().includes(low))
     }
 
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+    if (category) {
+      filteredPosts = filteredPosts.filter(p => p.category === category)
+    }
 
-  const applySearch = (q: string) => {
-    setSearch(q)
-    const low = q.toLowerCase()
-    const results = posts.filter(p => p.title.toLowerCase().includes(low))
-    setFiltered(results)
+    setFiltered(filteredPosts)
     setPage(1)
-    setShowResults(true)
   }
+
+  useEffect(() => {
+    applyFilters(search, selectedCategory)
+  }, [search, selectedCategory])
 
   const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE)
   const pagePosts = filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE)
@@ -84,53 +78,52 @@ const Blog: React.FC = () => {
       <div className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 md:items-center gap-4">
         <h1 className="text-2xl font-bold text-main-dark">Blogs</h1>
 
-        {/* Search */}
-        <div ref={searchRef} className="relative w-full">
+        <div className="relative w-full">
           <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
           <input
             type="text"
             placeholder="Search posts..."
             value={search}
-            onChange={e => applySearch(e.target.value)}
-            className="pl-10 pr-4 py-2 border border-gray-300 rounded-full w-full focus:border-main focus:outline-none"
+            onChange={e => setSearch(e.target.value)}
+            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full focus:border-main focus:outline-none"
           />
-          {showResults && (
-            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg">
-              {filtered.length > 0 ? (
-                filtered.slice(0, 5).map(result => (
-                  <div
-                    key={result.id}
-                    onClick={() => {
-                      setSearch('')
-                      setShowResults(false)
-                    }}
-                    className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-sm"
-                  >
-                    <Link to={`/blog/${result.slug}`}>{result.title}</Link>
-                  </div>
-                ))
-              ) : (
-                <div className="px-4 py-3 text-sm text-gray-500">No results found</div>
-              )}
-            </div>
-          )}
         </div>
       </div>
+
+      {/* Category Filters */}
+      {categories.length > 0 && (
+        <div className="max-w-6xl mx-auto px-4 pb-2 flex flex-wrap gap-2">
+          <button
+            onClick={() => setSelectedCategory(null)}
+            className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === null ? 'bg-main text-white' : 'border-gray-300 text-gray-600'}`}
+          >
+            All
+          </button>
+          {categories.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === cat ? 'bg-main text-white' : 'border-gray-300 text-gray-600'}`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row gap-8">
         {/* Main Section */}
         <div className="md:w-2/3 space-y-6">
-          {/* Post List */}
           <ul className="space-y-6">
             {pagePosts.map(post => (
               <li key={post.id}>
-                <Link
-                  to={`/blog/${post.slug}`}
-                  className="flex items-center gap-4 border border-gray-200 rounded-lg overflow-hidden hover:bg-gray-50 transition"
-                >
+                <Link to={`/blog/${post.slug}`} className="flex items-center gap-4 border border-gray-200 rounded-lg overflow-hidden hover:bg-gray-50 transition">
                   <div className="py-3 px-4 flex-1">
                     <h2 className="text-xl font-semibold text-main-dark">{post.title}</h2>
                     <p className="text-sm text-gray-500 mt-1">{new Date(post.created_at).toLocaleDateString()}</p>
+                    {post.category && (
+                      <span className="inline-block text-xs text-gray-400 mt-1">{post.category}</span>
+                    )}
                   </div>
                 </Link>
               </li>
@@ -162,7 +155,7 @@ const Blog: React.FC = () => {
           )}
         </div>
 
-        {/* Sidebar with Google Ads */}
+        {/* Sidebar */}
         <aside className="md:w-1/3 space-y-6">
           <div>
             <h3 className="text-lg font-bold text-main-dark mb-2">Sponsored</h3>
