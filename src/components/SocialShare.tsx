@@ -3,9 +3,9 @@ import {
   FaFacebookF,
   FaTwitter,
   FaLinkedinIn,
-  FaWhatsapp,
-  FaShareAlt
+  FaWhatsapp
 } from 'react-icons/fa'
+import { BiShareAlt } from 'react-icons/bi'
 
 interface SocialShareProps {
   title: string
@@ -49,7 +49,7 @@ export const SocialShare: React.FC<SocialShareProps> = ({ title, url }) => {
         onClick={() => setIsOpen(prev => !prev)}
         className="flex items-center gap-2 bg-gray-200 px-4 py-2 rounded-full text-gray-800 hover:bg-gray-300 transition"
       >
-        <FaShareAlt className="w-4 h-4" />
+        <BiShareAlt className="w-4 h-4" />
         <span>Share</span>
       </button>
 
