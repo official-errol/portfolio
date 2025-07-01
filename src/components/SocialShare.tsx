@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import {
   FaFacebookF,
   FaTwitter,
   FaLinkedinIn,
-  FaWhatsapp
+  FaWhatsapp,
+  FaShareAlt
 } from 'react-icons/fa'
 
 interface SocialShareProps {
@@ -12,6 +13,9 @@ interface SocialShareProps {
 }
 
 export const SocialShare: React.FC<SocialShareProps> = ({ title, url }) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
   const encodedUrl = encodeURIComponent(url)
   const encodedTitle = encodeURIComponent(title)
 
@@ -22,20 +26,73 @@ export const SocialShare: React.FC<SocialShareProps> = ({ title, url }) => {
     whatsapp: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
   }
 
+  // Close on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen])
+
   return (
-    <div className="flex gap-3">
-      <a href={shareLinks.facebook} target="_blank" rel="noopener noreferrer" title="Share on Facebook">
-        <FaFacebookF className="w-6 h-6 text-blue-600 hover:scale-110 transition-transform" />
-      </a>
-      <a href={shareLinks.twitter} target="_blank" rel="noopener noreferrer" title="Share on Twitter">
-        <FaTwitter className="w-6 h-6 text-sky-500 hover:scale-110 transition-transform" />
-      </a>
-      <a href={shareLinks.linkedin} target="_blank" rel="noopener noreferrer" title="Share on LinkedIn">
-        <FaLinkedinIn className="w-6 h-6 text-blue-700 hover:scale-110 transition-transform" />
-      </a>
-      <a href={shareLinks.whatsapp} target="_blank" rel="noopener noreferrer" title="Share on WhatsApp">
-        <FaWhatsapp className="w-6 h-6 text-green-500 hover:scale-110 transition-transform" />
-      </a>
+    <div className="relative" ref={ref}>
+      <button
+        onClick={() => setIsOpen(prev => !prev)}
+        className="flex items-center gap-2 bg-gray-200 px-4 py-2 rounded-full text-gray-800 hover:bg-gray-300 transition"
+      >
+        <FaShareAlt className="w-4 h-4" />
+        <span>Share</span>
+      </button>
+
+      {isOpen && (
+        <div className="absolute mt-2 bg-white rounded-xl shadow-lg p-4 z-10 flex gap-4">
+          <a
+            href={shareLinks.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Facebook"
+            className="hover:scale-110 transition-transform"
+          >
+            <FaFacebookF className="w-5 h-5 text-blue-600" />
+          </a>
+          <a
+            href={shareLinks.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Twitter"
+            className="hover:scale-110 transition-transform"
+          >
+            <FaTwitter className="w-5 h-5 text-sky-500" />
+          </a>
+          <a
+            href={shareLinks.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="LinkedIn"
+            className="hover:scale-110 transition-transform"
+          >
+            <FaLinkedinIn className="w-5 h-5 text-blue-700" />
+          </a>
+          <a
+            href={shareLinks.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="WhatsApp"
+            className="hover:scale-110 transition-transform"
+          >
+            <FaWhatsapp className="w-5 h-5 text-green-500" />
+          </a>
+        </div>
+      )}
     </div>
   )
 }
