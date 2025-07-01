@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
 import { LikeButton } from '../components/LikeButton'
@@ -175,7 +176,9 @@ const BlogPost: React.FC = () => {
 
       {/* Title and Search */}
       <div className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Blogs</h1>
+        <Link to="/blog" className="text-2xl font-bold text-gray-900">
+          Blogs
+        </Link>
         <div ref={searchRef} className="relative w-full">
           <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
           <input
