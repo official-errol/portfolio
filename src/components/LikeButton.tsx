@@ -15,6 +15,7 @@ export const LikeButton: React.FC<{ postId: string }> = ({ postId }) => {
   const [disliked, setDisliked] = useState(false)
   const [likes, setLikes] = useState(0)
   const [dislikes, setDislikes] = useState(0)
+  const [user, setUser] = useState<any>(null)
 
   useEffect(() => {
     const fetchReactions = async () => {
@@ -34,14 +35,15 @@ export const LikeButton: React.FC<{ postId: string }> = ({ postId }) => {
       setDislikes(dislikeCount || 0)
 
       const { data: session } = await supabase.auth.getSession()
-      const user = session?.session?.user
+      const currentUser = session?.session?.user
+      setUser(currentUser)
 
-      if (user) {
+      if (currentUser) {
         const { data } = await supabase
           .from('likes')
           .select('reaction')
           .eq('post_id', postId)
-          .eq('user_id', user.id)
+          .eq('user_id', currentUser.id)
           .single()
 
         if (data?.reaction === 'like') setLiked(true)
@@ -53,13 +55,7 @@ export const LikeButton: React.FC<{ postId: string }> = ({ postId }) => {
   }, [postId])
 
   const handleReaction = async (type: 'like' | 'dislike') => {
-    const { data: session } = await supabase.auth.getSession()
-    const user = session?.session?.user
-
-    if (!user) {
-      await supabase.auth.signInWithOAuth({ provider: 'google' })
-      return
-    }
+    if (!user) return
 
     const { data: existing } = await supabase
       .from('likes')
@@ -103,7 +99,9 @@ export const LikeButton: React.FC<{ postId: string }> = ({ postId }) => {
         }
       }
     } else {
-      await supabase.from('likes').insert({ post_id: postId, user_id: user.id, reaction: type })
+      await supabase
+        .from('likes')
+        .insert({ post_id: postId, user_id: user.id, reaction: type })
 
       if (type === 'like') {
         setLiked(true)
@@ -117,7 +115,11 @@ export const LikeButton: React.FC<{ postId: string }> = ({ postId }) => {
 
   return (
     <div className="bg-gray-200 rounded-full px-4 py-2 inline-flex items-center gap-3 text-sm text-gray-700">
-      <button onClick={() => handleReaction('like')} className="flex items-center gap-1">
+      <button
+        onClick={() => handleReaction('like')}
+        disabled={!user}
+        className={`flex items-center gap-1 ${!user ? 'cursor-not-allowed opacity-50' : ''}`}
+      >
         {liked ? (
           <HandThumbUpSolid className="w-5 h-5 text-blue-600" />
         ) : (
@@ -125,8 +127,14 @@ export const LikeButton: React.FC<{ postId: string }> = ({ postId }) => {
         )}
         <span>{formatCount(likes)}</span>
       </button>
+
       <span className="text-gray-400">•</span>
-      <button onClick={() => handleReaction('dislike')} className="flex items-center gap-1">
+
+      <button
+        onClick={() => handleReaction('dislike')}
+        disabled={!user}
+        className={`flex items-center gap-1 ${!user ? 'cursor-not-allowed opacity-50' : ''}`}
+      >
         {disliked ? (
           <HandThumbDownSolid className="w-5 h-5 text-red-600" />
         ) : (
