@@ -187,7 +187,7 @@ const BlogPost: React.FC = () => {
 
       {/* Blog Post Content */}
       <div className="flex flex-col md:flex-row max-w-6xl mx-auto p-4 py-4 bg-white">
-        <div>
+        <div className="w-full md:w-2/3 md:pr-4">
           <h1 className="text-4xl font-bold text-main-dark mb-2">{post.title}</h1>
           <p className="text-sm text-gray-500 mb-2">By {post.author} • {new Date(post.created_at).toLocaleDateString()}</p>
           <p className="text-sm text-gray-500 mb-4">{post.category}</p>
