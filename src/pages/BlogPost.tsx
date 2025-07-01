@@ -186,8 +186,8 @@ const BlogPost: React.FC = () => {
       </div>
 
       {/* Blog Post Content */}
-      <div className="flex flex-col md:flex-row max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 bg-white">
-        <div className="md:w-2/3 pr-6">
+      <div className="flex flex-col md:flex-row max-w-6xl mx-auto p-4 py-4 bg-white">
+        <div>
           <h1 className="text-4xl font-bold text-main-dark mb-2">{post.title}</h1>
           <p className="text-sm text-gray-500 mb-2">By {post.author} • {new Date(post.created_at).toLocaleDateString()}</p>
           <p className="text-sm text-gray-500 mb-4">{post.category}</p>
@@ -231,7 +231,7 @@ const BlogPost: React.FC = () => {
         </div>
 
         {/* Sidebar */}
-        <aside className="md:w-1/3 mt-8 md:mt-0 border-l border-gray-200 md:pl-6 space-y-6">
+        <aside className="md:w-1/3 mt-8 md:mt-0 border-l border-gray-200 pl-6 space-y-6">
           <div>
             <h3 className="text-lg font-bold text-gray-900 mb-4">Related Posts</h3>
             {relatedPosts.length === 0 ? (
