@@ -202,7 +202,7 @@ const BlogPost: React.FC = () => {
             ))}
           </div>
 
-          <div className="mt-6 flex items-center gap-6">
+          <div className="mt-6 flex items-center gap-2">
             <LikeButton postId={post.id} />
             <SocialShare title={post.title} url={window.location.href} />
           </div>
