@@ -142,14 +142,14 @@ const BlogPost: React.FC = () => {
 
     switch (post.media_type) {
       case 'image':
-        return <img src={post.media_url} alt="Post Media" className="my-6 w-full max-w-xl rounded border border-gray-200" />
+        return <img src={post.media_url} alt="Post Media" className="my-6 w-full max-w-2xl rounded" />
       case 'video':
-        return <video src={post.media_url} controls className="my-6 w-full max-w-xl rounded border border-gray-200" />
+        return <video src={post.media_url} controls className="my-6 w-full max-w-2xl rounded" />
       case 'youtube':
         const videoId = post.media_url.split('v=')[1]?.split('&')[0]
         return videoId ? (
           <iframe
-            className="my-6 w-full max-w-xl h-64 border border-gray-200 rounded"
+            className="my-6 w-full max-w-2xl h-64"
             src={`https://www.youtube.com/embed/${videoId}`}
             title="YouTube Video"
             allowFullScreen
