@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { supabase } from '../services/supabaseClient'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import { MagnifyingGlassIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import {
+  MagnifyingGlassIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon
+} from '@heroicons/react/24/outline'
 
 interface Post {
   id: string
@@ -21,6 +25,8 @@ const Blog: React.FC = () => {
   const [filtered, setFiltered] = useState<Post[]>([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
+  const [showResults, setShowResults] = useState(false)
+  const searchRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     supabase
@@ -45,11 +51,24 @@ const Blog: React.FC = () => {
     }
   }, [])
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowResults(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
   const applySearch = (q: string) => {
     setSearch(q)
     const low = q.toLowerCase()
-    setFiltered(posts.filter(p => p.title.toLowerCase().includes(low)))
+    const results = posts.filter(p => p.title.toLowerCase().includes(low))
+    setFiltered(results)
     setPage(1)
+    setShowResults(true)
   }
 
   const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE)
@@ -60,24 +79,44 @@ const Blog: React.FC = () => {
       <Helmet>
         <link rel="canonical" href="https://www.errolsolomon.me/blog" />
       </Helmet>
-    
+
       {/* Title and Search */}
       <div className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 md:items-center gap-4">
         <h1 className="text-2xl font-bold text-main-dark">Blogs</h1>
-      
+
         {/* Search */}
-        <div className="relative w-full">
+        <div ref={searchRef} className="relative w-full">
           <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
           <input
             type="text"
             placeholder="Search posts..."
             value={search}
             onChange={e => applySearch(e.target.value)}
-            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full focus:border-main focus:outline-none"
+            className="pl-10 pr-4 py-2 border border-gray-300 rounded-full w-full focus:border-main focus:outline-none"
           />
+          {showResults && (
+            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg">
+              {filtered.length > 0 ? (
+                filtered.slice(0, 5).map(result => (
+                  <div
+                    key={result.id}
+                    onClick={() => {
+                      setSearch('')
+                      setShowResults(false)
+                    }}
+                    className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-sm"
+                  >
+                    <Link to={`/blog/${result.slug}`}>{result.title}</Link>
+                  </div>
+                ))
+              ) : (
+                <div className="px-4 py-3 text-sm text-gray-500">No results found</div>
+              )}
+            </div>
+          )}
         </div>
       </div>
-    
+
       <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row gap-8">
         {/* Main Section */}
         <div className="md:w-2/3 space-y-6">
@@ -85,7 +124,10 @@ const Blog: React.FC = () => {
           <ul className="space-y-6">
             {pagePosts.map(post => (
               <li key={post.id}>
-                <Link to={`/blog/${post.slug}`} className="flex items-center gap-4 border border-gray-200 rounded-lg overflow-hidden hover:bg-gray-50 transition">
+                <Link
+                  to={`/blog/${post.slug}`}
+                  className="flex items-center gap-4 border border-gray-200 rounded-lg overflow-hidden hover:bg-gray-50 transition"
+                >
                   <div className="py-3 px-4 flex-1">
                     <h2 className="text-xl font-semibold text-main-dark">{post.title}</h2>
                     <p className="text-sm text-gray-500 mt-1">{new Date(post.created_at).toLocaleDateString()}</p>
@@ -93,7 +135,9 @@ const Blog: React.FC = () => {
                 </Link>
               </li>
             ))}
-            {pagePosts.length === 0 && <p className="text-center text-gray-500">No posts found.</p>}
+            {pagePosts.length === 0 && (
+              <p className="text-center text-gray-500">No posts found.</p>
+            )}
           </ul>
 
           {/* Pagination */}
