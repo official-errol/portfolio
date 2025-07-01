@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
 import { LikeButton } from '../components/LikeButton'
@@ -44,6 +44,8 @@ const BlogPost: React.FC = () => {
   const [nextPost, setNextPost] = useState<Post | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<PostSearchResult[]>([])
+  const [showResults, setShowResults] = useState(false)
+  const searchRef = useRef<HTMLDivElement>(null)
 
   const { slug } = useParams()
   const navigate = useNavigate()
@@ -99,9 +101,12 @@ const BlogPost: React.FC = () => {
   useEffect(() => {
     if (searchQuery.trim() === '') {
       setSearchResults([])
+      setShowResults(false)
       return
     }
-
+  
+    setShowResults(true)
+  
     const delayDebounce = setTimeout(() => {
       supabase
         .from('posts')
@@ -110,9 +115,20 @@ const BlogPost: React.FC = () => {
         .limit(5)
         .then(res => setSearchResults(res.data || []))
     }, 300)
-
+  
     return () => clearTimeout(delayDebounce)
   }, [searchQuery])
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowResults(false)
+      }
+    }
+  
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const handleResultClick = (slug: string) => {
     setSearchQuery('')
@@ -160,7 +176,7 @@ const BlogPost: React.FC = () => {
       {/* Title and Search */}
       <div className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
         <h1 className="text-2xl font-bold text-gray-900">Blogs</h1>
-        <div className="relative w-full">
+        <div ref={searchRef} className="relative w-full">
           <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
           <input
             type="text"
@@ -169,17 +185,21 @@ const BlogPost: React.FC = () => {
             onChange={e => setSearchQuery(e.target.value)}
             className="pl-10 pr-4 py-2 border border-gray-200 rounded-full w-full focus:border-main focus:outline-none"
           />
-          {searchResults.length > 0 && (
-            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-2xl">
-              {searchResults.map(result => (
-                <div
-                  key={result.id}
-                  onClick={() => handleResultClick(result.slug)}
-                  className="px-4 py-4 hover:bg-gray-100 cursor-pointer text-sm"
-                >
-                  {result.title}
-                </div>
-              ))}
+          {showResults && (
+            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-2xl shadow">
+              {searchResults.length > 0 ? (
+                searchResults.map(result => (
+                  <div
+                    key={result.id}
+                    onClick={() => handleResultClick(result.slug)}
+                    className="px-4 py-4 hover:bg-gray-100 cursor-pointer text-sm"
+                  >
+                    {result.title}
+                  </div>
+                ))
+              ) : (
+                <div className="px-4 py-4 text-sm text-gray-500">No results found</div>
+              )}
             </div>
           )}
         </div>
