@@ -130,17 +130,23 @@ const Blog: React.FC = () => {
             onChange={e => setSearch(e.target.value)}
             className="pl-10 pr-4 py-2 border border-gray-300 rounded-full w-full focus:border-main focus:outline-none"
           />
-          {searchResults.length > 0 && (
+          {search.trim() !== '' && (
             <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-2xl">
-              {searchResults.map(result => (
-                <div
-                  key={result.id}
-                  onClick={() => handleResultClick(result.slug)}
-                  className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-sm"
-                >
-                  {result.title}
+              {searchResults.length > 0 ? (
+                searchResults.map(result => (
+                  <div
+                    key={result.id}
+                    onClick={() => handleResultClick(result.slug)}
+                    className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-sm"
+                  >
+                    {result.title}
+                  </div>
+                ))
+              ) : (
+                <div className="px-4 py-3 text-sm text-gray-500 text-center">
+                  No posts matched your search.
                 </div>
-              ))}
+              )}
             </div>
           )}
         </div>
@@ -151,7 +157,7 @@ const Blog: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4 pb-2 flex flex-wrap gap-2">
           <button
             onClick={() => setSelectedCategory(null)}
-            className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === null ? 'bg-main text-white' : 'border-gray-200 text-gray-600'}`}
+            className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === null ? 'bg-main text-main-dark' : 'border-gray-200 text-gray-600'}`}
           >
             All
           </button>
@@ -159,7 +165,7 @@ const Blog: React.FC = () => {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === cat ? 'bg-main text-white' : 'border-gray-200 text-gray-600'}`}
+              className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === cat ? 'bg-main text-main-dark' : 'border-gray-200 text-gray-600'}`}
             >
               {cat}
             </button>
