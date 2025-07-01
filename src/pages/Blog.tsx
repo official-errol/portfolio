@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { supabase } from '../services/supabaseClient'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import {
   MagnifyingGlassIcon,
@@ -19,51 +19,94 @@ interface Post {
   category?: string
 }
 
+interface SearchResult {
+  id: string
+  title: string
+  slug: string
+}
+
 const POSTS_PER_PAGE = 10
 
 const Blog: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([])
   const [filtered, setFiltered] = useState<Post[]>([])
-  const [page, setPage] = useState(1)
-  const [search, setSearch] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [categories, setCategories] = useState<string[]>([])
+  const [page, setPage] = useState(1)
+
+  const [search, setSearch] = useState('')
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([])
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const resultBoxRef = useRef<HTMLDivElement | null>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    supabase
-      .from('posts')
-      .select('id, title, slug, content, created_at, media_url, media_type, category')
-      .order('created_at', { ascending: false })
-      .then(res => {
-        const data = res.data || []
-        setPosts(data)
-        setFiltered(data)
+    const fetchPosts = async () => {
+      const { data } = await supabase
+        .from('posts')
+        .select('id, title, slug, content, created_at, media_url, media_type, category')
+        .order('created_at', { ascending: false })
 
-        // Get unique categories
-        const uniqueCategories = Array.from(new Set(data.map(p => p.category).filter(Boolean)))
-        setCategories(uniqueCategories)
-      })
+      const all = data || []
+      setPosts(all)
+      setFiltered(all)
+
+      const cats = Array.from(new Set(all.map(p => p.category).filter(Boolean)))
+      setCategories(cats)
+    }
+
+    fetchPosts()
   }, [])
 
-  const applyFilters = (q: string, category: string | null) => {
-    let filteredPosts = posts
-
-    if (q.trim()) {
-      const low = q.toLowerCase()
-      filteredPosts = filteredPosts.filter(p => p.title.toLowerCase().includes(low))
+  useEffect(() => {
+    if (search.trim() === '') {
+      setSearchResults([])
+      return
     }
 
-    if (category) {
-      filteredPosts = filteredPosts.filter(p => p.category === category)
+    const delay = setTimeout(() => {
+      supabase
+        .from('posts')
+        .select('id, title, slug')
+        .ilike('title', `%${search}%`)
+        .limit(5)
+        .then(res => setSearchResults(res.data || []))
+    }, 300)
+
+    return () => clearTimeout(delay)
+  }, [search])
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        resultBoxRef.current &&
+        !resultBoxRef.current.contains(e.target as Node)
+      ) {
+        setSearchResults([])
+      }
     }
 
-    setFiltered(filteredPosts)
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  useEffect(() => {
+    applyCategoryFilter()
+  }, [selectedCategory, posts])
+
+  const applyCategoryFilter = () => {
+    const filteredByCategory = selectedCategory
+      ? posts.filter(p => p.category === selectedCategory)
+      : posts
+
+    setFiltered(filteredByCategory)
     setPage(1)
   }
 
-  useEffect(() => {
-    applyFilters(search, selectedCategory)
-  }, [search, selectedCategory])
+  const handleResultClick = (slug: string) => {
+    setSearch('')
+    setSearchResults([])
+    navigate(`/blog/${slug}`)
+  }
 
   const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE)
   const pagePosts = filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE)
@@ -74,19 +117,32 @@ const Blog: React.FC = () => {
         <link rel="canonical" href="https://www.errolsolomon.me/blog" />
       </Helmet>
 
-      {/* Title and Search */}
-      <div className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 md:items-center gap-4">
-        <h1 className="text-2xl font-bold text-main-dark">Blogs</h1>
+      {/* Header */}
+      <div className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 md:items-center gap-4 relative">
+        <h1 className="text-2xl font-bold text-gray-900">Blogs</h1>
 
-        <div className="relative w-full">
+        <div className="relative w-full" ref={resultBoxRef}>
           <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
           <input
             type="text"
             placeholder="Search posts..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full focus:border-main focus:outline-none"
+            className="pl-10 pr-4 py-2 border border-gray-300 rounded-full w-full focus:border-main focus:outline-none"
           />
+          {searchResults.length > 0 && (
+            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-2xl">
+              {searchResults.map(result => (
+                <div
+                  key={result.id}
+                  onClick={() => handleResultClick(result.slug)}
+                  className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-sm"
+                >
+                  {result.title}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -95,7 +151,7 @@ const Blog: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4 pb-2 flex flex-wrap gap-2">
           <button
             onClick={() => setSelectedCategory(null)}
-            className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === null ? 'bg-main text-white' : 'border-gray-300 text-gray-600'}`}
+            className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === null ? 'bg-main text-white' : 'border-gray-200 text-gray-600'}`}
           >
             All
           </button>
@@ -103,7 +159,7 @@ const Blog: React.FC = () => {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === cat ? 'bg-main text-white' : 'border-gray-300 text-gray-600'}`}
+              className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === cat ? 'bg-main text-white' : 'border-gray-200 text-gray-600'}`}
             >
               {cat}
             </button>
@@ -111,13 +167,17 @@ const Blog: React.FC = () => {
         </div>
       )}
 
+      {/* Content Section */}
       <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row gap-8">
-        {/* Main Section */}
+        {/* Post List */}
         <div className="md:w-2/3 space-y-6">
           <ul className="space-y-6">
             {pagePosts.map(post => (
               <li key={post.id}>
-                <Link to={`/blog/${post.slug}`} className="flex items-center gap-4 border border-gray-200 rounded-lg overflow-hidden hover:bg-gray-50 transition">
+                <Link
+                  to={`/blog/${post.slug}`}
+                  className="flex items-center gap-4 border border-gray-200 rounded-lg overflow-hidden hover:bg-gray-50 transition"
+                >
                   <div className="py-3 px-4 flex-1">
                     <h2 className="text-xl font-semibold text-main-dark">{post.title}</h2>
                     <p className="text-sm text-gray-500 mt-1">{new Date(post.created_at).toLocaleDateString()}</p>
