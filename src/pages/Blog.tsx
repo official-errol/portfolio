@@ -157,7 +157,7 @@ const Blog: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4 pb-2 flex flex-wrap gap-2">
           <button
             onClick={() => setSelectedCategory(null)}
-            className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === null ? 'bg-main text-main-dark' : 'border-gray-200 text-gray-600'}`}
+            className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === null ? 'bg-main text-main-dark border-main' : 'border-gray-200 text-gray-600'}`}
           >
             All
           </button>
@@ -165,7 +165,7 @@ const Blog: React.FC = () => {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === cat ? 'bg-main text-main-dark' : 'border-gray-200 text-gray-600'}`}
+              className={`px-3 py-1 rounded-full text-sm border ${selectedCategory === cat ? 'bg-main text-main-dark border-main' : 'border-gray-200 text-gray-600'}`}
             >
               {cat}
             </button>
