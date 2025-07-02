@@ -32,6 +32,13 @@ const App: React.FC = () => {
     <Router>
       <ThemeProvider>
         <AuthProvider>
+          <ClickSpark
+            sparkColor='#87e64b'
+            sparkSize={10}
+            sparkRadius={15}
+            sparkCount={8}
+            duration={400}
+          >
           <div className="flex flex-col min-h-screen bg-primary-light">
             <main className="flex-grow">
               <React.Suspense fallback={<LoadingSpinner />}>
@@ -44,13 +51,6 @@ const App: React.FC = () => {
                     </>
                   ) : (
                     <>
-                      <ClickSpark
-                        sparkColor='#87e64b'
-                        sparkSize={10}
-                        sparkRadius={15}
-                        sparkCount={8}
-                        duration={400}
-                      >
                         <Route path="/" element={<Home />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/projects" element={<Projects />} />
@@ -60,7 +60,6 @@ const App: React.FC = () => {
                         <Route path="/blog" element={<Blog />} />
                         <Route path="/blog/:slug" element={<BlogPost />} />
                         <Route path="*" element={<Navigate to="/" />} />
-                      </ClickSpark>
                     </>
                   )}
                 </Routes>
@@ -70,6 +69,7 @@ const App: React.FC = () => {
             {/* Only show Nav if not on admin domain */}
             {!isAdmin && <Nav />}
           </div>
+          </ClickSpark>
         </AuthProvider>
       </ThemeProvider>
     </Router>
