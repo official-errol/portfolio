@@ -49,10 +49,11 @@ const Home: React.FC = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light">
               <BlurText
                 text="Hi I'm Errol Solomon"
-                delay={150}
-                animateBy="words"
-                direction="top"
-                onAnimationComplete={handleAnimationComplete}
+                animateOn="view"          
+                revealDirection="start" 
+                sequential={true}             
+                speed={50}     
+                maxIterations={20} 
               />
             </h1>
 
