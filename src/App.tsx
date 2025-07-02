@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext'
 import { setThemeVariables } from './utils/theme'
+import ClickSpark from './components/ClickSpark';
 
 // Portfolio pages
 import Home from './pages/Home'
@@ -43,15 +44,23 @@ const App: React.FC = () => {
                     </>
                   ) : (
                     <>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/about" element={<About />} />
-                      <Route path="/projects" element={<Projects />} />
-                      <Route path="/contact" element={<Contact />} />
-                      <Route path="/chat" element={<Chat />} />
-                      <Route path="/services" element={<Services />} />
-                      <Route path="/blog" element={<Blog />} />
-                      <Route path="/blog/:slug" element={<BlogPost />} />
-                      <Route path="*" element={<Navigate to="/" />} />
+                      <ClickSpark
+                        sparkColor='#87e64b'
+                        sparkSize={10}
+                        sparkRadius={15}
+                        sparkCount={8}
+                        duration={400}
+                      >
+                        <Route path="/" element={<Home />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/projects" element={<Projects />} />
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="/chat" element={<Chat />} />
+                        <Route path="/services" element={<Services />} />
+                        <Route path="/blog" element={<Blog />} />
+                        <Route path="/blog/:slug" element={<BlogPost />} />
+                        <Route path="*" element={<Navigate to="/" />} />
+                      </ClickSpark>
                     </>
                   )}
                 </Routes>
