@@ -46,7 +46,7 @@ const Home: React.FC = () => {
 
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light flex items-center justify-center gap-2 flex-wrap">
               <span className="inline-block">Hi I'm</span>
-              <div className="inline-block ml-2">
+              <div className="inline-block ml-4">
                 <TrueFocus 
                   sentence="Errol Solomon"
                   manualMode={false}
