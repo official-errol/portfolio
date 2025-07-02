@@ -32,22 +32,22 @@ const About: React.FC = () => {
   ]
 
   const skillIcons: Record<string, React.ReactNode> = {
-    'React': <SiReact className="w-5 h-5 mr-2 text-sky-500 opacity-70" />,
-    'TypeScript': <SiTypescript className="w-5 h-5 mr-2 text-blue-600 opacity-70" />,
-    'Tailwind CSS': <SiTailwindcss className="w-5 h-5 mr-2 text-cyan-500 opacity-70" />,
-    'Next.js': <SiNextdotjs className="w-5 h-5 mr-2 text-gray-900 dark:text-white opacity-70" />,
-    'Framer Motion': <SiFramer className="w-5 h-5 mr-2 text-pink-500 opacity-70" />,
+    'React': <SiReact className="w-5 h-5 mr-2 text-sky-500" />,
+    'TypeScript': <SiTypescript className="w-5 h-5 mr-2 text-blue-600" />,
+    'Tailwind CSS': <SiTailwindcss className="w-5 h-5 mr-2 text-cyan-500" />,
+    'Next.js': <SiNextdotjs className="w-5 h-5 mr-2 text-gray-900 dark:text-white" />,
+    'Framer Motion': <SiFramer className="w-5 h-5 mr-2 text-pink-500" />,
   
-    'Node.js': <SiNodedotjs className="w-5 h-5 mr-2 text-green-600 opacity-70" />,
-    'MySQL': <SiMysql className="w-5 h-5 mr-2 text-blue-700 opacity-70" />,
-    'Firebase': <SiFirebase className="w-5 h-5 mr-2 text-yellow-500 opacity-70" />,
-    'Supabase': <SiSupabase className="w-5 h-5 mr-2 text-emerald-600 opacity-70" />,
+    'Node.js': <SiNodedotjs className="w-5 h-5 mr-2 text-green-600" />,
+    'MySQL': <SiMysql className="w-5 h-5 mr-2 text-blue-700" />,
+    'Firebase': <SiFirebase className="w-5 h-5 mr-2 text-yellow-500" />,
+    'Supabase': <SiSupabase className="w-5 h-5 mr-2 text-emerald-600" />,
     'PHP': <SiPhp className="w-5 h-5 mr-2 text-indigo-700 opacity-70" />,
-    'Laravel': <SiLaravel className="w-5 h-5 mr-2 text-red-500 opacity-70" />,
+    'Laravel': <SiLaravel className="w-5 h-5 mr-2 text-red-500" />,
   
-    'Git': <SiGit className="w-5 h-5 mr-2 text-orange-500 opacity-70" />,
-    'Photoshop': <SiAdobephotoshop className="w-5 h-5 mr-2 text-blue-400 opacity-70" />,
-    'Figma': <SiFigma className="w-5 h-5 mr-2 text-pink-500 opacity-70" />,
+    'Git': <SiGit className="w-5 h-5 mr-2 text-orange-500" />,
+    'Photoshop': <SiAdobephotoshop className="w-5 h-5 mr-2 text-blue-400" />,
+    'Figma': <SiFigma className="w-5 h-5 mr-2 text-pink-500" />,
   }
   
   return (
@@ -191,10 +191,10 @@ const About: React.FC = () => {
                     {category.items.map((item) => (
                       <span
                         key={item}
-                        className="px-3 py-1 bg-gray-100 rounded-full text-sm flex items-center"
+                        className="px-4 py-2 bg-gray-100 rounded-full text-sm flex items-center"
                       >
                         {skillIcons[item] || (
-                          <FaQuestion className="w-5 h-5 mr-2 text-gray-500 opacity-70" />
+                          <FaQuestion className="w-5 h-5 mr-2 text-gray-500" />
                         )}
                         {item}
                       </span>
