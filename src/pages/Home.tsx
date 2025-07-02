@@ -45,11 +45,9 @@ const Home: React.FC = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light">
               <BlurText
                 text="Hi I'm Errol Solomon"
-                animateOn="view"
-                revealDirection="start"
-                sequential={true}
-                speed={50}
-                maxIterations={20}
+                delay={150}
+                animateBy="words"
+                direction="top"
               />
             </h1>
 
@@ -71,9 +69,12 @@ const Home: React.FC = () => {
               <DecryptedText
                 text="I create beautiful, responsive websites and applications with a focus on user experience 
               and modern technologies. Passionate about solving complex problems with elegant solutions."
-                speed={100}
-                maxIterations={20}
                 characters="ABCD1234!?"
+                animateOn="view"
+                revealDirection="start"
+                sequential={true}
+                speed={50}
+                maxIterations={20}
                 className="revealed"
                 parentClassName="all-letters"
                 encryptedClassName="encrypted"
