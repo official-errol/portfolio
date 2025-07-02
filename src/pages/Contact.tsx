@@ -57,41 +57,38 @@ const Contact: React.FC = () => {
                 </h2>
                 
                 <div className="space-y-6">
-                  {/* Email */}
                   <div className="flex items-start">
-                    <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full mr-4">
-                      <HiOutlineMail className="w-6 h-6 text-gray-700" />
-                    </div>
+                    <EnvelopeIcon className="w-6 h-6 mr-4 text-main mt-1" />
                     <div>
                       <h3 className="font-medium text-lg">Email</h3>
-                      <a href="mailto:mr.errolsolomon@gmail.com" className="text-gray-600 hover:text-main">
+                      <a 
+                        href="mailto:mr.errolsolomon@gmail.com" 
+                        className="text-gray-600 hover:text-main"
+                      >
                         mr.errolsolomon@gmail.com
                       </a>
                     </div>
                   </div>
                   
-                  {/* Phone */}
                   <div className="flex items-start">
-                    <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full mr-4">
-                      <HiOutlinePhone className="w-6 h-6 text-gray-700" />
-                    </div>
+                    <PhoneIcon className="w-6 h-6 mr-4 text-main mt-1" />
                     <div>
                       <h3 className="font-medium text-lg">Phone</h3>
-                      <a href="tel:+639943996202" className="text-gray-600 hover:text-main">
+                      <a 
+                        href="tel:+639943996202" 
+                        className="text-gray-600 hover:text-main"
+                      >
                         +63 994-399-6202
                       </a>
                     </div>
                   </div>
                   
-                  {/* Location */}
                   <div className="flex items-start">
-                    <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full mr-4">
-                      <HiOutlineMap className="w-6 h-6 text-gray-700" />
-                    </div>
+                    <MapPinIcon className="w-6 h-6 mr-4 text-main mt-1" />
                     <div>
                       <h3 className="font-medium text-lg">Location</h3>
                       <p className="text-gray-600">
-                        Lipa City, Batangas 4217, Philippines
+                          Lipa City, Batangas 4217, Philippines
                       </p>
                     </div>
                   </div>
@@ -115,7 +112,7 @@ const Contact: React.FC = () => {
                     href="https://facebook.com/official.errol"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full bg-[#1877F2] flex items-center justify-center transition-transform hover:scale-105"
+                    className="w-10 h-10 rounded-full bg-[#1877F2] flex items-center justify-center transition-transform hover:scale-105"
                     aria-label="Facebook"
                   >
                     <FaFacebookF className="w-5 h-5 text-white" />
@@ -126,7 +123,7 @@ const Contact: React.FC = () => {
                     href="https://instagram.com/official.errol"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 flex items-center justify-center transition-transform hover:scale-105"
+                    className="w-10 h-10 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 flex items-center justify-center transition-transform hover:scale-105"
                     aria-label="Instagram"
                   >
                     <FaInstagram className="w-5 h-5 text-white" />
@@ -137,7 +134,7 @@ const Contact: React.FC = () => {
                     href="https://github.com/official-errol"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full bg-[#333] flex items-center justify-center transition-transform hover:scale-105"
+                    className="w-10 h-10 rounded-full bg-[#333] flex items-center justify-center transition-transform hover:scale-105"
                     aria-label="GitHub"
                   >
                     <FaGithub className="w-5 h-5 text-white" />
