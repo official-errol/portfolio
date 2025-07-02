@@ -136,7 +136,7 @@ const Home: React.FC = () => {
               text="GRAPHIC✦DESIGN✦SERVICES✦"
               onHover="speedUp"
               spinDuration={20}
-              className="custom-class text-main-dark tracking-widest"
+              className="custom-class text-main-dark"
             />
             <h2 className="text-3xl font-bold text-main-dark mt-8 mb-4 text-center">
               Need Graphic Design Services?
