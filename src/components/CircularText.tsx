@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from "react"
 import {
   motion,
   useAnimation,
   useMotionValue,
   MotionValue,
-  Transition,
-} from "framer-motion";
+} from "framer-motion"
+import type { Transition } from "framer-motion"
 
-import "./CircularText.css";
+import "./CircularText.css"
 interface CircularTextProps {
   text: string;
   spinDuration?: number;
