@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import BlurText from "../components/BlurText";
+import BlurText from '../components/BlurText'
+import DecryptedText from '../components/DecryptedText'
 import { motion } from 'framer-motion'
 import { EnvelopeIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 import profilePic from '../assets/meh.jpg'
@@ -70,8 +71,12 @@ const Home: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.5 }}
             >
-              I create beautiful, responsive websites and applications with a focus on user experience 
-              and modern technologies. Passionate about solving complex problems with elegant solutions.
+              <DecryptedText
+                text="I create beautiful, responsive websites and applications with a focus on user experience 
+              and modern technologies. Passionate about solving complex problems with elegant solutions."
+                animateOn="view"
+                revealDirection="center"
+              />
             </motion.p>
 
             <motion.div
