@@ -16,7 +16,6 @@ interface Post {
 }
 
 const Home: React.FC = () => {
-  const ownerName = import.meta.env.VITE_PORTFOLIO_OWNER_NAME
   const handleAnimationComplete = () => {
     console.log('Animation completed!');
   };
