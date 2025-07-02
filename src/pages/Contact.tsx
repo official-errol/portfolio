@@ -60,7 +60,7 @@ const Contact: React.FC = () => {
                   {/* Email */}
                   <div className="flex items-start">
                     <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full mr-4">
-                      <HiOutlineMail className="w-5 h-5 text-gray-700" />
+                      <HiOutlineMail className="w-6 h-6 text-gray-700" />
                     </div>
                     <div>
                       <h3 className="font-medium text-lg">Email</h3>
@@ -73,7 +73,7 @@ const Contact: React.FC = () => {
                   {/* Phone */}
                   <div className="flex items-start">
                     <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full mr-4">
-                      <HiOutlinePhone className="w-5 h-5 text-gray-700" />
+                      <HiOutlinePhone className="w-6 h-6 text-gray-700" />
                     </div>
                     <div>
                       <h3 className="font-medium text-lg">Phone</h3>
@@ -86,7 +86,7 @@ const Contact: React.FC = () => {
                   {/* Location */}
                   <div className="flex items-start">
                     <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full mr-4">
-                      <HiOutlineMap className="w-5 h-5 text-gray-700" />
+                      <HiOutlineMap className="w-6 h-6 text-gray-700" />
                     </div>
                     <div>
                       <h3 className="font-medium text-lg">Location</h3>
