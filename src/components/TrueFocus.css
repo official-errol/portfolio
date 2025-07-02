@@ -34,8 +34,8 @@
   position: absolute;
   width: 1rem;
   height: 1rem;
-  border: 3px solid var(--border-color, #fff);
-  filter: drop-shadow(0px 0px 4px var(--border-color, #fff));
+  border: 3px solid var(--border-color, #87E64B);
+  filter: drop-shadow(0px 0px 4px var(--border-color, rgba(135, 230, 75, 0.5)));
   border-radius: 3px;
   transition: none;
 }
