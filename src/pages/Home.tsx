@@ -43,14 +43,14 @@ const Home: React.FC = () => {
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light">
-              Hi I'm 
+              Hi I'm
               <DecryptedText
-                text="Errol Solomon"
+                text=" Errol Solomon"
                 characters="ABCD1234!?"
                 animateOn="view"
                 revealDirection="start"
                 sequential={true}
-                speed={50}
+                speed={100}
                 maxIterations={20}
                 className="revealed text-main-dark"
                 parentClassName="all-letters"
@@ -119,7 +119,7 @@ const Home: React.FC = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h2 className="text-3xl font-bold text-main-dark mb-4">
+            <h2 className="text-3xl font-bold text-main-dark mb-4 text-center">
               <BlurText
                 text="Need Graphic Design Services?"
                 delay={150}
