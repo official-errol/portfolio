@@ -31,7 +31,7 @@ const About: React.FC = () => {
     { name: 'Tools', items: ['Git', 'Photoshop', 'Figma'] },
   ]
 
-  const skillIcons: Record<string, JSX.Element> = {
+  const skillIcons: Record<string, React.ReactNode> = {
     'React': <SiReact className="w-5 h-5 mr-2 text-sky-500 opacity-70" />,
     'TypeScript': <SiTypescript className="w-5 h-5 mr-2 text-blue-600 opacity-70" />,
     'Tailwind CSS': <SiTailwindcss className="w-5 h-5 mr-2 text-cyan-500 opacity-70" />,
