@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import BlurText from '../components/BlurText'
+import TrueFocus from '../components/TrueFocus'
 import DecryptedText from '../components/DecryptedText'
 import { motion } from 'framer-motion'
 import { EnvelopeIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
@@ -44,7 +45,15 @@ const Home: React.FC = () => {
 
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light">
               Hi I'm
-              <DecryptedText
+              <TrueFocus 
+                sentence="Errol Solomon"
+                manualMode={false}
+                blurAmount={5}
+                borderColor="red"
+                animationDuration={2}
+                pauseBetweenAnimations={1}
+                />
+          {/* <DecryptedText
                 text=" Errol Solomon"
                 characters="ABCD1234!?"
                 animateOn="view"
@@ -55,7 +64,7 @@ const Home: React.FC = () => {
                 className="revealed text-main-dark"
                 parentClassName="all-letters"
                 encryptedClassName="encrypted text-main-dark"
-              />
+              /> */}
             </h1>
 
             <motion.h2
@@ -120,12 +129,13 @@ const Home: React.FC = () => {
             className="max-w-4xl mx-auto text-center"
           >
             <h2 className="text-3xl font-bold text-main-dark mb-4 text-center">
-              <BlurText
+              Need Graphic Design Services?
+          {/* <BlurText
                 text="Need Graphic Design Services?"
                 delay={150}
                 animateBy="words"
                 direction="top"
-              />
+              /> */}
             </h2>
             <p className="text-gray-600 mb-6">
               From logo creation to full branding packages and social media designs, I offer high-quality, customizable solutions at flexible pricing.
