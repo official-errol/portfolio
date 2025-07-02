@@ -44,8 +44,9 @@ const Home: React.FC = () => {
               />
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light flex flex-wrap items-center justify-center">
-                <span>Hi I'm </span>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light flex items-center justify-center gap-2 flex-wrap">
+              <span className="inline-block">Hi I'm</span>
+              <div className="inline-block">
                 <TrueFocus 
                   sentence="Errol Solomon"
                   manualMode={false}
@@ -55,6 +56,7 @@ const Home: React.FC = () => {
                   animationDuration={2}
                   pauseBetweenAnimations={1}
                 />
+              </div>
           {/* <DecryptedText
                 text=" Errol Solomon"
                 characters="ABCD1234!?"
