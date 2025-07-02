@@ -73,7 +73,7 @@ const Home: React.FC = () => {
                 animateOn="view"
                 revealDirection="start"
                 sequential={true}
-                speed={200}
+                speed={20}
                 maxIterations={20}
                 className="revealed"
                 parentClassName="all-letters"
