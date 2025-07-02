@@ -133,10 +133,10 @@ const Home: React.FC = () => {
             className="max-w-4xl mx-auto text-center"
           >
             <CircularText
-              text="G R A P H I C ✦ D E S I G N ✦ S E R V I C E S ✦ "
+              text="GRAPHIC✦DESIGN✦SERVICES✦"
               onHover="speedUp"
               spinDuration={20}
-              className="custom-class text-main-dark"
+              className="custom-class text-main-dark tracking-widest"
             />
             <h2 className="text-3xl font-bold text-main-dark mt-8 mb-4 text-center">
               Need Graphic Design Services?
