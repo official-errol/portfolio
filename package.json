@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "node-fetch": "^2.6.7",
     "@heroicons/react": "^2.2.0",
     "@supabase/supabase-js": "^2.50.0",
     "@tiptap/react": "^2.0.0-beta.222",
