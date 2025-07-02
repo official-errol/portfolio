@@ -55,7 +55,6 @@ const Home: React.FC = () => {
                   animationDuration={2}
                   pauseBetweenAnimations={1}
                 />
-              </h1>
           {/* <DecryptedText
                 text=" Errol Solomon"
                 characters="ABCD1234!?"
