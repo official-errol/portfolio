@@ -43,11 +43,18 @@ const Home: React.FC = () => {
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light">
-              <BlurText
-                text="Hi I'm Errol Solomon"
-                delay={150}
-                animateBy="words"
-                direction="top"
+              Hi I'm 
+              <DecryptedText
+                text="Errol Solomon"
+                characters="ABCD1234!?"
+                animateOn="view"
+                revealDirection="start"
+                sequential={true}
+                speed={50}
+                maxIterations={20}
+                className="revealed text-main-dark"
+                parentClassName="all-letters"
+                encryptedClassName="encrypted text-main-dark"
               />
             </h1>
 
@@ -66,19 +73,8 @@ const Home: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.5 }}
             >
-              <DecryptedText
-                text="I create beautiful, responsive websites and applications with a focus on user experience 
-              and modern technologies. Passionate about solving complex problems with elegant solutions."
-                characters="ABCD1234!?"
-                animateOn="view"
-                revealDirection="start"
-                sequential={true}
-                speed={20}
-                maxIterations={20}
-                className="revealed"
-                parentClassName="all-letters"
-                encryptedClassName="encrypted"
-              />
+              I create beautiful, responsive websites and applications with a focus on user experience 
+              and modern technologies. Passionate about solving complex problems with elegant solutions.
             </motion.p>
 
             <motion.div
@@ -124,7 +120,12 @@ const Home: React.FC = () => {
             className="max-w-4xl mx-auto text-center"
           >
             <h2 className="text-3xl font-bold text-main-dark mb-4">
-              Need Graphic Design Services?
+              <BlurText
+                text="Need Graphic Design Services?"
+                delay={150}
+                animateBy="words"
+                direction="top"
+              />
             </h2>
             <p className="text-gray-600 mb-6">
               From logo creation to full branding packages and social media designs, I offer high-quality, customizable solutions at flexible pricing.
