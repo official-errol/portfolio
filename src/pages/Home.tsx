@@ -217,7 +217,7 @@ const LatestBlogPreview: React.FC = () => {
         <Link
           to={`/blog/${post.slug}`}
           key={post.id}
-          className="border border-gray-200 rounded-lg p-4 hover:shadow transition"
+          className="border border-gray-200 rounded-2xl p-4 hover:shadow transition"
         >
           <h3 className="text-lg font-semibold text-main-dark mb-2">
             {post.title}
