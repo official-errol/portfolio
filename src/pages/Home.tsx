@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import BlurText from '../components/BlurText'
 import TrueFocus from '../components/TrueFocus'
-import DecryptedText from '../components/DecryptedText'
+// import DecryptedText from '../components/DecryptedText'
+// import BlurText from '../components/BlurText'
+import CircularText  from '../components/CircularText '
 import { motion } from 'framer-motion'
 import { EnvelopeIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 import profilePic from '../assets/meh.jpg'
@@ -128,6 +129,12 @@ const Home: React.FC = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto text-center"
           >
+            <CircularText
+              text="REACT*BITS*COMPONENTS*"
+              onHover="speedUp"
+              spinDuration={20}
+              className="custom-class"
+            />
             <h2 className="text-3xl font-bold text-main-dark mb-4 text-center">
               Need Graphic Design Services?
           {/* <BlurText
