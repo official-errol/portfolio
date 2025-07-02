@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import BlurText from "..components/BlurText";
 import { motion } from 'framer-motion'
 import { EnvelopeIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 import profilePic from '../assets/meh.jpg'
@@ -16,6 +17,9 @@ interface Post {
 
 const Home: React.FC = () => {
   const ownerName = import.meta.env.VITE_PORTFOLIO_OWNER_NAME
+  const handleAnimationComplete = () => {
+    console.log('Animation completed!');
+  };
 
   return (
     <>
@@ -43,7 +47,13 @@ const Home: React.FC = () => {
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light">
-              Hi, I'm <span className="text-main-dark">{ownerName}</span>
+              <BlurText
+                text="Hi I'm Errol Solomon"
+                delay={150}
+                animateBy="words"
+                direction="top"
+                onAnimationComplete={handleAnimationComplete}
+              />
             </h1>
 
             <motion.h2
