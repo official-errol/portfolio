@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import type { RefObject } from "react";
 import { motion } from "framer-motion";
 import "./TrueFocus.css";
 
