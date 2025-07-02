@@ -1,6 +1,6 @@
-import fetch from 'node-fetch'
-import { createClient } from '@supabase/supabase-js'
-import dotenv from 'dotenv'
+const fetch = require('node-fetch')
+const { createClient } = require('@supabase/supabase-js')
+const dotenv = require('dotenv')
 dotenv.config()
 
 const supabase = createClient(
