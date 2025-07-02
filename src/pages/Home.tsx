@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import BlurText from "..components/BlurText";
+import BlurText from "../components/BlurText";
 import { motion } from 'framer-motion'
 import { EnvelopeIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 import profilePic from '../assets/meh.jpg'
