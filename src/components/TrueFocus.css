@@ -1,7 +1,7 @@
 .focus-container {
   position: relative;
   display: flex;
-  gap: 0.25em;
+  gap: 0.50em;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
