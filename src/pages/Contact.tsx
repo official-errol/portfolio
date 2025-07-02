@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet'
 import { FaFacebookF, FaInstagram, FaGithub } from 'react-icons/fa'
-import { HiOutlineMail, HiOutlinePhone, HiOutlineMap } from 'react-icons/hi'
+import { EnvelopeIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/24/outline'
 
 interface FormData {
   name: string
