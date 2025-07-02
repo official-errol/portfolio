@@ -1,9 +1,11 @@
 import fetch from 'node-fetch'
 import { createClient } from '@supabase/supabase-js'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
 )
 
 const generatePost = async () => {
@@ -23,14 +25,6 @@ Content:
 [the blog content goes here — friendly, helpful, and natural. Do not say it's written by AI.]
 `.trim()
 
-  let title = ''
-  let category = ''
-  let tags: string[] = []
-  let mediaSuggestion = ''
-  let content = ''
-  let media_url = ''
-  let media_type: 'image' | 'youtube' | null = null
-
   try {
     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
@@ -47,23 +41,22 @@ Content:
     const data = await res.json()
     const message = data.choices?.[0]?.message?.content || ''
 
-    title = message.match(/Title:\s*(.*)/)?.[1]?.trim() || 'Untitled'
-    category = message.match(/Category:\s*(.*)/)?.[1]?.trim() || 'General'
+    const title = message.match(/Title:\s*(.*)/)?.[1]?.trim() || 'Untitled'
+    const category = message.match(/Category:\s*(.*)/)?.[1]?.trim() || 'General'
     const tagsStr = message.match(/Tags:\s*(.*)/)?.[1] || ''
-    mediaSuggestion = message.match(/Media Suggestion:\s*(.*)/)?.[1]?.trim() || ''
-    content = message.split(/Content:/)[1]?.trim() || ''
+    const mediaSuggestion = message.match(/Media Suggestion:\s*(.*)/)?.[1]?.trim() || ''
+    const content = message.split(/Content:/)[1]?.trim() || ''
+    const tags = tagsStr.split(',').map(tag => tag.trim()).filter(Boolean)
 
-    tags = tagsStr.split(',').map(t => t.trim()).filter(Boolean)
+    let media_url = ''
+    let media_type = null
 
     if (useImage) {
       try {
         const imgRes = await fetch(`https://source.unsplash.com/featured/?${encodeURIComponent(mediaSuggestion || category)}`)
-        if (imgRes.url) {
-          media_url = imgRes.url
-          media_type = 'image'
-        }
-      } catch (imgErr) {
-        console.warn('Image fetch failed, using fallback image.')
+        media_url = imgRes.url
+        media_type = 'image'
+      } catch {
         media_url = 'https://source.unsplash.com/featured/?inspiration'
         media_type = 'image'
       }
@@ -78,8 +71,7 @@ Content:
         } else {
           throw new Error('No video found')
         }
-      } catch (ytErr) {
-        console.warn('YouTube fetch failed, using fallback image.')
+      } catch {
         media_url = 'https://source.unsplash.com/featured/?motivation'
         media_type = 'image'
       }
@@ -104,7 +96,7 @@ Content:
       console.log(`✅ Blog post saved: "${title}"`)
     }
   } catch (err) {
-    console.error('🚫 Unexpected error generating post:', err)
+    console.error('🚫 Error generating blog:', err)
   }
 }
 
