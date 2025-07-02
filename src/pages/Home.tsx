@@ -17,10 +17,6 @@ interface Post {
 }
 
 const Home: React.FC = () => {
-  const handleAnimationComplete = () => {
-    console.log('Animation completed!');
-  };
-
   return (
     <>
       <Helmet>
@@ -49,11 +45,11 @@ const Home: React.FC = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light">
               <BlurText
                 text="Hi I'm Errol Solomon"
-                animateOn="view"          
-                revealDirection="start" 
-                sequential={true}             
-                speed={50}     
-                maxIterations={20} 
+                animateOn="view"
+                revealDirection="start"
+                sequential={true}
+                speed={50}
+                maxIterations={20}
               />
             </h1>
 
