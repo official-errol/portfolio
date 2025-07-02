@@ -1,9 +1,9 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { motion } from 'framer-motion'
-import { EnvelopeIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/24/outline'
 import { Helmet } from 'react-helmet'
 import { FaFacebookF, FaInstagram, FaGithub } from 'react-icons/fa'
+import { HiOutlineMail, HiOutlinePhone, HiOutlineMapPin } from 'react-icons/hi2'
 
 interface FormData {
   name: string
@@ -57,38 +57,41 @@ const Contact: React.FC = () => {
                 </h2>
                 
                 <div className="space-y-6">
+                  {/* Email */}
                   <div className="flex items-start">
-                    <EnvelopeIcon className="w-6 h-6 mr-4 text-main mt-1" />
+                    <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full mr-4">
+                      <HiOutlineMail className="w-5 h-5 text-gray-700" />
+                    </div>
                     <div>
                       <h3 className="font-medium text-lg">Email</h3>
-                      <a 
-                        href="mailto:mr.errolsolomon@gmail.com" 
-                        className="text-gray-600 hover:text-main"
-                      >
+                      <a href="mailto:mr.errolsolomon@gmail.com" className="text-gray-600 hover:text-main">
                         mr.errolsolomon@gmail.com
                       </a>
                     </div>
                   </div>
                   
+                  {/* Phone */}
                   <div className="flex items-start">
-                    <PhoneIcon className="w-6 h-6 mr-4 text-main mt-1" />
+                    <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full mr-4">
+                      <HiOutlinePhone className="w-5 h-5 text-gray-700" />
+                    </div>
                     <div>
                       <h3 className="font-medium text-lg">Phone</h3>
-                      <a 
-                        href="tel:+639943996202" 
-                        className="text-gray-600 hover:text-main"
-                      >
+                      <a href="tel:+639943996202" className="text-gray-600 hover:text-main">
                         +63 994-399-6202
                       </a>
                     </div>
                   </div>
                   
+                  {/* Location */}
                   <div className="flex items-start">
-                    <MapPinIcon className="w-6 h-6 mr-4 text-main mt-1" />
+                    <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full mr-4">
+                      <HiOutlineMapPin className="w-5 h-5 text-gray-700" />
+                    </div>
                     <div>
                       <h3 className="font-medium text-lg">Location</h3>
                       <p className="text-gray-600">
-                          Lipa City, Batangas 4217, Philippines
+                        Lipa City, Batangas 4217, Philippines
                       </p>
                     </div>
                   </div>
@@ -107,36 +110,39 @@ const Contact: React.FC = () => {
                   Feel free to reach out if you want to collaborate with me, or simply have a chat.
                 </p>
                 <div className="flex space-x-4">
+                  {/* Facebook */}
                   <a
                     href="https://facebook.com/official.errol"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center hover:bg-main hover:text-white transition-colors"
+                    className="w-12 h-12 rounded-full bg-[#1877F2] flex items-center justify-center transition-transform hover:scale-105"
                     aria-label="Facebook"
                   >
-                    <FaFacebookF className="w-5 h-5 text-gray-700 opacity-70 hover:text-white" />
+                    <FaFacebookF className="w-5 h-5 text-white" />
                   </a>
-                  
+                
+                  {/* Instagram */}
                   <a
                     href="https://instagram.com/official.errol"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center hover:bg-main hover:text-white transition-colors"
+                    className="w-12 h-12 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 flex items-center justify-center transition-transform hover:scale-105"
                     aria-label="Instagram"
                   >
-                    <FaInstagram className="w-5 h-5 text-gray-700 opacity-70 hover:text-white" />
+                    <FaInstagram className="w-5 h-5 text-white" />
                   </a>
-                  
+                
+                  {/* GitHub */}
                   <a
                     href="https://github.com/official-errol"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center hover:bg-main hover:text-white transition-colors"
+                    className="w-12 h-12 rounded-full bg-[#333] flex items-center justify-center transition-transform hover:scale-105"
                     aria-label="GitHub"
                   >
-                    <FaGithub className="w-5 h-5 text-gray-700 opacity-70 hover:text-white" />
+                    <FaGithub className="w-5 h-5 text-white" />
                   </a>
-                  </div>
+                </div>
               </motion.div>
             </div>
 
