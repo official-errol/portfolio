@@ -74,8 +74,12 @@ const Home: React.FC = () => {
               <DecryptedText
                 text="I create beautiful, responsive websites and applications with a focus on user experience 
               and modern technologies. Passionate about solving complex problems with elegant solutions."
-                animateOn="view"
-                revealDirection="center"
+                speed={100}
+                maxIterations={20}
+                characters="ABCD1234!?"
+                className="revealed"
+                parentClassName="all-letters"
+                encryptedClassName="encrypted"
               />
             </motion.p>
 
