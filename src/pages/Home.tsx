@@ -44,16 +44,18 @@ const Home: React.FC = () => {
               />
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light">
-              Hi I'm
-              <TrueFocus 
-                sentence="Errol Solomon"
-                manualMode={false}
-                blurAmount={5}
-                borderColor="red"
-                animationDuration={2}
-                pauseBetweenAnimations={1}
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-light flex flex-wrap items-center justify-center gap-2">
+                <span>Hi I'm</span>
+                <TrueFocus 
+                  sentence="Errol Solomon"
+                  manualMode={false}
+                  blurAmount={5}
+                  borderColor="#87E64B"
+                  glowColor="rgba(135, 230, 75, 0.5)"
+                  animationDuration={2}
+                  pauseBetweenAnimations={1}
                 />
+              </h1>
           {/* <DecryptedText
                 text=" Errol Solomon"
                 characters="ABCD1234!?"
