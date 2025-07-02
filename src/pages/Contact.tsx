@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { motion } from 'framer-motion'
 import { EnvelopeIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/24/outline'
 import { Helmet } from 'react-helmet'
+import { FaFacebookF, FaInstagram, FaGithub } from 'react-icons/fa'
 
 interface FormData {
   name: string
@@ -106,33 +107,36 @@ const Contact: React.FC = () => {
                   Feel free to reach out if you want to collaborate with me, or simply have a chat.
                 </p>
                 <div className="flex space-x-4">
-                  {/* Facebook */}
-                  <a href="https://facebook.com/official.errol" target="_blank" rel="noopener noreferrer"
+                  <a
+                    href="https://facebook.com/official.errol"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center hover:bg-main hover:text-white transition-colors"
-                    aria-label="Facebook">
-                    <svg className="w-6 h-6 text-gray-700 hover:text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.13 8.44 9.88v-6.99H7.9v-2.89h2.54V9.79c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.89h-2.34v6.99C18.34 21.13 22 16.99 22 12z" />
-                    </svg>
+                    aria-label="Facebook"
+                  >
+                    <FaFacebookF className="w-5 h-5 text-gray-700 opacity-70 hover:text-white" />
                   </a>
-
-                  {/* Instagram */}
-                  <a href="https://instagram.com/official.errol" target="_blank" rel="noopener noreferrer"
+                  
+                  <a
+                    href="https://instagram.com/official.errol"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center hover:bg-main hover:text-white transition-colors"
-                    aria-label="Instagram">
-                    <svg className="w-6 h-6 text-gray-700 hover:text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 2c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3h10zM12 7c-2.757 0-5 2.243-5 5s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-3a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"/>
-                    </svg>
+                    aria-label="Instagram"
+                  >
+                    <FaInstagram className="w-5 h-5 text-gray-700 opacity-70 hover:text-white" />
                   </a>
-
-                  {/* GitHub */}
-                  <a href="https://github.com/official-errol" target="_blank" rel="noopener noreferrer"
+                  
+                  <a
+                    href="https://github.com/official-errol"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center hover:bg-main hover:text-white transition-colors"
-                    aria-label="GitHub">
-                    <svg className="w-6 h-6 text-gray-700 hover:text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2C6.477 2 2 6.486 2 12.014c0 4.426 2.865 8.179 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.455-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.004.07 1.533 1.032 1.533 1.032.892 1.529 2.341 1.088 2.91.833.091-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.269 2.75 1.025a9.56 9.56 0 012.5-.336c.849.004 1.704.115 2.5.336 1.908-1.294 2.746-1.025 2.746-1.025.546 1.378.203 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.338 4.695-4.566 4.944.359.31.678.923.678 1.861 0 1.343-.012 2.426-.012 2.756 0 .267.18.58.688.481C19.137 20.19 22 16.437 22 12.014 22 6.486 17.523 2 12 2z"/>
-                    </svg>
+                    aria-label="GitHub"
+                  >
+                    <FaGithub className="w-5 h-5 text-gray-700 opacity-70 hover:text-white" />
                   </a>
-                </div>
+                  </div>
               </motion.div>
             </div>
 
