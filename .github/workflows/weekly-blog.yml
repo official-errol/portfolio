@@ -20,7 +20,7 @@ jobs:
         run: npm install
 
       - name: Run blog generator
-        run: node scripts/generateBlog.js
+        run: node scripts/generateBlog.cjs
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
