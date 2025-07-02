@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet'
 import { FaFacebookF, FaInstagram, FaGithub } from 'react-icons/fa'
-import { HiOutlineMail, HiOutlinePhone, HiOutlineMapPin } from 'react-icons/hi'
+import { HiOutlineMail, HiOutlinePhone, HiOutlineMap } from 'react-icons/hi'
 
 interface FormData {
   name: string
@@ -86,7 +86,7 @@ const Contact: React.FC = () => {
                   {/* Location */}
                   <div className="flex items-start">
                     <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full mr-4">
-                      <HiOutlineMapPin className="w-5 h-5 text-gray-700" />
+                      <HiOutlineMap className="w-5 h-5 text-gray-700" />
                     </div>
                     <div>
                       <h3 className="font-medium text-lg">Location</h3>
