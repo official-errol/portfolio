@@ -23,6 +23,7 @@ import {
   SiFigma
 } from 'react-icons/si'
 import { FaQuestion } from 'react-icons/fa'
+import RotatingText from '../components/RotatingText'
 
 const About: React.FC = () => {
   const skills = [
@@ -61,7 +62,20 @@ const About: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800">About Me</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800">
+            <RotatingText
+  texts={['About', 'Me', 'MySelf', 'and I']}
+  mainClassName="px-2 sm:px-2 md:px-3 bg-main text-maim-dark overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
+  staggerFrom={"last"}
+  initial={{ y: "100%" }}
+  animate={{ y: 0 }}
+  exit={{ y: "-120%" }}
+  staggerDuration={0.025}
+  splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+  transition={{ type: "spring", damping: 30, stiffness: 400 }}
+  rotationInterval={2000}
+/>
+          </h1>
 
           {/* Two Column Layout (My Journey + My Philosophy) */}
           <div className="flex flex-col md:flex-row gap-10">
