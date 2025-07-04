@@ -79,12 +79,10 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
     const [currentTextIndex, setCurrentTextIndex] = useState<number>(0);
 
     const splitIntoCharacters = (text: string): string[] => {
-      // Fallback-safe Segmenter
       try {
-        // @ts-expect-error: Segmenter might not exist in all TS environments
-        if (typeof Intl !== "undefined" && typeof Intl.Segmenter !== "undefined") {
-          const segmenter = new Intl.Segmenter("en", { granularity: "grapheme" });
-          return Array.from(segmenter.segment(text), (s) => s.segment);
+        if (typeof Intl !== "undefined" && typeof (Intl as any).Segmenter !== "undefined") {
+          const segmenter = new (Intl as any).Segmenter("en", { granularity: "grapheme" });
+          return Array.from(segmenter.segment(text), (s: any) => s.segment);
         }
       } catch (_) {}
       return Array.from(text);
@@ -234,9 +232,9 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
                   {wordObj.characters.map((char, charIndex) => (
                     <motion.span
                       key={charIndex}
-                      initial={initial}
-                      animate={animate}
-                      exit={exit}
+                      initial={initial as VariantLabels}
+                      animate={animate as TargetAndTransition}
+                      exit={exit as VariantLabels}
                       transition={{
                         ...transition,
                         delay: getStaggerDelay(
