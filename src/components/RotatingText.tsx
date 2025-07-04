@@ -8,14 +8,12 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import {
-  motion,
-  AnimatePresence,
+import { motion, AnimatePresence } from "framer-motion";
+import type {
   Transition,
-  type VariantLabels,
-  type Target,
-  type AnimationControls,
-  type TargetAndTransition,
+  VariantLabels,
+  Target,
+  TargetAndTransition,
 } from "framer-motion";
 
 import "./RotatingText.css";
@@ -39,7 +37,7 @@ export interface RotatingTextProps
   texts: string[];
   transition?: Transition;
   initial?: boolean | Target | VariantLabels;
-  animate?: boolean | VariantLabels | AnimationControls | TargetAndTransition;
+  animate?: boolean | VariantLabels | TargetAndTransition;
   exit?: Target | VariantLabels;
   animatePresenceMode?: "sync" | "wait";
   animatePresenceInitial?: boolean;
@@ -81,13 +79,14 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
     const [currentTextIndex, setCurrentTextIndex] = useState<number>(0);
 
     const splitIntoCharacters = (text: string): string[] => {
-      if (typeof Intl !== "undefined" && Intl.Segmenter) {
-        const segmenter = new Intl.Segmenter("en", { granularity: "grapheme" });
-        return Array.from(
-          segmenter.segment(text),
-          (segment) => segment.segment
-        );
-      }
+      // Fallback-safe Segmenter
+      try {
+        // @ts-expect-error: Segmenter might not exist in all TS environments
+        if (typeof Intl !== "undefined" && typeof Intl.Segmenter !== "undefined") {
+          const segmenter = new Intl.Segmenter("en", { granularity: "grapheme" });
+          return Array.from(segmenter.segment(text), (s) => s.segment);
+        }
+      } catch (_) {}
       return Array.from(text);
     };
 
