@@ -67,10 +67,10 @@ const About: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800">
+          <h1>
             <RotatingText
   texts={['About', 'Me', 'MySelf', 'and I']}
-  mainClassName="px-2 sm:px-2 md:px-3 bg-main text-maim-dark overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
+  mainClassName="px-2 sm:px-2 md:px-3 bg-main text-main-dark overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
   staggerFrom={"last"}
   initial={initial}
   animate={animate}
