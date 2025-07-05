@@ -24,6 +24,7 @@ import {
 } from 'react-icons/si'
 import { FaQuestion } from 'react-icons/fa'
 import RotatingText from '../components/RotatingText'
+import type { Target, VariantLabels, TargetAndTransition } from "framer-motion";
 
 const About: React.FC = () => {
   const skills = [
