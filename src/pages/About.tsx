@@ -67,7 +67,7 @@ const About: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-4xl font-bold flex items-center gap-2">
+          <h1 className="text-3xl md:text-4xl font-bold flex items-center gap-2">
       <span>About</span>
       <span className="inline-block w-[6ch] text-center">
         <RotatingText
@@ -79,7 +79,7 @@ const About: React.FC = () => {
           staggerFrom="last"
           staggerDuration={0.025}
           transition={{ type: "spring", damping: 30, stiffness: 400 }}
-          mainClassName="bg-main text-main-dark px-3 py-1 rounded-lg overflow-hidden justify-center"
+          mainClassName="bg-main text-main-dark px-3 py-3 rounded-lg overflow-hidden justify-center"
           splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
         />
       </span>
