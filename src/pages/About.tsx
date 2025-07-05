@@ -69,7 +69,7 @@ const About: React.FC = () => {
         >
           <h1 className="text-3xl md:text-4xl font-bold flex items-center gap-2">
       <span>About</span>
-      <span className="inline-block w-[8ch] text-center">
+      <span className="relative inline-block">
         <RotatingText
           texts={["Me", "MySelf", "and I"]}
           initial={initial}
