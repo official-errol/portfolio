@@ -52,9 +52,9 @@ const About: React.FC = () => {
     'Figma': <SiFigma className="w-5 h-5 mr-2 text-pink-500" />,
   }
 
-  const initial = { y: "100%" } as Target | VariantLabels;
-  const animate = { y: 0 } as TargetAndTransition;
-  const exit = { y: "-120%" } as Target | VariantLabels;
+  const initial = { y: "100%" } as unknown as Target | VariantLabels;
+  const animate = { y: 0 } as unknown as TargetAndTransition;
+  const exit = { y: "-120%" } as unknown as Target | VariantLabels;
 
   return (
     <>
