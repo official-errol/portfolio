@@ -71,7 +71,8 @@ const About: React.FC = () => {
             <motion.div
         className="flex items-center gap-2 text-3xl md:text-4xl font-bold"
         layout
-        transition={{ layout: { duration: 0.4, ease: "easeInOut" } }}
+        transition={{ layout: { duration: 0.5,
+      ease: [0.25, 0.8, 0.25, 1], } }}
       >
         <motion.span layout>About</motion.span>
         <motion.div
