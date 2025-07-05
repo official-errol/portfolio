@@ -67,23 +67,33 @@ const About: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold flex items-center text-center gap-2">
-      <span>About</span>
-      <span className="relative inline-block">
-        <RotatingText
-          texts={["Me", "MySelf", "and I"]}
-          initial={initial}
-          animate={animate}
-          exit={exit}
-          rotationInterval={2000}
-          staggerFrom="last"
-          staggerDuration={0.025}
-          transition={{ type: "spring", damping: 30, stiffness: 400 }}
-          mainClassName="bg-main text-main-dark px-3 py-1 rounded-lg overflow-hidden justify-center"
-          splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
-        />
-      </span>
-    </h1>
+          <div className="flex justify-center">
+            <motion.h1
+              className="text-4xl font-bold flex items-center gap-2"
+              layout
+            >
+              <span>About</span>
+              <motion.div
+                layout
+                layoutId="rotating-box"
+                transition={{ layout: { duration: 0.3, ease: "easeInOut" } }}
+                className="inline-block px-3 py-1 bg-main text-main-dark rounded-lg text-center"
+              >
+          <RotatingText
+            texts={["Me", "MySelf", "and I"]}
+            initial={initial}
+            animate={animate}
+            exit={exit}
+            rotationInterval={2000}
+            staggerFrom="last"
+            staggerDuration={0.025}
+            transition={{ type: "spring", damping: 30, stiffness: 400 }}
+            mainClassName="inline-block"
+            splitLevelClassName="overflow-hidden"
+          />
+        </motion.div>
+      </motion.h1>
+    </div>
 
           {/* Two Column Layout (My Journey + My Philosophy) */}
           <div className="flex flex-col md:flex-row gap-10">
