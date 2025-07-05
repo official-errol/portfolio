@@ -50,7 +50,11 @@ const About: React.FC = () => {
     'Photoshop': <SiAdobephotoshop className="w-5 h-5 mr-2 text-blue-400" />,
     'Figma': <SiFigma className="w-5 h-5 mr-2 text-pink-500" />,
   }
-  
+
+  const initial = { y: "100%" } as Target | VariantLabels;
+  const animate = { y: 0 } as TargetAndTransition;
+  const exit = { y: "-120%" } as Target | VariantLabels;
+
   return (
     <>
       <Helmet>
@@ -67,9 +71,9 @@ const About: React.FC = () => {
   texts={['About', 'Me', 'MySelf', 'and I']}
   mainClassName="px-2 sm:px-2 md:px-3 bg-main text-maim-dark overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
   staggerFrom={"last"}
-  initial={{ y: "100%" }}
-  animate={{ y: 0 }}
-  exit={{ y: "-120%" }}
+  initial={initial}
+  animate={animate}
+  exit={exit}
   staggerDuration={0.025}
   splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
   transition={{ type: "spring", damping: 30, stiffness: 400 }}
