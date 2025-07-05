@@ -68,17 +68,16 @@ const About: React.FC = () => {
           transition={{ duration: 0.5 }}
         >
           <div className="flex justify-center">
-            <motion.h1
-              className="text-4xl font-bold flex items-center gap-2"
-              layout
-            >
-              <span>About</span>
-              <motion.div
-                layout
-                layoutId="rotating-box"
-                transition={{ layout: { duration: 0.3, ease: "easeInOut" } }}
-                className="inline-block px-3 py-1 bg-main text-main-dark rounded-lg text-center"
-              >
+            <motion.div
+        className="flex items-center gap-2 text-3xl md:text-4xl font-bold"
+        layout
+        transition={{ layout: { duration: 0.4, ease: "easeInOut" } }}
+      >
+        <motion.span layout>About</motion.span>
+        <motion.div
+          layout
+          className="inline-block px-3 py-1 bg-main text-main-dark rounded-lg text-center"
+        >
           <RotatingText
             texts={["Me", "MySelf", "and I"]}
             initial={initial}
@@ -92,7 +91,7 @@ const About: React.FC = () => {
             splitLevelClassName="overflow-hidden"
           />
         </motion.div>
-      </motion.h1>
+      </motion.div>
     </div>
 
           {/* Two Column Layout (My Journey + My Philosophy) */}
