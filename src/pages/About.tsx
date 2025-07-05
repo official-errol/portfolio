@@ -67,20 +67,23 @@ const About: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <h1>
-            <RotatingText
-  texts={['About', 'Me', 'MySelf', 'and I']}
-  mainClassName="px-2 sm:px-2 md:px-3 bg-main text-main-dark overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
-  staggerFrom={"last"}
-  initial={initial}
-  animate={animate}
-  exit={exit}
-  staggerDuration={0.025}
-  splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
-  transition={{ type: "spring", damping: 30, stiffness: 400 }}
-  rotationInterval={2000}
-/>
-          </h1>
+          <h1 className="text-4xl font-bold flex items-center gap-2">
+      <span>About</span>
+      <span className="inline-block w-[6ch] text-center">
+        <RotatingText
+          texts={["Me", "MySelf", "and I"]}
+          initial={initial}
+          animate={animate}
+          exit={exit}
+          rotationInterval={2000}
+          staggerFrom="last"
+          staggerDuration={0.025}
+          transition={{ type: "spring", damping: 30, stiffness: 400 }}
+          mainClassName="bg-main text-main-dark px-3 py-1 rounded-lg overflow-hidden justify-center"
+          splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+        />
+      </span>
+    </h1>
 
           {/* Two Column Layout (My Journey + My Philosophy) */}
           <div className="flex flex-col md:flex-row gap-10">
