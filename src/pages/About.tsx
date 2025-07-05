@@ -67,7 +67,7 @@ const About: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold flex items-center gap-2">
+          <h1 className="text-3xl md:text-4xl font-bold flex items-center text-center gap-2">
       <span>About</span>
       <span className="relative inline-block">
         <RotatingText
