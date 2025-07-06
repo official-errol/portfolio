@@ -67,9 +67,9 @@ const About: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex justify-center">
+          <div className="flex">
             <motion.div
-        className="flex items-center gap-2 text-3xl md:text-4xl font-bold"
+        className="flex gap-2 text-3xl md:text-4xl font-bold"
         layout
         transition={{ layout: { duration: 0.5,
       ease: [0.25, 0.8, 0.25, 1], } }}
