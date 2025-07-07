@@ -69,31 +69,31 @@ const About: React.FC = () => {
         >
           <div className="flex justify-start">
             <motion.div
-        className="flex gap-2 text-3xl md:text-4xl font-bold"
-        layout
-        transition={{ layout: { duration: 0.5,
-      ease: [0.25, 0.8, 0.25, 1], } }}
-      >
-        <motion.span layout>About</motion.span>
-        <motion.div
-          layout
-          className="inline-block px-1 bg-main text-main-dark rounded-lg text-center"
-        >
-          <RotatingText
-            texts={["Me", "MySelf", "and I"]}
-            initial={initial}
-            animate={animate}
-            exit={exit}
-            rotationInterval={2000}
-            staggerFrom="last"
-            staggerDuration={0.025}
-            transition={{ type: "spring", damping: 30, stiffness: 400 }}
-            mainClassName="inline-block"
-            splitLevelClassName="overflow-hidden"
-          />
-        </motion.div>
-      </motion.div>
-    </div>
+              className="flex gap-2 text-3xl md:text-4xl font-bold mb-8"
+              layout
+              transition={{ layout: { duration: 0.5,
+            ease: [0.25, 0.8, 0.25, 1], } }}
+            >
+              <motion.span layout>About</motion.span>
+              <motion.div
+                layout
+                className="inline-block px-1 bg-main text-main-dark rounded-lg text-center"
+              >
+                <RotatingText
+                  texts={["Me", "MySelf", "and I"]}
+                  initial={initial}
+                  animate={animate}
+                  exit={exit}
+                  rotationInterval={2000}
+                  staggerFrom="last"
+                  staggerDuration={0.025}
+                  transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                  mainClassName="inline-block"
+                  splitLevelClassName="overflow-hidden"
+                />
+              </motion.div>
+            </motion.div>
+          </div>
 
           {/* Two Column Layout (My Journey + My Philosophy) */}
           <div className="flex flex-col md:flex-row gap-10">
