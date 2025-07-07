@@ -67,7 +67,7 @@ const About: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex">
+          <div className="flex justify-center">
             <motion.div
         className="flex gap-2 text-3xl md:text-4xl font-bold"
         layout
@@ -77,7 +77,7 @@ const About: React.FC = () => {
         <motion.span layout>About</motion.span>
         <motion.div
           layout
-          className="inline-block px-3 py-1 bg-main text-main-dark rounded-lg text-center"
+          className="inline-block px-1 bg-main text-main-dark rounded-lg text-center"
         >
           <RotatingText
             texts={["Me", "MySelf", "and I"]}
