@@ -155,7 +155,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   
       const articles: NewsArticle[] = result.articles
   
-      for (const [index, article] of articles.entries()) {
+      for (const article of articles.entries()) {
         const slug = slugify(article.title)
   
         // Skip duplicates
