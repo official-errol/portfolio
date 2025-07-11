@@ -48,7 +48,7 @@ const AdminDashboard: React.FC = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:static z-40 bg-white border-r border-gray-200 w-64 p-6 h-full md:h-screen transition-transform duration-300
+        className={`fixed md:static z-40 bg-white border-r border-gray-200 w-72 p-6 h-full md:h-screen transition-transform duration-300
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}
       >
         <div className="flex flex-col justify-between h-full">
