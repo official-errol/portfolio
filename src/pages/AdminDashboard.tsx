@@ -11,7 +11,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 
-// Lucide (ShadCN-style) icons
+// Lucide icons (like ShadCN)
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const AdminDashboard: React.FC = () => {
@@ -53,8 +53,8 @@ const AdminDashboard: React.FC = () => {
       {/* Sidebar */}
       <aside
         className={`fixed md:static z-40 bg-white border-r border-gray-200 flex-shrink-0 h-full md:h-screen transition-all duration-300 overflow-hidden
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
-        ${isSidebarCollapsed ? 'w-16' : 'w-72'}`}
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
+          ${isSidebarCollapsed ? 'w-16 min-w-[4rem]' : 'w-72'}`}
       >
         <div className="flex flex-col justify-between h-full p-4">
           {/* Collapse Toggle */}
@@ -93,7 +93,7 @@ const AdminDashboard: React.FC = () => {
                     : 'text-gray-600 bg-white'
                 }`}
               >
-                <PencilSquareIcon className="h-5 w-5" />
+                <PencilSquareIcon className="h-5 w-5 flex-shrink-0" />
                 {!isSidebarCollapsed && <span>Blog Editor</span>}
               </button>
 
@@ -108,7 +108,7 @@ const AdminDashboard: React.FC = () => {
                     : 'text-gray-600 bg-white'
                 }`}
               >
-                <FolderIcon className="h-5 w-5" />
+                <FolderIcon className="h-5 w-5 flex-shrink-0" />
                 {!isSidebarCollapsed && <span>Other Section</span>}
               </button>
             </nav>
@@ -123,7 +123,7 @@ const AdminDashboard: React.FC = () => {
               transition-all duration-150 [box-shadow:0_6px_0_0_#e11d48,0_10px_0_0_#e11d4866]
               border-b-[1px] border-red-400 mt-6 md:mt-0"
           >
-            <ArrowRightOnRectangleIcon className="h-5 w-5" />
+            <ArrowRightOnRectangleIcon className="h-5 w-5 flex-shrink-0" />
             {!isSidebarCollapsed && <span>Logout</span>}
           </button>
         </div>
