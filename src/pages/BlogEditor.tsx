@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import type { DevToArticle } from '../types/types'
 import type { ChangeEvent, DragEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
@@ -52,25 +51,10 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     if (localStorage.getItem('isAdminAuthenticated') !== 'true') {
       navigate('/')
     } else {
-      console.log('✅ Authenticated: running fetch logic')
-  
-      const runInitialFetch = async () => {
-        const now = Date.now()
-        const lastFetched = localStorage.getItem('newsapi_last_fetched')
-        const oneDay = 1000 * 60 * 60 * 24
-  
-        if (!lastFetched || now - parseInt(lastFetched) > oneDay) {
-          console.log('📰 Fetching news from NewsAPI...')
-          await fetchAndStoreNewsArticles()
-          localStorage.setItem('newsapi_last_fetched', now.toString())
-        } else {
-          console.log('🕒 Skipping NewsAPI fetch (cached)')
-        }
-  
+      const fetchData = async () => {
         await fetchPosts()
       }
-  
-      runInitialFetch()
+      fetchData()
     }
   }, [])
 
@@ -140,59 +124,6 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   const removeMedia = () => {
     setMediaUrl('')
     setMediaType('')
-  }
-  
-  const fetchAndStoreNewsArticles = async () => {
-    try {
-      // Step 1: Fetch from dev.to API
-      const response = await fetch(
-        '/dev-to-api/api/articles/me/published?per_page=10&tag=technology'
-      );
-  
-      // Step 2: Check if the request worked
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-  
-      // Step 3: Get JSON data
-      const articles: DevToArticle[] = await response.json();
-  
-      // Step 4: Save each article to Supabase
-      for (const article of articles) {
-        const slug = article.title
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/(^-|-$)/g, '');
-  
-        // Check if article already exists
-        const { data: existing } = await supabase
-          .from('posts')
-          .select('id')
-          .eq('slug', slug)
-          .maybeSingle();
-  
-        // If not, save it
-        if (!existing) {
-          await supabase.from('posts').insert([
-            {
-              title: article.title,
-              slug,
-              content: article.body_markdown || 'No content.',
-              author: article.user?.name || article.user?.username || 'dev.to',
-              category: 'Technology',
-              tags: article.tag_list || ['technology'],
-              media_url: article.cover_image || '',
-              media_type: article.cover_image ? 'image' : undefined,
-              created_at: article.published_at,
-            },
-          ]);
-        }
-      }
-  
-      console.log('✅ Articles saved successfully!');
-    } catch (error) {
-      console.error('❌ Failed to fetch/save articles:', error);
-    }
   }
   
   const savePost = async () => {
