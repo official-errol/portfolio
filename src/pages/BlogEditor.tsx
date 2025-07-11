@@ -60,7 +60,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   
         if (!lastFetched || now - parseInt(lastFetched) > oneDay) {
           console.log('📰 Fetching news from NewsAPI...')
-          await fetchAndStoreNewsArticles()
+          await fetchAndStoreDevToArticles()
           localStorage.setItem('newsapi_last_fetched', now.toString())
         } else {
           console.log('🕒 Skipping NewsAPI fetch (cached)')
