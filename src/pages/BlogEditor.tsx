@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { DevToArticle } from '../types/types'
+import type { DevToArticle } from '../types/types'
 import type { ChangeEvent, DragEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
