@@ -51,10 +51,23 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     if (localStorage.getItem('isAdminAuthenticated') !== 'true') {
       navigate('/')
     } else {
-      const fetchData = async () => {
-        await fetchPosts()
-      }
-      fetchData()
+      const runInitialFetch = async () => {
+        const now = Date.now();
+        const lastFetched = localStorage.getItem('newsapi_last_fetched');
+        const oneDay = 1000 * 60 * 60 * 24;
+  
+        if (!lastFetched || now - parseInt(lastFetched) > oneDay) {
+          console.log('📰 Fetching Dev.to technology blogs...');
+          await fetchAndStoreNewsArticles();
+          localStorage.setItem('newsapi_last_fetched', now.toString());
+        } else {
+          console.log('🕒 Skipping Dev.to fetch (cached)');
+        }
+  
+        await fetchPosts();
+      };
+  
+      runInitialFetch();
     }
   }, [])
 
@@ -124,6 +137,53 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   const removeMedia = () => {
     setMediaUrl('')
     setMediaType('')
+  }
+
+  const fetchAndStoreNewsArticles = async () => {
+    try {
+      const response = await fetch('https://acyznbhlahvuzrjjrlyj.supabase.co/functions/v1/fetch-devto', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: 'Functions' })
+      });
+  
+      if (!response.ok) throw new Error(`Status ${response.status}`);
+  
+      const articles = await response.json();
+  
+      for (const article of articles) {
+        const slug = article.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  
+        const { data: existing } = await supabase
+          .from('posts')
+          .select('id')
+          .eq('slug', slug)
+          .maybeSingle();
+  
+        if (!existing) {
+          await supabase.from('posts').insert([
+            {
+              title: article.title,
+              slug,
+              content: article.body_markdown || 'No content.',
+              author: article.user?.name || article.user?.username || 'dev.to',
+              category: 'Technology',
+              tags: article.tag_list || ['technology'],
+              media_url: article.cover_image || '',
+              media_type: article.cover_image ? 'image' : undefined,
+              created_at: article.published_at,
+            },
+          ]);
+        }
+      }
+  
+      console.log('✅ Dev.to articles saved to Supabase.');
+    } catch (error) {
+      console.error('❌ Failed to fetch/save Dev.to articles:', error);
+    }
   }
   
   const savePost = async () => {
