@@ -57,20 +57,24 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   const contentRef = useRef<HTMLDivElement | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   
+  const runInitialFetch = async () => {
+    const now = Date.now()
+    const lastFetched = localStorage.getItem('newsapi_last_fetched')
+    const oneDay = 1000 * 60 * 60 * 24
+  
+    if (!lastFetched || now - parseInt(lastFetched) > oneDay) {
+      await fetchAndStoreNewsArticles()
+      localStorage.setItem('newsapi_last_fetched', now.toString())
+    }
+  
+    await fetchPosts()
+  }
+  
   useEffect(() => {
     if (localStorage.getItem('isAdminAuthenticated') !== 'true') {
       navigate('/')
     } else {
-      const now = Date.now()
-      const lastFetched = localStorage.getItem('newsapi_last_fetched')
-      const oneDay = 1000 * 60 * 60 * 24 // 24 hours
-  
-      if (!lastFetched || now - parseInt(lastFetched) > oneDay) {
-        fetchAndStoreNewsArticles()
-        localStorage.setItem('newsapi_last_fetched', now.toString())
-      }
-  
-      fetchPosts()
+      runInitialFetch()
     }
   }, [])
 
@@ -179,6 +183,8 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
           }
   
           await supabase.from('posts').insert([newPost])
+          console.log('Inserting article:', article.title)
+          console.log('Inserted:', newPost.title)
         }
       }
     } catch (error) {
