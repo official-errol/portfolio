@@ -1,6 +1,16 @@
 # Portfolio Documentation for Official Errol
 
+![GitHub Repo stars](https://img.shields.io/github/stars/official-errol/portfolio?style=social)
+![GitHub last commit](https://img.shields.io/github/last-commit/official-errol/portfolio)
+![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)
+
 This README file provides a detailed overview of the portfolio project hosted at [official-errol/portfolio](https://github.com/official-errol/portfolio). It includes information about the tech stack, project details, and design elements.
+
+---
+
+## Live Demo
+
+🌐 [Visit Live Portfolio](https://errolsolomon.me)
 
 ---
 
@@ -22,7 +32,10 @@ The following technologies were used to build this portfolio:
   - ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white)
 
 - **Backend**: 
-  - (If applicable, include backend technologies here)
+  - ![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=flat&logo=supabase&logoColor=white) — used for authentication, database, and storage
+  - **PostgreSQL** — via Supabase for blog content and user data
+  - **Supabase Auth** — for secure user session management
+  - **Supabase Storage** — for handling media assets (e.g., blog images)
 
 - **Deployment**:
   - ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)
