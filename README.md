@@ -1,4 +1,3 @@
-```markdown
 # Portfolio Documentation for Official Errol
 
 This README file provides a detailed overview of the portfolio project hosted at [official-errol/portfolio](https://github.com/official-errol/portfolio). It includes information about the tech stack, project details, and design elements.
@@ -82,4 +81,3 @@ To run this project locally, follow these steps:
 ## Contact
 
 - For inquiries, please reach out via email: [mr.errolsolomon@gmail.com](mailto:mr.errolsolomon@gmail.com)
-```
