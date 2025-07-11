@@ -156,7 +156,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   
     try {
       const response = await fetch(
-        `https://newsapi.org/v2/top-headlines?category=technology&language=en&pageSize=10&apiKey=${newsApiKey}`
+        `https://newsapi.org/v2/everything?q=technology&language=en&pageSize=10&apiKey=${newsApiKey}`
       )
   
       console.log('🔄 NewsAPI response status:', response.status)
