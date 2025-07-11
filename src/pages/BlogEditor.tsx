@@ -141,65 +141,34 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     setMediaType('')
   }
   
-  const fetchAndStoreNewsArticles = async () => {
-    const gnewsApiKey = 'badb914f09161ed7ab7183813f16008e'
-    const endpoint = `https://gnews.io/api/v4/top-headlines?lang=en&topic=technology&token=${gnewsApiKey}`
-  
+  const fetchAndStoreDevToArticles = async () => {
     try {
-      const response = await fetch(endpoint)
-      console.log('🔄 GNews API response status:', response.status)
-  
-      if (!response.ok) {
-        console.error('❌ Failed to fetch GNews articles:', response.statusText)
-        return
-      }
-  
-      const result = await response.json()
-      if (!result.articles || !Array.isArray(result.articles)) {
-        console.warn('⚠️ No articles returned from GNews')
-        return
-      }
-  
-      for (const article of result.articles) {
+      const response = await fetch('https://dev.to/api/articles?tag=technology&per_page=10')
+      const articles = await response.json()
+
+      for (const article of articles) {
         const slug = slugify(article.title)
-  
-        const { data: existing, error: checkError } = await supabase
-          .from('posts')
-          .select('id')
-          .eq('slug', slug)
-          .maybeSingle()
-  
-        if (checkError) {
-          console.error('❌ Error checking existing post:', checkError.message)
-          continue
-        }
-  
+
+        const { data: existing } = await supabase.from('posts').select('id').eq('slug', slug).maybeSingle()
         if (!existing) {
           const newPost: Partial<Post> = {
             title: article.title,
             slug,
-            content: article.content || article.description || 'No content.',
-            author: article.source.name || 'GNews Source',
+            content: article.body_markdown,
+            author: article.user.name,
             category: 'Technology',
-            tags: ['technology'],
-            media_url: article.image || '',
-            media_type: article.image ? 'image' : undefined,
-            created_at: article.publishedAt,
+            tags: article.tag_list,
+            media_url: article.cover_image || '',
+            media_type: article.cover_image ? 'image' : undefined,
+            created_at: article.published_at,
           }
-  
-          const { error: insertError } = await supabase.from('posts').insert([newPost])
-  
-          if (insertError) {
-            console.error('❌ Error inserting post:', insertError.message)
-          } else {
-            console.log('✅ Inserted post:', newPost.title)
-          }
-        } else {
-          console.log('⏩ Skipping existing post:', slug)
+
+          const { error } = await supabase.from('posts').insert([newPost])
+          if (error) console.error('❌ Error inserting post:', error.message)
         }
       }
     } catch (error) {
-      console.error('❌ GNews fetch failed:', error)
+      console.error('❌ Dev.to API fetch failed:', error)
     }
   }
   
