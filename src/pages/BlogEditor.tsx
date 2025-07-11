@@ -23,6 +23,16 @@ interface Post {
   created_at: string
 }
 
+interface NewsArticle {
+  title: string
+  description: string
+  author: string
+  url: string
+  urlToImage: string
+  publishedAt: string
+  source: { name: string }
+}
+
 interface BlogEditorProps {
   editingPostId: string | null
   onPostSelect: (postId: string) => void
@@ -46,10 +56,14 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   const [saving, setSaving] = useState(false)
   const contentRef = useRef<HTMLDivElement | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
-
+  
   useEffect(() => {
-    if (localStorage.getItem('isAdminAuthenticated') !== 'true') navigate('/')
-    else fetchPosts()
+    if (localStorage.getItem('isAdminAuthenticated') !== 'true') {
+      navigate('/')
+    } else {
+      fetchAndStoreNewsArticles()
+      fetchPosts()
+    }
   }, [])
 
   useEffect(() => {
@@ -118,6 +132,50 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   const removeMedia = () => {
     setMediaUrl('')
     setMediaType('')
+  }
+  
+  const fetchAndStoreNewsArticles = async () => {
+    const newsApiKey = '3cdd336033984c55a147cd4c02a88fc3'
+  
+    try {
+      const response = await fetch(
+        `https://newsapi.org/v2/top-headlines?category=technology&language=en&pageSize=10&apiKey=${newsApiKey}`
+      )
+      const result = await response.json()
+  
+      if (!result.articles) return
+  
+      const articles: NewsArticle[] = result.articles
+  
+      for (const [index, article] of articles.entries()) {
+        const slug = slugify(article.title)
+  
+        // Skip duplicates
+        const { data: existing } = await supabase
+          .from('posts')
+          .select('id')
+          .eq('slug', slug)
+          .maybeSingle()
+  
+        if (!existing) {
+          const newPost: Partial<Post> = {
+            title: article.title,
+            slug,
+            content: article.description || 'No content.',
+            author: article.author || article.source.name || 'News Source',
+            category: 'Technology',
+            tags: ['technology'],
+            media_url: article.urlToImage || '',
+            media_type: article.urlToImage ? 'image' : undefined,
+            created_at: article.publishedAt,
+          }
+  
+          await supabase.from('posts').insert([newPost])
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch NewsAPI articles:', error)
+    }
   }
 
   const savePost = async () => {
