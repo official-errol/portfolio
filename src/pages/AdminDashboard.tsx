@@ -54,7 +54,7 @@ const AdminDashboard: React.FC = () => {
       <aside
         className={`fixed md:static z-40 bg-white border-r border-gray-200 flex-shrink-0 h-full md:h-screen transition-all duration-300 overflow-hidden
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
-          ${isSidebarCollapsed ? 'w-28 min-w-[4rem]' : 'w-72'}`}
+          ${isSidebarCollapsed ? 'w-26 min-w-[4rem]' : 'w-72'}`}
       >
         <div className="flex flex-col justify-between h-full p-4">
           {/* Collapse Toggle */}
