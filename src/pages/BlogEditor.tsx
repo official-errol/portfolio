@@ -142,48 +142,56 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     setMediaType('')
   }
   
-  const fetchAndStoreNewsArticles = async (): Promise<void> => {
+  const fetchAndStoreNewsArticles = async () => {
     try {
-      const response = await fetch('/dev-to-api/api/articles/me/published?per_page=10&tag=technology')
-      
+      // Step 1: Fetch from dev.to API
+      const response = await fetch(
+        '/dev-to-api/api/articles/me/published?per_page=10&tag=technology'
+      );
+  
+      // Step 2: Check if the request worked
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      
-      const articles: DevToArticle[] = await response.json()
-      
-      // Process and store articles in Supabase
+  
+      // Step 3: Get JSON data
+      const articles: DevToArticle[] = await response.json();
+  
+      // Step 4: Save each article to Supabase
       for (const article of articles) {
-        const slug = slugify(article.title)
-        
+        const slug = article.title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '');
+  
+        // Check if article already exists
         const { data: existing } = await supabase
           .from('posts')
           .select('id')
           .eq('slug', slug)
-          .maybeSingle()
-        
+          .maybeSingle();
+  
+        // If not, save it
         if (!existing) {
-          const newPost = {
-            title: article.title,
-            slug,
-            content: article.body_markdown || 'No content.',
-            author: article.user?.name || article.user?.username || 'dev.to',
-            category: 'Technology',
-            tags: article.tag_list || ['technology'],
-            media_url: article.cover_image || '',
-            media_type: article.cover_image ? 'image' : undefined,
-            created_at: article.published_at,
-          }
-          
-          await supabase.from('posts').insert([newPost])
+          await supabase.from('posts').insert([
+            {
+              title: article.title,
+              slug,
+              content: article.body_markdown || 'No content.',
+              author: article.user?.name || article.user?.username || 'dev.to',
+              category: 'Technology',
+              tags: article.tag_list || ['technology'],
+              media_url: article.cover_image || '',
+              media_type: article.cover_image ? 'image' : undefined,
+              created_at: article.published_at,
+            },
+          ]);
         }
       }
+  
+      console.log('✅ Articles saved successfully!');
     } catch (error) {
-      console.error('❌ Failed to fetch dev.to articles:', error)
-      if (error instanceof Error) {
-        throw new Error(`Failed to fetch articles: ${error.message}`)
-      }
-      throw new Error('Failed to fetch articles')
+      console.error('❌ Failed to fetch/save articles:', error);
     }
   }
   
