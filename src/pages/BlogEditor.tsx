@@ -142,16 +142,25 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   }
   
   const fetchAndStoreNewsArticles = async () => {
-    try {
-      const response = await fetch('https://dev.to/api/articles?tag=technology&per_page=10')
-      const articles = await response.json()
+    const gnewsApiKey = 'badb914f09161ed7ab7183813f16008e'
+    const endpoint = `https://gnews.io/api/v4/top-headlines?lang=en&topic=technology&token=${gnewsApiKey}`
   
-      if (!Array.isArray(articles) || articles.length === 0) {
-        console.warn('⚠️ No articles returned from Dev.to')
+    try {
+      const response = await fetch(endpoint)
+      console.log('🔄 GNews API response status:', response.status)
+  
+      if (!response.ok) {
+        console.error('❌ Failed to fetch GNews articles:', response.statusText)
         return
       }
   
-      for (const article of articles) {
+      const result = await response.json()
+      if (!result.articles || !Array.isArray(result.articles)) {
+        console.warn('⚠️ No articles returned from GNews')
+        return
+      }
+  
+      for (const article of result.articles) {
         const slug = slugify(article.title)
   
         const { data: existing, error: checkError } = await supabase
@@ -169,13 +178,13 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
           const newPost: Partial<Post> = {
             title: article.title,
             slug,
-            content: article.description || article.body_markdown || 'No content.',
-            author: article.user?.name || 'Dev.to Author',
+            content: article.content || article.description || 'No content.',
+            author: article.source.name || 'GNews Source',
             category: 'Technology',
-            tags: article.tag_list || ['technology'],
-            media_url: article.cover_image || '',
-            media_type: article.cover_image ? 'image' : undefined,
-            created_at: article.published_at || new Date().toISOString(),
+            tags: ['technology'],
+            media_url: article.image || '',
+            media_type: article.image ? 'image' : undefined,
+            created_at: article.publishedAt,
           }
   
           const { error: insertError } = await supabase.from('posts').insert([newPost])
@@ -190,7 +199,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
         }
       }
     } catch (error) {
-      console.error('❌ Failed to fetch Dev.to articles:', error)
+      console.error('❌ GNews fetch failed:', error)
     }
   }
   
