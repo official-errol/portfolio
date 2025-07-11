@@ -1,54 +1,85 @@
-# React + TypeScript + Vite
+```markdown
+# Portfolio Documentation for Official Errol
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This README file provides a detailed overview of the portfolio project hosted at [official-errol/portfolio](https://github.com/official-errol/portfolio). It includes information about the tech stack, project details, and design elements.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Overview
 
-## Expanding the ESLint configuration
+- **Project Name**: Portfolio
+- **Description**: A personal portfolio website showcasing projects, skills, and experiences. Built using modern web technologies to provide a responsive and interactive user experience.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Tech Stack
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The following technologies were used to build this portfolio:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Frontend**:
+  - ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
+  - ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
+  - ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
+  - ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+- **Backend**: 
+  - (If applicable, include backend technologies here)
+
+- **Deployment**:
+  - ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)
+
+---
+
+## Features
+
+- **Responsive Design**: The website is designed to be fully responsive, ensuring a seamless experience on both desktop and mobile devices.
+- **Interactive UI**: Utilizes React for a dynamic user interface with smooth transitions and state management.
+- **Type Safety**: TypeScript is used to enhance code quality and maintainability.
+- **Fast Development**: Vite provides a fast development environment with hot module replacement.
+
+---
+
+## Installation
+
+To run this project locally, follow these steps:
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/official-errol/portfolio.git
+   ```
+
+2. **Navigate to the project directory**:
+   ```bash
+   cd portfolio
+   ```
+
+3. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+4. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser** and go to `http://localhost:3000` to view the portfolio.
+
+---
+
+## Contributing
+
+- Contributions are welcome! Please fork the repository and submit a pull request for any improvements or features.
+
+---
+
+## License
+
+- This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## Contact
+
+- For inquiries, please reach out via email: [mr.errolsolomon@gmail.com](mailto:mr.errolsolomon@gmail.com)
 ```
