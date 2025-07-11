@@ -57,23 +57,28 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   const contentRef = useRef<HTMLDivElement | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   
-  const runInitialFetch = async () => {
-    const now = Date.now()
-    const lastFetched = localStorage.getItem('newsapi_last_fetched')
-    const oneDay = 1000 * 60 * 60 * 24
-  
-    if (!lastFetched || now - parseInt(lastFetched) > oneDay) {
-      await fetchAndStoreNewsArticles()
-      localStorage.setItem('newsapi_last_fetched', now.toString())
-    }
-  
-    await fetchPosts()
-  }
-  
   useEffect(() => {
     if (localStorage.getItem('isAdminAuthenticated') !== 'true') {
       navigate('/')
     } else {
+      console.log('✅ Authenticated: running fetch logic')
+  
+      const runInitialFetch = async () => {
+        const now = Date.now()
+        const lastFetched = localStorage.getItem('newsapi_last_fetched')
+        const oneDay = 1000 * 60 * 60 * 24
+  
+        if (!lastFetched || now - parseInt(lastFetched) > oneDay) {
+          console.log('📰 Fetching news from NewsAPI...')
+          await fetchAndStoreNewsArticles()
+          localStorage.setItem('newsapi_last_fetched', now.toString())
+        } else {
+          console.log('🕒 Skipping NewsAPI fetch (cached)')
+        }
+  
+        await fetchPosts()
+      }
+  
       runInitialFetch()
     }
   }, [])
@@ -153,28 +158,38 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
       const response = await fetch(
         `https://newsapi.org/v2/top-headlines?category=technology&language=en&pageSize=10&apiKey=${newsApiKey}`
       )
-      const result = await response.json()
   
-      if (!result.articles) return
+      console.log('🔄 NewsAPI response status:', response.status)
+  
+      const result = await response.json()
+      if (!result.articles) {
+        console.warn('⚠️ No articles returned from NewsAPI')
+        return
+      }
   
       const articles: NewsArticle[] = result.articles
   
       for (const article of articles) {
+        console.log('📝 Checking article:', article.title)
         const slug = slugify(article.title)
   
-        // Skip duplicates
-        const { data: existing } = await supabase
+        const { data: existing, error: checkError } = await supabase
           .from('posts')
           .select('id')
           .eq('slug', slug)
           .maybeSingle()
+  
+        if (checkError) {
+          console.error('❌ Error checking existing post:', checkError.message)
+          continue
+        }
   
         if (!existing) {
           const newPost: Partial<Post> = {
             title: article.title,
             slug,
             content: article.description || 'No content.',
-            author: article.author || article.source.name || 'News Source',
+            author: article.author || article.source?.name || 'News Source',
             category: 'Technology',
             tags: ['technology'],
             media_url: article.urlToImage || '',
@@ -182,16 +197,22 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
             created_at: article.publishedAt,
           }
   
-          await supabase.from('posts').insert([newPost])
-          console.log('Inserting article:', article.title)
-          console.log('Inserted:', newPost.title)
+          const { error: insertError } = await supabase.from('posts').insert([newPost])
+  
+          if (insertError) {
+            console.error('❌ Error inserting post:', insertError.message)
+          } else {
+            console.log('✅ Inserted post:', newPost.title)
+          }
+        } else {
+          console.log('⏩ Skipping existing post:', slug)
         }
       }
     } catch (error) {
-      console.error('Failed to fetch NewsAPI articles:', error)
+      console.error('❌ Failed to fetch NewsAPI articles:', error)
     }
   }
-
+  
   const savePost = async () => {
     setSaving(true)
     const slug = slugify(title)
