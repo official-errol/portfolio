@@ -152,25 +152,16 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   }
   
   const fetchAndStoreNewsArticles = async () => {
-    const newsApiKey = '3cdd336033984c55a147cd4c02a88fc3'
-  
     try {
-      const response = await fetch(
-        `https://newsapi.org/v2/everything?q=technology&language=en&pageSize=10&apiKey=${newsApiKey}`
-      )
+      const response = await fetch('https://dev.to/api/articles?tag=technology&per_page=10')
+      const articles = await response.json()
   
-      console.log('🔄 NewsAPI response status:', response.status)
-  
-      const result = await response.json()
-      if (!result.articles) {
-        console.warn('⚠️ No articles returned from NewsAPI')
+      if (!Array.isArray(articles) || articles.length === 0) {
+        console.warn('⚠️ No articles returned from Dev.to')
         return
       }
   
-      const articles: NewsArticle[] = result.articles
-  
       for (const article of articles) {
-        console.log('📝 Checking article:', article.title)
         const slug = slugify(article.title)
   
         const { data: existing, error: checkError } = await supabase
@@ -188,13 +179,13 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
           const newPost: Partial<Post> = {
             title: article.title,
             slug,
-            content: article.description || 'No content.',
-            author: article.author || article.source?.name || 'News Source',
+            content: article.description || article.body_markdown || 'No content.',
+            author: article.user?.name || 'Dev.to Author',
             category: 'Technology',
-            tags: ['technology'],
-            media_url: article.urlToImage || '',
-            media_type: article.urlToImage ? 'image' : undefined,
-            created_at: article.publishedAt,
+            tags: article.tag_list || ['technology'],
+            media_url: article.cover_image || '',
+            media_type: article.cover_image ? 'image' : undefined,
+            created_at: article.published_at || new Date().toISOString(),
           }
   
           const { error: insertError } = await supabase.from('posts').insert([newPost])
@@ -209,7 +200,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
         }
       }
     } catch (error) {
-      console.error('❌ Failed to fetch NewsAPI articles:', error)
+      console.error('❌ Failed to fetch Dev.to articles:', error)
     }
   }
   
