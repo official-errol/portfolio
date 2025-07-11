@@ -146,7 +146,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
   
     try {
       const response = await fetch(
-        `https://corsproxy.io/?https://dev.to/api/articles/me/published?per_page=10&tag=technology`,
+        `https://corsproxy.io/?url=https://dev.to/api/articles/me/published?per_page=10&tag=technology`,
         {
           headers: {
             'api-key': devApiKey,
