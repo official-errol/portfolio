@@ -145,16 +145,20 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     const devApiKey = 'LWqUda1eLSJpBr1St4xmhS7d' // Replace with your actual API key
   
     try {
+      // Try a different CORS proxy or format the URL differently
       const response = await fetch(
-        `https://corsproxy.io/?url=https://dev.to/api/articles/me/published?per_page=10&tag=technology`,
+        `https://api.allorigins.win/get?url=${encodeURIComponent('https://dev.to/api/articles/me/published?per_page=10&tag=technology')}`,
         {
           headers: {
             'api-key': devApiKey,
-          },
+          }
         }
-      )
-  
-      const articles = await response.json()
+      );
+      
+      if (!response.ok) throw new Error('Network response was not ok');
+      
+      const data = await response.json();
+      const articles = JSON.parse(data.contents); // AllOrigins wraps the response
   
       for (const article of articles) {
         const slug = slugify(article.title)
