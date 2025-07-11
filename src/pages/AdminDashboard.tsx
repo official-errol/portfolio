@@ -9,9 +9,10 @@ import {
   ArrowRightOnRectangleIcon,
   Bars3Icon,
   XMarkIcon,
-  ChevronDoubleLeftIcon,
-  ChevronDoubleRightIcon,
 } from '@heroicons/react/24/outline'
+
+// Lucide (ShadCN-style) icons
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate()
@@ -51,12 +52,12 @@ const AdminDashboard: React.FC = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:static z-40 bg-white border-r border-gray-200 flex-shrink-0 h-full md:h-screen transition-all duration-300
+        className={`fixed md:static z-40 bg-white border-r border-gray-200 flex-shrink-0 h-full md:h-screen transition-all duration-300 overflow-hidden
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
         ${isSidebarCollapsed ? 'w-16' : 'w-72'}`}
       >
-        <div className="flex flex-col justify-between h-full">
-          {/* Collapse Toggle (Desktop Only) */}
+        <div className="flex flex-col justify-between h-full p-4">
+          {/* Collapse Toggle */}
           <div>
             <div className="hidden md:flex justify-end mb-4">
               <button
@@ -64,19 +65,21 @@ const AdminDashboard: React.FC = () => {
                 className="text-gray-500 hover:text-gray-700"
               >
                 {isSidebarCollapsed ? (
-                  <ChevronDoubleRightIcon className="h-5 w-5" />
+                  <ChevronRight className="h-5 w-5" />
                 ) : (
-                  <ChevronDoubleLeftIcon className="h-5 w-5" />
+                  <ChevronLeft className="h-5 w-5" />
                 )}
               </button>
             </div>
 
+            {/* Title */}
             <div className={`hidden md:block mb-6 ${isSidebarCollapsed ? 'text-center' : ''}`}>
               <h2 className={`text-2xl font-bold text-main-dark ${isSidebarCollapsed ? 'text-sm' : ''}`}>
                 {isSidebarCollapsed ? 'SM' : 'Site Manager'}
               </h2>
             </div>
 
+            {/* Navigation */}
             <nav className="space-y-3">
               <button
                 onClick={() => {
@@ -111,6 +114,7 @@ const AdminDashboard: React.FC = () => {
             </nav>
           </div>
 
+          {/* Logout */}
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 w-full py-2 px-3 text-sm text-white bg-red-500 rounded-lg cursor-pointer select-none
@@ -125,7 +129,7 @@ const AdminDashboard: React.FC = () => {
         </div>
       </aside>
 
-      {/* Overlay on mobile when sidebar is open */}
+      {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
