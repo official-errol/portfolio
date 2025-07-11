@@ -23,16 +23,6 @@ interface Post {
   created_at: string
 }
 
-interface NewsArticle {
-  title: string
-  description: string
-  author: string
-  url: string
-  urlToImage: string
-  publishedAt: string
-  source: { name: string }
-}
-
 interface BlogEditorProps {
   editingPostId: string | null
   onPostSelect: (postId: string) => void
