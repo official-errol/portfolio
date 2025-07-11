@@ -108,7 +108,7 @@ const AdminDashboard: React.FC = () => {
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
-          className="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
+          className="fixed inset-0 bg-[rgba(0,0,0,0.3)] z-30 md:hidden"
         />
       )}
 
