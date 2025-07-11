@@ -141,34 +141,48 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     setMediaType('')
   }
   
-  const fetchAndStoreDevToArticles = async () => {
+  const fetchAndStoreNewsArticles = async () => {
+    const devApiKey = 'LWqUda1eLSJpBr1St4xmhS7d' // Replace with your actual API key
+  
     try {
-      const response = await fetch('https://dev.to/api/articles?tag=technology&per_page=10')
+      const response = await fetch(
+        `https://dev.to/api/articles/me/published?per_page=10&tag=technology`,
+        {
+          headers: {
+            'api-key': devApiKey,
+          },
+        }
+      )
+  
       const articles = await response.json()
-
+  
       for (const article of articles) {
         const slug = slugify(article.title)
-
-        const { data: existing } = await supabase.from('posts').select('id').eq('slug', slug).maybeSingle()
+  
+        const { data: existing } = await supabase
+          .from('posts')
+          .select('id')
+          .eq('slug', slug)
+          .maybeSingle()
+  
         if (!existing) {
           const newPost: Partial<Post> = {
             title: article.title,
             slug,
-            content: article.body_markdown,
-            author: article.user.name,
+            content: article.body_markdown || 'No content.',
+            author: article.user?.name || article.user?.username || 'dev.to',
             category: 'Technology',
-            tags: article.tag_list,
+            tags: article.tag_list || ['technology'],
             media_url: article.cover_image || '',
             media_type: article.cover_image ? 'image' : undefined,
             created_at: article.published_at,
           }
-
-          const { error } = await supabase.from('posts').insert([newPost])
-          if (error) console.error('❌ Error inserting post:', error.message)
+  
+          await supabase.from('posts').insert([newPost])
         }
       }
     } catch (error) {
-      console.error('❌ Dev.to API fetch failed:', error)
+      console.error('❌ Failed to fetch dev.to articles:', error)
     }
   }
   
