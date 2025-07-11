@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { DevToArticle } from '../types/types'
 import type { ChangeEvent, DragEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabaseClient'
@@ -141,36 +142,28 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     setMediaType('')
   }
   
-  const fetchAndStoreNewsArticles = async () => {
-    const devApiKey = 'LWqUda1eLSJpBr1St4xmhS7d' // Replace with your actual API key
-  
+  const fetchAndStoreNewsArticles = async (): Promise<void> => {
     try {
-      // Try a different CORS proxy or format the URL differently
-      const response = await fetch(
-        `https://api.allorigins.win/get?url=${encodeURIComponent('https://dev.to/api/articles/me/published?per_page=10&tag=technology')}`,
-        {
-          headers: {
-            'api-key': devApiKey,
-          }
-        }
-      );
+      const response = await fetch('/dev-to-api/api/articles/me/published?per_page=10&tag=technology')
       
-      if (!response.ok) throw new Error('Network response was not ok');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
       
-      const data = await response.json();
-      const articles = JSON.parse(data.contents); // AllOrigins wraps the response
-  
+      const articles: DevToArticle[] = await response.json()
+      
+      // Process and store articles in Supabase
       for (const article of articles) {
         const slug = slugify(article.title)
-  
+        
         const { data: existing } = await supabase
           .from('posts')
           .select('id')
           .eq('slug', slug)
           .maybeSingle()
-  
+        
         if (!existing) {
-          const newPost: Partial<Post> = {
+          const newPost = {
             title: article.title,
             slug,
             content: article.body_markdown || 'No content.',
@@ -181,12 +174,16 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
             media_type: article.cover_image ? 'image' : undefined,
             created_at: article.published_at,
           }
-  
+          
           await supabase.from('posts').insert([newPost])
         }
       }
     } catch (error) {
       console.error('❌ Failed to fetch dev.to articles:', error)
+      if (error instanceof Error) {
+        throw new Error(`Failed to fetch articles: ${error.message}`)
+      }
+      throw new Error('Failed to fetch articles')
     }
   }
   
