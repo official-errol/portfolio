@@ -61,7 +61,15 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     if (localStorage.getItem('isAdminAuthenticated') !== 'true') {
       navigate('/')
     } else {
-      fetchAndStoreNewsArticles()
+      const now = Date.now()
+      const lastFetched = localStorage.getItem('newsapi_last_fetched')
+      const oneDay = 1000 * 60 * 60 * 24 // 24 hours
+  
+      if (!lastFetched || now - parseInt(lastFetched) > oneDay) {
+        fetchAndStoreNewsArticles()
+        localStorage.setItem('newsapi_last_fetched', now.toString())
+      }
+  
       fetchPosts()
     }
   }, [])
