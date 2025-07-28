@@ -9,8 +9,8 @@ const footerLinks = [
     href: "#about",
   },
   {
-    title: "Experience",
-    href: "#experience",
+    title: "Journey",
+    href: "#journey",
   },
   {
     title: "Projects",
@@ -27,7 +27,7 @@ const Footer = () => {
           <div className="flex items-center gap-2">
             <Image
               src="/logo.png"
-              alt="My Logo"
+              alt="Errol Solomon"
               width={32}
               height={32}
               priority
