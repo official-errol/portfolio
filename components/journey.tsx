@@ -32,7 +32,7 @@ const JourneyItem = ({
         <div>
           <h3 className="text-xl font-medium">{title}</h3>
           <div className="flex items-center gap-2 mt-1 text-sm">
-            <Calendar className="size-3" />
+            <Calendar className="size-4" />
             <span>{period}</span>
           </div>
         </div>
