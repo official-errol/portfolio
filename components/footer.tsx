@@ -32,7 +32,7 @@ const Footer = () => {
               height={32}
               priority
             />
-            <span className="font-bold text-lg tracking-tight">errol'solomon</span>
+            <span className="font-bold text-lg tracking-tight">errol&apos;solomon</span>
           </div>
 
           <ul className="mt-6 flex items-center gap-4 flex-wrap">
