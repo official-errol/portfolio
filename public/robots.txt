@@ -1,8 +1,0 @@
-User-agent: *
-Disallow: /dashboard
-Allow: /
-
-User-agent: Mediapartners-Google
-Disallow:
-
-Sitemap: https://errolsolomon.me/api/sitemap

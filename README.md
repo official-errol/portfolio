@@ -1,96 +1,57 @@
-# Portfolio Documentation for Official Errol
+# Beautiful Portfolio Template
 
-![GitHub Repo stars](https://img.shields.io/github/stars/official-errol/portfolio?style=social)
-![GitHub last commit](https://img.shields.io/github/last-commit/official-errol/portfolio)
-![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)
+A modern and responsive portfolio template built with Next.js, Tailwind CSS, and Shadcn UI, and Shadcn UI Blocks.
 
-This README file provides a detailed overview of the portfolio project hosted at [official-errol/portfolio](https://github.com/official-errol/portfolio). It includes information about the tech stack, project details, and design elements.
+## Demo
 
----
+[Live Demo](https://shadcn-portfolio-template.vercel.app/)
 
-## Live Demo
+## Preview
 
-🌐 [Visit Live Portfolio](https://errolsolomon.me)
-
----
-
-## Project Overview
-
-- **Project Name**: Portfolio
-- **Description**: A personal portfolio website showcasing projects, skills, and experiences. Built using modern web technologies to provide a responsive and interactive user experience.
-
----
-
-## Tech Stack
-
-The following technologies were used to build this portfolio:
-
-- **Frontend**:
-  - ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
-  - ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
-  - ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
-  - ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white)
-
-- **Backend**: 
-  - ![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=flat&logo=supabase&logoColor=white) — used for authentication, database, and storage
-  - **PostgreSQL** — via Supabase for blog content and user data
-  - **Supabase Auth** — for secure user session management
-  - **Supabase Storage** — for handling media assets (e.g., blog images)
-
-- **Deployment**:
-  - ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)
-
----
+![Preview](./public/preview.png)
 
 ## Features
 
-- **Responsive Design**: The website is designed to be fully responsive, ensuring a seamless experience on both desktop and mobile devices.
-- **Interactive UI**: Utilizes React for a dynamic user interface with smooth transitions and state management.
-- **Type Safety**: TypeScript is used to enhance code quality and maintainability.
-- **Fast Development**: Vite provides a fast development environment with hot module replacement.
+- 🎨 Modern and clean design
+- 📱 Fully responsive layout
+- 🎯 Built with Next.js 15
+- 💅 Styled with Tailwind CSS `4.0`
+- 🧩 Built with [Shadcn UI](https://ui.shadcn.com) and [Shadcn UI Blocks](https://shadcnui-blocks.com)
+- 🌙 Dark mode support
 
----
+## Getting Started
 
-## Installation
+1. Clone the repository:
 
-To run this project locally, follow these steps:
+```bash
+git clone https://github.com/akash3444/portfolio-template.git
+cd shadcn-ui-landing-page
+```
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/official-errol/portfolio.git
-   ```
+2. Install dependencies:
 
-2. **Navigate to the project directory**:
-   ```bash
-   cd portfolio
-   ```
+```bash
+npm install
+```
 
-3. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+3. Start the development server:
 
-4. **Run the development server**:
-   ```bash
-   npm run dev
-   ```
+```bash
+npm run dev
+```
 
-5. **Open your browser** and go to `http://localhost:3000` to view the portfolio.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
----
+## Customization
+
+1. Replace the placeholder images with your own content.
+2. Modify the text and styles in the components to match your brand and messaging.
+3. Add your own features and sections as needed.
+
+## Why this template?
+
+This project is a base template for a portfolio. It is built with Next.js, Tailwind CSS, Shadcn UI, and Shadcn UI Blocks. It is a great starting point for a portfolio. You can customized the content and media files as per your needs. It is not intended to be a complete solution for a portfolio. It is intended to be a starting point for a portfolio.
 
 ## Contributing
 
-- Contributions are welcome! Please fork the repository and submit a pull request for any improvements or features.
-
----
-
-## License
-
-- This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-## Contact
-
-- For inquiries, please reach out via email: [mr.errolsolomon@gmail.com](mailto:mr.errolsolomon@gmail.com)
+If you have any suggestions or improvements, please create an issue or submit a pull request.
