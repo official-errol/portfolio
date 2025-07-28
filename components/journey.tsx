@@ -60,7 +60,7 @@ const Journey = () => {
       technologies: ["Hardware", "Networking", "System Setup"],
     },
     {
-      title: "B.S. in Information Technology",
+      title: "B.S. in Computer Science",
       company: "College",
       period: "2021 – 2025",
       description:
