@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase with better error handling
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY, {
-  auth: { persistSession: false },
-  db: { schema: 'public' }
+  auth: { persistSession: false }
 });
 
 export async function POST(req) {
@@ -28,20 +26,41 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
-    // Create basic conversation context
-    const messages = [
+    // Save user message to Supabase (unlimited history)
+    const { error: userMsgError } = await supabase
+      .from('conversations')
+      .insert([{ 
+        device_id: body.deviceId, 
+        role: 'user', 
+        content: body.message 
+      }]);
+
+    if (userMsgError) throw userMsgError;
+
+    // Get ALL historical messages for this device
+    const { data: messages, error: messagesError } = await supabase
+      .from('conversations')
+      .select('role, content, created_at')
+      .eq('device_id', body.deviceId)
+      .order('created_at', { ascending: true }); // Oldest first
+
+    if (messagesError) throw messagesError;
+
+    // Build conversation context
+    const conversation = [
       {
         role: 'system',
         content: `You are a helpful assistant for ${process.env.SITE_DOMAIN || 'errolsolomon.me'}. 
-                 Be friendly and concise in your responses.`
+                 You remember everything the user tells you indefinitely. 
+                 Maintain context across all conversations.`
       },
-      {
-        role: 'user',
-        content: body.message
-      }
+      ...messages.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }))
     ];
 
-    // Call Groq API
+    // Call Groq API with full history
     const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -50,9 +69,9 @@ export async function POST(req) {
       },
       body: JSON.stringify({
         model: process.env.GROQ_MODEL || 'mixtral-8x7b',
-        messages,
+        messages: conversation,
         temperature: 0.7,
-        max_tokens: 150
+        max_tokens: 500 // Increased for longer context
       })
     });
 
@@ -65,13 +84,16 @@ export async function POST(req) {
     const groqData = await groqResponse.json();
     const reply = groqData.choices?.[0]?.message?.content || 'Sorry, I couldn\'t process that.';
 
-    // Log the conversation (simplified for now)
-    await supabase
+    // Save assistant response to Supabase
+    const { error: assistantMsgError } = await supabase
       .from('conversations')
-      .insert([
-        { device_id: body.deviceId, role: 'user', content: body.message },
-        { device_id: body.deviceId, role: 'assistant', content: reply }
-      ]);
+      .insert([{ 
+        device_id: body.deviceId, 
+        role: 'assistant', 
+        content: reply 
+      }]);
+
+    if (assistantMsgError) throw assistantMsgError;
 
     return NextResponse.json({ reply });
     
