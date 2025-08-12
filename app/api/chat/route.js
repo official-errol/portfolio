@@ -26,7 +26,7 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
-    // Save user message to Supabase (unlimited history)
+    // Save user message to Supabase
     const { error: userMsgError } = await supabase
       .from('conversations')
       .insert([{ 
@@ -37,12 +37,12 @@ export async function POST(req) {
 
     if (userMsgError) throw userMsgError;
 
-    // Get ALL historical messages for this device
+    // Get conversation history
     const { data: messages, error: messagesError } = await supabase
       .from('conversations')
       .select('role, content, created_at')
       .eq('device_id', body.deviceId)
-      .order('created_at', { ascending: true }); // Oldest first
+      .order('created_at', { ascending: true });
 
     if (messagesError) throw messagesError;
 
@@ -50,9 +50,10 @@ export async function POST(req) {
     const conversation = [
       {
         role: 'system',
-        content: `You are a helpful assistant for ${process.env.SITE_DOMAIN || 'errolsolomon.me'}. 
-                 You remember everything the user tells you indefinitely. 
-                 Maintain context across all conversations.`
+        content: `You are Errol's personal AI assistant. Be concise and natural in responses. 
+                 Only give detailed answers when explicitly asked for explanations or essays.
+                 Keep most responses under 10 words unless more is needed.
+                 Remember all previous conversations.`
       },
       ...messages.map(msg => ({
         role: msg.role,
@@ -60,7 +61,7 @@ export async function POST(req) {
       }))
     ];
 
-    // Call Groq API with full history
+    // Call Groq API
     const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -71,7 +72,7 @@ export async function POST(req) {
         model: process.env.GROQ_MODEL || 'mixtral-8x7b',
         messages: conversation,
         temperature: 0.7,
-        max_tokens: 500 // Increased for longer context
+        max_tokens: 150
       })
     });
 
@@ -82,9 +83,15 @@ export async function POST(req) {
     }
 
     const groqData = await groqResponse.json();
-    const reply = groqData.choices?.[0]?.message?.content || 'Sorry, I couldn\'t process that.';
+    let reply = groqData.choices?.[0]?.message?.content || 'Sorry, I couldn\'t process that.';
 
-    // Save assistant response to Supabase
+    // Post-process to ensure concise responses
+    reply = reply.replace(/about errolsolomon\.me/gi, '');
+    reply = reply.replace(/as your assistant on .*/gi, '');
+    reply = reply.replace(/welcome to your .* assistant/gi, '');
+    reply = reply.trim();
+
+    // Save assistant response
     const { error: assistantMsgError } = await supabase
       .from('conversations')
       .insert([{ 
