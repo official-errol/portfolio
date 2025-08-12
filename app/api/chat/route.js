@@ -50,10 +50,9 @@ export async function POST(req) {
     const conversation = [
       {
         role: 'system',
-        content: `You are Errol's personal AI assistant. Be concise and natural in responses. 
-                 Only give detailed answers when explicitly asked for explanations or essays.
-                 Keep most responses under 10 words unless more is needed.
-                 Remember all previous conversations.`
+        content: `You are Errol's personal AI assistant. Be concise. 
+                 Keep responses under 10 words unless more is needed.
+                 Remember all conversations.`
       },
       ...messages.map(msg => ({
         role: msg.role,
@@ -83,13 +82,25 @@ export async function POST(req) {
     }
 
     const groqData = await groqResponse.json();
-    let reply = groqData.choices?.[0]?.message?.content || 'Sorry, I couldn\'t process that.';
+    let reply = groqData.choices?.[0]?.message?.content || 'One moment please';
 
-    // Post-process to ensure concise responses
-    reply = reply.replace(/about errolsolomon\.me/gi, '');
-    reply = reply.replace(/as your assistant on .*/gi, '');
-    reply = reply.replace(/welcome to your .* assistant/gi, '');
-    reply = reply.trim();
+    // Get Deepgram TTS stream URL
+    const deepgramResponse = await fetch('https://api.deepgram.com/v1/speak?model=aura-asteria-en', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Token ${process.env.DEEPGRAM_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        text: reply
+      })
+    });
+
+    if (!deepgramResponse.ok) {
+      throw new Error('Deepgram TTS failed');
+    }
+
+    const audioUrl = deepgramResponse.url; // Deepgram returns a streamable URL
 
     // Save assistant response
     const { error: assistantMsgError } = await supabase
@@ -102,7 +113,10 @@ export async function POST(req) {
 
     if (assistantMsgError) throw assistantMsgError;
 
-    return NextResponse.json({ reply });
+    return NextResponse.json({ 
+      reply,
+      audioStreamUrl: audioUrl 
+    });
     
   } catch (err) {
     console.error('Server error:', err);
