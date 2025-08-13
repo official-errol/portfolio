@@ -82,7 +82,7 @@ export async function POST(req) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: `Bearer ${process.env.GROQ_MODEL},
+        model: `Bearer ${process.env.GROQ_MODEL}`,
         messages: conversation,
         temperature: 0.3, // Lower for more focused responses
         max_tokens: 50,   // Strict token limit
