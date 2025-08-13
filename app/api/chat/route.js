@@ -42,7 +42,10 @@ export async function POST(req) {
     const conversation = [
       {
         role: 'system',
-        content: `You are Errol's personal AI assistant. Be concise. Keep responses under 10 words unless more is needed. Remember all conversations.`
+        content: `You are Errol's personal assistant. Speak naturally like a friendly human. 
+           Never mention AI or that you are an assistant. 
+           Use casual, conversational language and appropriate emojis. 
+           Make responses sound personal and engaging.`
       },
       ...messages.map(msg => ({ role: msg.role, content: msg.content }))
     ];
@@ -79,7 +82,13 @@ export async function POST(req) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ 
-        text: reply
+        "text": reply,
+        "voice": "alloy", // try different voices
+        "options": {
+          "speaking_rate": 1.2,
+          "pitch": 1.0,
+          "emphasis": true
+        }
       })
     });
 
