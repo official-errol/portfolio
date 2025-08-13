@@ -84,13 +84,12 @@ export async function POST(req) {
     const groqData = await groqResponse.json();
     let reply = groqData.choices?.[0]?.message?.content || 'One moment please';
 
-    // Get Deepgram TTS audio
+    // Get Deepgram TTS stream URL
     const deepgramResponse = await fetch('https://api.deepgram.com/v1/speak?model=aura-asteria-en', {
       method: 'POST',
       headers: {
         'Authorization': `Token ${process.env.DEEPGRAM_API_KEY}`,
-        'Content-Type': 'application/json',
-        'Accept': 'audio/mpeg'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         text: reply
@@ -98,14 +97,10 @@ export async function POST(req) {
     });
 
     if (!deepgramResponse.ok) {
-      const error = await deepgramResponse.text();
-      console.error('Deepgram error:', error);
       throw new Error('Deepgram TTS failed');
     }
 
-    // Get the audio buffer
-    const audioBuffer = await deepgramResponse.arrayBuffer();
-    const audioBase64 = Buffer.from(audioBuffer).toString('base64');
+    const audioUrl = deepgramResponse.url; // Deepgram returns a streamable URL
 
     // Save assistant response
     const { error: assistantMsgError } = await supabase
@@ -120,7 +115,7 @@ export async function POST(req) {
 
     return NextResponse.json({ 
       reply,
-      audioData: audioBase64
+      audioStreamUrl: audioUrl 
     });
     
   } catch (err) {
