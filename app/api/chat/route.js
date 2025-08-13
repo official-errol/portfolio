@@ -80,7 +80,6 @@ export async function POST(req) {
       },
       body: JSON.stringify({ 
         text: reply,
-        voice: 'aura-2-amalthea-en',
         options: {
           speaking_rate: 1.1,
           pitch: 1.05
