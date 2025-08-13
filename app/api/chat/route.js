@@ -1,5 +1,3 @@
-how can i enhance more the history? cause like if i ask about our first conversation it not recognize it anymore, like the only thing it remember is our past few conversation
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { v4 as uuidv4 } from 'uuid'; // For unique filenames
