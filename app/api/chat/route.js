@@ -79,11 +79,7 @@ export async function POST(req) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ 
-        text: reply,
-        voice: "alloy",
-        format: "mp3",
-        speed: 1.1,
-        pitch: 1.05
+        text: reply
       })
     });
 
