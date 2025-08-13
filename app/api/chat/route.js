@@ -72,7 +72,7 @@ export async function POST(req) {
     let reply = groqData.choices?.[0]?.message?.content || 'One moment please';
 
     // Get Deepgram audio as ArrayBuffer
-    const deepgramResponse = await fetch('https://api.deepgram.com/v1/speak?model=aura-asteria-en', {
+    const deepgramResponse = await fetch('https://api.deepgram.com/v1/speak?model=aura-2-amalthea-en', {
       method: 'POST',
       headers: {
         'Authorization': `Token ${process.env.DEEPGRAM_API_KEY}`,
