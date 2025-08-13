@@ -82,11 +82,7 @@ export async function POST(req) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ 
-        text: reply,
-        options: {
-          speaking_rate: 1.3, // 30% faster
-          pitch: 1.0
-        }
+        text: reply
       })
     });
 
