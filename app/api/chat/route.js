@@ -82,7 +82,7 @@ export async function POST(req) {
     // Get COMPLETE conversation history
     const { data: messages, error: messagesError } = await supabase
       .from('conversations')
-      .select('role, content, created_at')
+      .select('role, content')
       .eq('device_id', body.deviceId)
       .order('created_at', { ascending: true });
     if (messagesError) throw messagesError;
