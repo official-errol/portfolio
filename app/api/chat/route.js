@@ -82,12 +82,10 @@ export async function POST(req) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ 
-        "text": reply,
-        "voice": "alloy", // try different voices
-        "options": {
-          "speaking_rate": 1.2,
-          "pitch": 1.0,
-          "emphasis": true
+        text: reply,
+        options: {
+          speaking_rate: 1.3, // 30% faster
+          pitch: 1.0
         }
       })
     });
